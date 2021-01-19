@@ -1,28 +1,33 @@
 {
-  "name": "basic-api-node",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "nodemon src/index.js"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "express-validator": "^6.9.2",
-    "mysql2": "^2.2.5",
-    "nunjucks": "^3.2.2",
-    "sequelize": "^6.4.0"
-  },
-  "devDependencies": {
-    "dotenv": "^8.2.0",
-    "eslint": "^7.18.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "nodemon": "^2.0.7",
-    "sequelize-cli": "^6.2.0"
-  }
+    "name": "basic-api-node",
+    "version": "1.0.0",
+    "main": "src/public/index.js",
+    "repository": "github",
+    "author": "Raul Fernandes",
+    "license": "MIT",
+    "private": false,
+    "scripts": {
+        "dev": "nodemon src/public/index.js",
+        "prod": "echo \"Error: no test specified\" && exit 1",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "express-validator": "^6.9.2",
+        "mysql2": "^2.2.5",
+        "nunjucks": "^3.2.2",
+        "sequelize": "^6.4.0"
+    },
+    "devDependencies": {
+        "dotenv": "^8.2.0",
+        "eslint": "^7.18.0",
+        "eslint-config-standard": "^16.0.2",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "nodemon": "^2.0.7",
+        "sequelize-cli": "^6.2.0"
+    }
 }

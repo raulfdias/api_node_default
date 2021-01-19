@@ -1,35 +1,37 @@
 const express = require('express'),
-	nunjucks = require('nunjucks'),
-	path = require('path')
+    nunjucks = require('nunjucks'),
+    path = require('path')
+
+require('dotenv').config({ path: path.resolve('src', '.env') })
 
 class Server {
-	constructor() {
-		this.express = express()
-		this.isDev = process.env.NODE_ENV !== 'production'
+    constructor() {
+        this.express = express()
+        this.isDev = process.env.APP_ENVIROMENT !== 'production'
 
-		this.middlewares()
-		this.views()
-		this.routes()
-	}
+        this.middlewares()
+        this.views()
+        this.routes()
+    }
 
-	middlewares() {
-		this.express.use(express.json())
-		this.express.use(express.urlencoded({ extended: false }))
-	}
+    middlewares() {
+        this.express.use(express.json())
+        this.express.use(express.urlencoded({ extended: false }))
+    }
 
-	views() {
-		nunjucks.configure(path.resolve('app', 'Views'), {
-			watch: this.isDev,
-			express: this.express,
-			autoescape: true
-		})
+    views() {
+        nunjucks.configure(path.resolve('app', 'Views'), {
+            watch: this.isDev,
+            express: this.express,
+            autoescape: true
+        })
 
-		this.express.set('views engine', 'njk')
-	}
+        this.express.set('views engine', 'njk')
+    }
 
-	routes() {
-		this.express.use(require('../app/routes/api'))
-	}
+    routes() {
+        this.express.use(require('../app/routes/api'))
+    }
 }
 
 module.exports = new Server().express
