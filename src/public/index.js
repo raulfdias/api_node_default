@@ -5,5 +5,5 @@ const server = require('../config/server'),
 const port = process.env.APP_SERVER_PORT || 3000
 
 server.listen(port, () => {
-    console.log(`Servidor ON: ${port}...`);
+    console.log(`Server ON: ${port}...`);
 })

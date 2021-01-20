@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+        <meta http-equiv="Pragma" content="no-cache"/>
+        <meta http-equiv="Expires" content="0"/>
+        <meta name="designer" content="Raul Fernandes">
+        <meta name="developer" content="Raul Fernandes">
+
+        <title>API Node</title>
+
+        <link rel="icon" type="image/png" href="/images/favicon-2.png">
+
+        <!-- ==================Fonts ================== -->
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <!-- ==================End Fonts ================== -->
+
+        <!-- ==================CSS ================== -->
+        <link rel="stylesheet" type="text/css" href="/assets/libs/bootstrap-4.4.1/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/libs/fontawesome-5.13.0/css/fontawesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/css/app.css"/>
+        <!-- ==================End CSS ================== -->
+    </head>
+
+    <body>
+
+        <!-- ==================Conteúdo ================== -->
+        {% block content %}{% endblock %}
+        <!-- ==================End Conteúdo ================== -->
+
+        <!-- ==================Scripts ================== -->
+        <script src="/assets/libs/jquery-3.4.1/jquery-3.4.1.min.js" defer></script>
+        <script src="/assets/libs/bootstrap-4.4.1/js/bootstrap.min.js" defer></script>
+
+        {% block scriptsJS %}{% endblock %}
+        <!-- ==================End Scripts ================== -->
+    </body>
+</html>
