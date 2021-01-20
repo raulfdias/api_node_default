@@ -1,7 +1,7 @@
 const express = require('express'),
-    routes = express.Router()
+    routes = express.Router();
 
 
-routes.get('/', (req, res) => res.render('welcome'))
+routes.get('/', (req, res) => res.render('welcome'));
 
-module.exports = routes
+module.exports = routes;

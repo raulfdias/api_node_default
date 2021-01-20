@@ -1,7 +1,6 @@
-const RepositoryInterface = require('../interfaces/repositories/RepositoryInterface');
 const { Aluno } = require('../models');
 
-class AlunoRepository extends RepositoryInterface {
+class AlunoRepository {
     async findById(id) {
         return await Aluno.findByPk(id);
     }

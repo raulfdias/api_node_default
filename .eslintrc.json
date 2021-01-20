@@ -12,17 +12,29 @@
     },
     "rules": {
         "indent": [
-            1,
-            4
+            "warn",
+            4,
+            {
+                "SwitchCase": 1
+            }
         ], // Identação definida para 2 espaços.
         "semi": [
-            2,
+            "error",
             "always"
         ], // Uso do ponto e vírgula.
         "quotes": [
-            2,
-            "single"
+            "warn",
+            "single",
+            {
+                "allowTemplateLiterals": true,
+                "avoidEscape": true
+            }
         ],
+        "quote-props": [
+            "warn",
+            "consistent"
+        ],
+        "one-var": "off",
         "space-before-function-paren": "off"
     }
 }

@@ -1,6 +1,6 @@
-const path = require('path')
+const path = require('path');
 
-require('dotenv').config({ path: path.resolve('src', '.env') })
+require('dotenv').config({ path: path.resolve('src', '.env') });
 
 const connections = {
     "dev": {
@@ -47,6 +47,6 @@ const connections = {
     }
 };
 
-const dbConnection = process.env.DB_CONNECTION || 'dev';
+const dbConnection = process.env.DB_CONNECTION || 'prd';
 
 module.exports = connections[dbConnection];
