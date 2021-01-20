@@ -1,14 +1,25 @@
 const { Model, DataTypes } = require('sequelize')
 
-
 class Aluno extends Model {
     static init(sequelize) {
         super.init({
-            alu_ds_nome: DataTypes.STRING,
-            alu_ds_email: DataTypes.STRING,
-            alu_ds_semestre: DataTypes.STRING,
-            alu_ds_status: DataTypes.STRING,
-        }, { sequelize })
+            alu_ds_nome: {
+                type: DataTypes.STRING
+            },
+            alu_ds_email: {
+                type: DataTypes.STRING
+            },
+            alu_ds_semestre: {
+                type: DataTypes.STRING
+            },
+            alu_ds_status: {
+                type: DataTypes.STRING
+            }
+        }, {
+            sequelize,
+            modelName: 'Aluno',
+            tableName: 'ALUNO'
+        })
     }
 }
 
