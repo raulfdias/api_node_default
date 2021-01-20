@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize')
+const { Model, DataTypes } = require('sequelize');
 
 class Aluno extends Model {
     static init(sequelize) {
@@ -19,8 +19,8 @@ class Aluno extends Model {
             sequelize,
             modelName: 'Aluno',
             tableName: 'ALUNO'
-        })
+        });
     }
 }
 
-module.exports = new Aluno()
+module.exports = new Aluno();

@@ -11,5 +11,18 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "indent": [
+            1,
+            4
+        ], // Identação definida para 2 espaços.
+        "semi": [
+            2,
+            "always"
+        ], // Uso do ponto e vírgula.
+        "quotes": [
+            2,
+            "single"
+        ],
+        "space-before-function-paren": "off"
     }
 }
