@@ -2,49 +2,51 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('ALUNO', {
-            alu_id_aluno: {
+        return queryInterface.createTable('USER', {
+            usu_id_user: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.BIGINT,
                 unique: true
             },
-            alu_ds_nome: {
+            usu_ds_name: {
                 allowNull: false,
                 type: Sequelize.STRING(125)
             },
-            alu_ds_email: {
+            usu_ds_email: {
                 allowNull: false,
                 type: Sequelize.STRING(125),
                 unique: true
             },
-            alu_ds_semestre: {
+            usu_ds_password: {
                 allowNull: false,
-                type: Sequelize.ENUM,
-                values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                defaultValue: '1'
+                type: Sequelize.STRING(255)
             },
-            alu_ds_status: {
+            usu_ds_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1'
             },
-            created_at: {
+            usu_ds_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            updated_at: {
+            usu_ds_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
+            },
+            usu_ds_deleted_at: {
+                allowNull: true,
+                type: Sequelize.DATE
             }
         });
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('ALUNO');
+        return queryInterface.dropTable('USER');
     }
 };

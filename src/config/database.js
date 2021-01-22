@@ -11,6 +11,7 @@ const connections = {
         "username": process.env.DB_USERNAME || 'root',
         "password": process.env.DB_PASSWORD || '',
         "operatorAliases": false,
+        "timezone": "-03:00",
         "define": {
             "timestamps": true,
             "underscored": true,
@@ -25,6 +26,7 @@ const connections = {
         "username": process.env.DB_USERNAME || 'root',
         "password": process.env.DB_PASSWORD || '',
         "operatorAliases": false,
+        "timezone": "-03:00",
         "define": {
             "timestamps": true,
             "underscored": true,
@@ -39,6 +41,7 @@ const connections = {
         "username": process.env.DB_USERNAME || 'root',
         "password": process.env.DB_PASSWORD || '',
         "operatorAliases": false,
+        "timezone": "-03:00",
         "define": {
             "timestamps": true,
             "underscored": true,

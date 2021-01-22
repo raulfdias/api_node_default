@@ -2,43 +2,42 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('PROFESSOR', {
-            pro_id_professor: {
+        return queryInterface.createTable('TEACHER', {
+            tea_id_teacher: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.BIGINT,
                 unique: true
             },
-            pro_ds_nome: {
+            tea_ds_nome: {
                 allowNull: false,
                 type: Sequelize.STRING(125)
             },
-            pro_ds_email: {
+            tea_ds_email: {
                 allowNull: false,
                 type: Sequelize.STRING(125),
                 unique: true
             },
-            pro_ds_status: {
+            tea_ds_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1'
             },
-            created_at: {
+            tea_ds_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            updated_at: {
+            tea_ds_updated_at: {
                 allowNull: true,
-                type: Sequelize.DATE,
-                defaultValue: new Date()
+                type: Sequelize.DATE
             }
         });
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('PROFESSOR');
+        return queryInterface.dropTable('TEACHER');
     }
 };

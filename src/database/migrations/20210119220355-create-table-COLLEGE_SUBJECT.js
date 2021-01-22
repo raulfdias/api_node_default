@@ -2,38 +2,42 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('CURSO', {
-            cur_id_curso: {
+        return queryInterface.createTable('COLLEGE_SUBJECT', {
+            cos_id_college_subject: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.BIGINT,
                 unique: true
             },
-            cur_ds_nome: {
+            cos_ds_name: {
                 allowNull: false,
                 type: Sequelize.STRING(125)
             },
-            cur_ds_status: {
+            cos_ds_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1'
             },
-            created_at: {
+            cos_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            updated_at: {
+            cos_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
+            },
+            cos_deleted_at: {
+                allowNull: true,
+                type: Sequelize.DATE
             }
         });
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('CURSO');
+        return queryInterface.dropTable('COLLEGE_SUBJECT');
     }
 };

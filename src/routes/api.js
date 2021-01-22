@@ -2,15 +2,13 @@ const express = require('express'),
     routes = express.Router();
 
 // Controllers
-const AlunoAPIController = require('../app/controllers/API/AlunoAPIController');
+const StudentAPIController = require('../app/controllers/API/StudentAPIController');
 
 // Middleware
-const AlunoValidator = require('../app/middleware/RequestValidation/Aluno');
+const StudentValidator = require('../app/middleware/RequestValidation/Student');
 
 // Routes
-routes.get('/api/v1/aluno/list', AlunoAPIController.list);
-routes.post('/api/v1/aluno/create', AlunoValidator.validate('OnCreate'), (req, res) => {
-    return AlunoAPIController.store(req, res);
-});
+routes.get('/api/v1/student/list', StudentAPIController.list);
+routes.post('/api/v1/student/create', StudentValidator.validate('OnCreate'), StudentAPIController.store);
 
 module.exports = routes;
