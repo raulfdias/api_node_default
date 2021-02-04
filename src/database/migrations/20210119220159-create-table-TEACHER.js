@@ -10,7 +10,7 @@ module.exports = {
                 type: Sequelize.BIGINT,
                 unique: true
             },
-            tea_ds_nome: {
+            tea_ds_name: {
                 allowNull: false,
                 type: Sequelize.STRING(125)
             },
@@ -23,7 +23,8 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
-                defaultValue: '1'
+                defaultValue: '1',
+                comment: '0 - INATIVO || 1 - ATIVO'
             },
             tea_ds_created_at: {
                 allowNull: true,

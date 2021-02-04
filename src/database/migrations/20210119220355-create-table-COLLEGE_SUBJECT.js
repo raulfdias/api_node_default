@@ -18,7 +18,8 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
-                defaultValue: '1'
+                defaultValue: '1',
+                comment: '0 - INATIVO || 1 - ATIVO'
             },
             cos_created_at: {
                 allowNull: true,

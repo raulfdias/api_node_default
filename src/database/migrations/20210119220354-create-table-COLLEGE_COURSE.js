@@ -2,48 +2,36 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('STUDENT', {
-            stu_id_student: {
+        return queryInterface.createTable('COLLEGE_COURSE', {
+            coc_id_college_course: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.BIGINT,
                 unique: true
             },
-            stu_ds_name: {
+            coc_ds_name: {
                 allowNull: false,
                 type: Sequelize.STRING(125)
             },
-            stu_ds_email: {
-                allowNull: false,
-                type: Sequelize.STRING(125),
-                unique: true
-            },
-            stu_ds_college_semester: {
-                allowNull: false,
-                type: Sequelize.ENUM,
-                values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                defaultValue: '1',
-                comment: '1 - PRIMEIRO SEMESTRE || 2 - SEGUNDO SEMESTRE || 3 - TERCEIRO SEMESTRE || 4 - QUARTO SEMESTRE || 5 - QUINTO SEMESTRE || 6 - SEXTO SEMESTRE || 7 - SETIMO SEMESTRE || 8 - OITAVO SEMESTRE || 9 - NONO SEMESTRE || 10 - DECIMO SEMESTRE'
-            },
-            stu_ds_status: {
+            coc_ds_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1',
                 comment: '0 - INATIVO || 1 - ATIVO'
             },
-            stu_ds_created_at: {
+            coc_ds_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            stu_ds_updated_at: {
+            coc_ds_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            stu_ds_deleted_at: {
+            coc_ds_deleted_at: {
                 allowNull: true,
                 type: Sequelize.DATE
             }
@@ -51,6 +39,6 @@ module.exports = {
     },
 
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('STUDENT');
+        return queryInterface.dropTable('COLLEGE_COURSE');
     }
 };
