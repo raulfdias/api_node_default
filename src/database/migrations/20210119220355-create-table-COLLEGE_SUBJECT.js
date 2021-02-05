@@ -12,7 +12,7 @@ module.exports = {
             },
             cos_ds_name: {
                 allowNull: false,
-                type: Sequelize.STRING(125)
+                type: Sequelize.STRING(200)
             },
             cos_ds_status: {
                 allowNull: false,

@@ -12,11 +12,11 @@ module.exports = {
             },
             usu_ds_name: {
                 allowNull: false,
-                type: Sequelize.STRING(125)
+                type: Sequelize.STRING(200)
             },
             usu_ds_email: {
                 allowNull: false,
-                type: Sequelize.STRING(125),
+                type: Sequelize.STRING(200),
                 unique: true
             },
             usu_ds_password: {

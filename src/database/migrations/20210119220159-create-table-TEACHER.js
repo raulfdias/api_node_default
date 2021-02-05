@@ -12,11 +12,11 @@ module.exports = {
             },
             tea_ds_name: {
                 allowNull: false,
-                type: Sequelize.STRING(125)
+                type: Sequelize.STRING(200)
             },
             tea_ds_email: {
                 allowNull: false,
-                type: Sequelize.STRING(125),
+                type: Sequelize.STRING(200),
                 unique: true
             },
             tea_ds_status: {
@@ -32,6 +32,10 @@ module.exports = {
                 defaultValue: new Date()
             },
             tea_ds_updated_at: {
+                allowNull: true,
+                type: Sequelize.DATE
+            },
+            tea_ds_deleted_at: {
                 allowNull: true,
                 type: Sequelize.DATE
             }

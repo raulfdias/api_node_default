@@ -29,6 +29,16 @@ module.exports = {
                 values: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
                 defaultValue: '1',
                 comment: '1 - PRIMEIRO SEMESTRE || 2 - SEGUNDO SEMESTRE || 3 - TERCEIRO SEMESTRE || 4 - QUARTO SEMESTRE || 5 - QUINTO SEMESTRE || 6 - SEXTO SEMESTRE || 7 - SETIMO SEMESTRE || 8 - OITAVO SEMESTRE || 9 - NONO SEMESTRE || 10 - DECIMO SEMESTRE'
+            },
+            csc_ds_created_at: {
+                allowNull: true,
+                type: Sequelize.DATE,
+                defaultValue: new Date()
+            },
+            csc_ds_updated_at: {
+                allowNull: true,
+                type: Sequelize.DATE,
+                defaultValue: new Date()
             }
         });
     },

@@ -12,7 +12,12 @@ module.exports = {
             },
             ccc_ds_name: {
                 allowNull: false,
-                type: Sequelize.STRING(125)
+                type: Sequelize.STRING(200)
+            },
+            ccc_ds_email: {
+                allowNull: false,
+                type: Sequelize.STRING(200),
+                unique: true
             },
             ccc_ds_status: {
                 allowNull: false,

@@ -12,11 +12,11 @@ module.exports = {
             },
             stu_ds_name: {
                 allowNull: false,
-                type: Sequelize.STRING(125)
+                type: Sequelize.STRING(200)
             },
             stu_ds_email: {
                 allowNull: false,
-                type: Sequelize.STRING(125),
+                type: Sequelize.STRING(200),
                 unique: true
             },
             stu_ds_college_semester: {

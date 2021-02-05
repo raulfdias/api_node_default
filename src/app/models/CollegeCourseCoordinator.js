@@ -3,7 +3,7 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Student extends Model {
+    class CollegeCourseCoordinator extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -14,32 +14,29 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
 
-    Student.init({
-        stu_id_student: {
+    CollegeCourseCoordinator.init({
+        ccc_id_college_course_coordinator: {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        stu_ds_name: {
+        ccc_ds_name: {
             type: DataTypes.STRING
         },
-        stu_ds_email: {
+        ccc_ds_email: {
             type: DataTypes.STRING
         },
-        stu_ds_college_semester: {
-            type: DataTypes.STRING
-        },
-        stu_ds_status: {
+        ccc_ds_status: {
             type: DataTypes.STRING
         }
     }, {
         sequelize,
-        modelName: 'Student',
-        tableName: 'STUDENT',
+        modelName: 'CollegeCourseCoordinator',
+        tableName: 'COLLEGE_COURSE_COORDINATOR',
         paranoid: true,
-        createdAt: 'stu_ds_created_at',
-        updatedAt: 'stu_ds_updated_at',
-        deletedAt: 'stu_ds_deleted_at'
+        createdAt: 'ccc_ds_created_at',
+        updatedAt: 'ccc_ds_updated_at',
+        deletedAt: 'ccc_ds_deleted_at'
     });
 
-    return Student;
+    return CollegeCourseCoordinator;
 };

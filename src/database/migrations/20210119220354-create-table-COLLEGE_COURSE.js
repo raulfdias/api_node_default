@@ -12,7 +12,7 @@ module.exports = {
             },
             coc_ds_name: {
                 allowNull: false,
-                type: Sequelize.STRING(125)
+                type: Sequelize.STRING(200)
             },
             coc_ds_status: {
                 allowNull: false,
