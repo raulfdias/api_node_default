@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            CollegeCourseCoordinator.hasOne(models.CollegeCourse, { foreignKey: 'coc_fk_college_course_coordinator', as: 'college_course' });
         }
     };
 

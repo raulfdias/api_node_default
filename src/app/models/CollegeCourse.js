@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            CollegeCourse.belongsTo(models.CollegeCourseCoordinator, { foreignKey: 'coc_fk_college_course_coordinator', as: 'college_course_coordinator' });
+            CollegeCourse.belongsToMany(models.CollegeSubject, { through: 'CollegeSubjectCollegeCourse', foreignKey: 'csc_fk_college_course', as: 'college_subjects' });
+            CollegeCourse.belongsToMany(models.Student, { through: 'StudentCollegeCourse', foreignKey: 'scc_fk_college_course', as: 'students' });
         }
     };
 
@@ -20,8 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         coc_fk_college_course_coordinator: {
-            type: DataTypes.INTEGER,
-            primaryKey: true
+            type: DataTypes.INTEGER
         },
         coc_ds_name: {
             type: DataTypes.STRING

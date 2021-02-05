@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            StudentCollegeCourse.belongsTo(models.Student, { foreignKey: 'scc_fk_student' });
+            StudentCollegeCourse.belongsTo(models.CollegeCourse, { foreignKey: 'scc_fk_college_course' });
         }
     };
 
@@ -26,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         sequelize,
-        modelName: 'StudentCollegeCource',
+        modelName: 'StudentCollegeCourse',
         tableName: 'STUDENT_COLLEGE_COURSE',
         paranoid: false,
         createdAt: 'scc_ds_created_at',
