@@ -1,3 +1,5 @@
+'use strict';
+
 const StudentRepository = require('../../repositories/StudentRepository');
 const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');

@@ -1,3 +1,5 @@
+'use strict';
+
 const { body } = require('express-validator');
 const { Op } = require('sequelize');
 
