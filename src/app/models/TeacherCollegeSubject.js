@@ -15,10 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     };
     TeacherCollegeSubject.init({
         tcs_fk_college_subject: {
-            type: DataTypes.BIGINT
+            type: DataTypes.INTEGER
         },
         tcs_fk_teacher: {
-            type: DataTypes.BIGINT
+            type: DataTypes.INTEGER
         }
     }, {
         sequelize,

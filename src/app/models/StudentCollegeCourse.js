@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
 
     StudentCollegeCourse.init({
         scc_fk_student: {
-            type: DataTypes.BIGINT
+            type: DataTypes.INTEGER
         },
         scc_fk_college_course: {
-            type: DataTypes.BIGINT
+            type: DataTypes.INTEGER
         },
         scc_ds_course_period: {
             type: DataTypes.STRING

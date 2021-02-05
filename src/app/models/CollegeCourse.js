@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
+        coc_fk_college_course_coordinator: {
+            type: DataTypes.INTEGER,
+            primaryKey: true
+        },
         coc_ds_name: {
             type: DataTypes.STRING
         },
