@@ -25,9 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         tea_ds_email: {
             type: DataTypes.STRING
         },
-        tea_ds_college_semester: {
-            type: DataTypes.STRING
-        },
         tea_ds_status: {
             type: DataTypes.STRING
         }

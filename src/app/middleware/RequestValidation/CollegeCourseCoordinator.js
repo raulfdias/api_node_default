@@ -1,29 +1,19 @@
 'use strict';
 
 const { body } = require('express-validator');
-const StudentEnum = require('../../enums/StudentEnum');
+const CollegeCourseCoordinatorEnum = require('../../enums/CollegeCourseCoordinatorEnum');
 const { Op } = require('sequelize');
 
-const { Student } = require('../../models');
+const { CollegeCourseCoordinator } = require('../../models');
 
 exports.validate = (method) => {
     switch (method) {
         case 'OnCreate': {
             return [
                 body('name', 'Campo obrigatório.').notEmpty(),
-                body('college_semester').custom(semester => {
-                    const semestersList = StudentEnum.listEnumarators('COLLEGE_SEMESTER');
-
-                    if (!(semestersList.includes(semester))) {
-                        return Promise.reject(new Error('Valor inválido.'));
-                    }
-
-                    return true;
-                }),
-                body('college_semester', 'Campo obrigatório.').notEmpty(),
                 body('email').custom(email => {
-                    return Student.findAll({ where: { stu_ds_email: email } }).then(students => {
-                        if (students.length > 0) {
+                    return CollegeCourseCoordinator.findAll({ where: { ccc_ds_email: email } }).then(collegeCourseCoordinators => {
+                        if (collegeCourseCoordinators.length > 0) {
                             return Promise.reject(new Error('E-mail ja está em uso.'));
                         }
                     });
@@ -31,7 +21,7 @@ exports.validate = (method) => {
                 body('email', 'Precisa ser um email válido.').isEmail(),
                 body('email', 'Campo obrigatório.').notEmpty(),
                 body('status').custom(status => {
-                    const statusList = StudentEnum.listEnumarators('STATUS');
+                    const statusList = CollegeCourseCoordinatorEnum.listEnumarators('STATUS');
 
                     if (!(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));
@@ -49,15 +39,15 @@ exports.validate = (method) => {
                     if (email) {
                         const options = {
                             where: {
-                                stu_ds_email: email,
-                                stu_id_student: {
+                                ccc_ds_email: email,
+                                ccc_id_college_course_coordinator: {
                                     [Op.ne]: req.body.id
                                 }
                             }
                         };
 
-                        return Student.findAll(options).then(students => {
-                            if (students.length > 0) {
+                        return CollegeCourseCoordinator.findAll(options).then(collegeCourseCoordinators => {
+                            if (collegeCourseCoordinators.length > 0) {
                                 return Promise.reject(new Error('E-mail ja está em uso.'));
                             }
                         });
@@ -65,17 +55,8 @@ exports.validate = (method) => {
                         return true;
                     }
                 }),
-                body('college_semester').custom(semester => {
-                    const semestersList = StudentEnum.listEnumarators('COLLEGE_SEMESTER');
-
-                    if (semester && !(semestersList.includes(semester))) {
-                        return Promise.reject(new Error('Valor inválido.'));
-                    }
-
-                    return true;
-                }),
-                body('status').custom(status => {
-                    const statusList = StudentEnum.listEnumarators('STATUS');
+                body('data.status').custom(status => {
+                    const statusList = CollegeCourseCoordinatorEnum.listEnumarators('STATUS');
 
                     if (status && !(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));

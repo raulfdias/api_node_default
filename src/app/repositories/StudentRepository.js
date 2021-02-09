@@ -1,6 +1,7 @@
 'use strict';
 
 const { Student } = require('../models');
+const APIException = require('../exceptions/APIException');
 
 class StudentRepository {
     async findById(id) {
@@ -24,7 +25,7 @@ class StudentRepository {
         const student = await this.findById((parseInt(id)));
 
         if (!student) {
-            throw new Error('Não foi possivel encontrar o aluno');
+            throw new APIException('Não foi possivel encontrar o aluno', 404);
         }
 
         return await student.update(data);
@@ -34,7 +35,7 @@ class StudentRepository {
         const student = await this.findById(id);
 
         if (!student) {
-            throw new Error('Não foi possivel encontrar o aluno');
+            throw new APIException('Não foi possivel encontrar o aluno', 404);
         }
 
         return await student.destroy();

@@ -1,13 +1,13 @@
 'use strict';
 
-const StudentRepository = require('../../repositories/StudentRepository');
+const CollegeCourseCoordinatorRepository = require('../../repositories/CollegeCourseCoordinatorRepository');
 const { validationResult } = require('express-validator');
-const StudentEnum = require('../../enums/StudentEnum');
+const CollegeCourseCoordinatorEnum = require('../../enums/CollegeCourseCoordinatorEnum');
 const { Op } = require('sequelize');
 
-class StudentAPIController {
+class CollegeCourseCoordinatorAPIController {
     /**
-     * Função responsável por efetuar a listagem dos estudantes
+     * Função responsável por efetuar a listagem dos coordenadores
      *
      * @param {*} req
      * @param {*} res
@@ -16,24 +16,24 @@ class StudentAPIController {
     async list(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let students = [];
+        let collegeCourseCoordinators = [];
         let message = null;
 
         try {
-            students = await StudentRepository.listAll({});
+            collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({});
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
-            students = [];
+            collegeCourseCoordinators = [];
         }
 
-        return res.status(httpStatus).json({ students, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinators, httpStatus, message, bagError });
     }
 
     /**
-     * Função responsável por efetuar o cadastro do estudante
+     * Função responsável por efetuar o cadastro de um coordenador
      *
      * @param {*} req
      * @param {*} res
@@ -43,7 +43,7 @@ class StudentAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let student = null;
+        let collegeCourseCoordinator = null;
         let message = null;
 
         try {
@@ -54,26 +54,25 @@ class StudentAPIController {
                 httpStatus = 400;
             } else {
                 const data = {
-                    'stu_ds_college_semester': StudentEnum.normalizeCollegeSemester(req.body.college_semester),
-                    'stu_ds_status': StudentEnum.normalizeStatus(req.body.status),
-                    'stu_ds_email': req.body.email,
-                    'stu_ds_name': req.body.name
+                    'ccc_ds_status': CollegeCourseCoordinatorEnum.normalizeStatus(req.body.status),
+                    'ccc_ds_email': req.body.email,
+                    'ccc_ds_name': req.body.name
                 };
-                student = await StudentRepository.store(data);
+                collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.store(data);
             }
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
-            student = null;
+            collegeCourseCoordinator = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
     }
 
     /**
-     * Função responsável por efetuar a atualização do estudante
+     * Função responsável por efetuar a atualização do coordenador
      *
      * @param {*} req
      * @param {*} res
@@ -83,7 +82,7 @@ class StudentAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let student = null;
+        let collegeCourseCoordinator = null;
         let message = null;
 
         try {
@@ -95,28 +94,27 @@ class StudentAPIController {
             } else {
                 const { data } = req.body;
                 const { id } = req.params;
-                const studentData = {};
+                const collegeCourseCoordinatorData = {};
 
-                if (data.college_semester !== undefined) studentData.stu_ds_college_semester = StudentEnum.normalizeCollegeSemester(data.college_semester);
-                if (data.status !== undefined) studentData.stu_ds_status = StudentEnum.normalizeStatus(data.status);
-                if (data.email !== undefined) studentData.stu_ds_email = data.email;
-                if (data.name !== undefined) studentData.stu_ds_name = data.name;
+                if (data.status !== undefined) collegeCourseCoordinatorData.ccc_ds_status = CollegeCourseCoordinatorEnum.normalizeStatus(data.status);
+                if (data.email !== undefined) collegeCourseCoordinatorData.ccc_ds_email = data.email;
+                if (data.name !== undefined) collegeCourseCoordinatorData.ccc_ds_name = data.name;
 
-                student = await StudentRepository.update(id, studentData);
+                collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.update(id, collegeCourseCoordinatorData);
             }
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
-            student = null;
+            collegeCourseCoordinator = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
     }
 
     /**
-     * Função responsável por efetuar a remoção do estudante
+     * Função responsável por efetuar a remoção do coordenador
      *
      * @param {*} req
      * @param {*} res
@@ -130,7 +128,7 @@ class StudentAPIController {
 
         try {
             const { id } = req.params;
-            deleted = await StudentRepository.delete(id);
+            deleted = await CollegeCourseCoordinatorRepository.delete(id);
             deleted = true;
         } catch (err) {
             console.error(err);
@@ -153,32 +151,31 @@ class StudentAPIController {
     async search(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let students = [];
+        let collegeCourseCoordinators = [];
         let message = null;
 
         try {
             const { body } = req;
             const where = {};
 
-            if (body.college_semester !== undefined) where.stu_ds_college_semester = StudentEnum.normalizeCollegeSemester(body.college_semester);
-            if (body.status !== undefined) where.stu_ds_status = StudentEnum.normalizeStatus(body.status);
-            if (body.email !== undefined) where.stu_ds_email = { [Op.like]: `%${body.email}%` };
-            if (body.name !== undefined) where.stu_ds_name = { [Op.like]: `%${body.name}%` };
+            if (body.status !== undefined) where.ccc_ds_status = CollegeCourseCoordinatorEnum.normalizeStatus(body.status);
+            if (body.email !== undefined) where.ccc_ds_email = { [Op.like]: `%${body.email}%` };
+            if (body.name !== undefined) where.ccc_ds_name = { [Op.like]: `%${body.name}%` };
 
-            students = await StudentRepository.listAll({ where });
+            collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({ where });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
-            students = [];
+            collegeCourseCoordinators = [];
         }
 
-        return res.status(httpStatus).json({ students, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinators, httpStatus, message, bagError });
     }
 
     /**
-     * Função responsável por efetuar a exibição do estudante
+     * Função responsável por efetuar a exibição do coordenador
      *
      * @param {*} req
      * @param {*} res
@@ -187,14 +184,14 @@ class StudentAPIController {
     async show(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let student = null;
+        let collegeCourseCoordinator = null;
         let message = null;
 
         try {
             const { id } = req.params;
-            student = await StudentRepository.findById(id);
+            collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(id);
 
-            if (student === null) {
+            if (collegeCourseCoordinator === null) {
                 httpStatus = 404;
             }
         } catch (err) {
@@ -202,11 +199,11 @@ class StudentAPIController {
             httpStatus = err.status ?? 500;
             message = err.message;
 
-            student = null;
+            collegeCourseCoordinator = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
     }
 }
 
-module.exports = new StudentAPIController();
+module.exports = new CollegeCourseCoordinatorAPIController();
