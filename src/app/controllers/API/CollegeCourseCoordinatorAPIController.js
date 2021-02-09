@@ -125,7 +125,7 @@ class CollegeCourseCoordinatorAPIController {
             collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(id);
 
             if (collegeCourseCoordinator === null) {
-                httpStatus = 404;
+                throw new APIException('Não encontrado', 404);
             }
         } catch (err) {
             console.error(err);

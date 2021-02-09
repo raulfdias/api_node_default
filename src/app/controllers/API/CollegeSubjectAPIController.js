@@ -125,7 +125,7 @@ class CollegeSubjectAPIController {
             collegeSubject = await CollegeSubjectRepository.findById(id);
 
             if (collegeSubject === null) {
-                httpStatus = 404;
+                throw new APIException('Não encontrado', 404);
             }
         } catch (err) {
             console.error(err);

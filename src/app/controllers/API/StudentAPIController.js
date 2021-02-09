@@ -127,7 +127,7 @@ class StudentAPIController {
             student = await StudentRepository.findById(id);
 
             if (student === null) {
-                httpStatus = 404;
+                throw new APIException('Não encontrado', 404);
             }
         } catch (err) {
             console.error(err);
