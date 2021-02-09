@@ -1,14 +1,26 @@
 'use strict';
 
 class APIException extends Error {
-    constructor(message, status = 500, codeMessage = null) {
+    constructor(message, status = 500, messageCode = null) {
         super(message);
 
         Error.captureStackTrace(this, this.constructor);
 
         this.name = this.constructor.name;
-        this.codeMessage = codeMessage;
+        this.messageCode = messageCode;
         this.status = status;
+    }
+
+    getMessage() {
+        return this.message;
+    }
+
+    getMessageCode() {
+        return this.messageCode;
+    }
+
+    getStatus() {
+        return this.status;
     }
 }
 
