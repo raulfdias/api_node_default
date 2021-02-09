@@ -1,9 +1,11 @@
 'use strict';
 
-const StudentRepository = require('../../repositories/StudentRepository');
+const APIException = require('../../exceptions/APIException');
 const { validationResult } = require('express-validator');
-const StudentEnum = require('../../enums/StudentEnum');
 const { Op } = require('sequelize');
+
+const StudentRepository = require('../../repositories/StudentRepository');
+const StudentEnum = require('../../enums/StudentEnum');
 
 class StudentAPIController {
     /**
@@ -21,6 +23,40 @@ class StudentAPIController {
 
         try {
             students = await StudentRepository.listAll({});
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            students = [];
+        }
+
+        return res.status(httpStatus).json({ students, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a busca de coordenadores
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async search(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let students = [];
+        let message = null;
+
+        try {
+            const { body } = req;
+            const where = {};
+
+            if (body.college_semester !== undefined) where.stu_en_college_semester = StudentEnum.normalizeCollegeSemester(body.college_semester);
+            if (body.status !== undefined) where.stu_en_status = StudentEnum.normalizeStatus(body.status);
+            if (body.email !== undefined) where.stu_ds_email = { [Op.like]: `%${body.email}%` };
+            if (body.name !== undefined) where.stu_ds_name = { [Op.like]: `%${body.name}%` };
+
+            students = await StudentRepository.listAll({ where });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
@@ -51,7 +87,8 @@ class StudentAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
                     'stu_en_college_semester': StudentEnum.normalizeCollegeSemester(req.body.college_semester),
@@ -60,6 +97,37 @@ class StudentAPIController {
                     'stu_ds_name': req.body.name
                 };
                 student = await StudentRepository.store(data);
+            }
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            student = null;
+        }
+
+        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a exibição do estudante
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async show(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let student = null;
+        let message = null;
+
+        try {
+            const { id } = req.params;
+            student = await StudentRepository.findById(id);
+
+            if (student === null) {
+                httpStatus = 404;
             }
         } catch (err) {
             console.error(err);
@@ -91,7 +159,8 @@ class StudentAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const { data } = req.body;
                 const { id } = req.params;
@@ -141,71 +210,6 @@ class StudentAPIController {
         }
 
         return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
-    }
-
-    /**
-     * Função responsável por efetuar a busca de coordenadores
-     *
-     * @param {*} req
-     * @param {*} res
-     * @returns JSON
-     */
-    async search(req, res) {
-        let httpStatus = 200;
-        const bagError = {};
-        let students = [];
-        let message = null;
-
-        try {
-            const { body } = req;
-            const where = {};
-
-            if (body.college_semester !== undefined) where.stu_en_college_semester = StudentEnum.normalizeCollegeSemester(body.college_semester);
-            if (body.status !== undefined) where.stu_en_status = StudentEnum.normalizeStatus(body.status);
-            if (body.email !== undefined) where.stu_ds_email = { [Op.like]: `%${body.email}%` };
-            if (body.name !== undefined) where.stu_ds_name = { [Op.like]: `%${body.name}%` };
-
-            students = await StudentRepository.listAll({ where });
-        } catch (err) {
-            console.error(err);
-            httpStatus = err.status ?? 500;
-            message = err.message;
-
-            students = [];
-        }
-
-        return res.status(httpStatus).json({ students, httpStatus, message, bagError });
-    }
-
-    /**
-     * Função responsável por efetuar a exibição do estudante
-     *
-     * @param {*} req
-     * @param {*} res
-     * @returns JSON
-     */
-    async show(req, res) {
-        let httpStatus = 200;
-        const bagError = {};
-        let student = null;
-        let message = null;
-
-        try {
-            const { id } = req.params;
-            student = await StudentRepository.findById(id);
-
-            if (student === null) {
-                httpStatus = 404;
-            }
-        } catch (err) {
-            console.error(err);
-            httpStatus = err.status ?? 500;
-            message = err.message;
-
-            student = null;
-        }
-
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
     }
 }
 

@@ -36,15 +36,15 @@ class StudentEnum {
             case 'COLLEGE_SEMESTER':
                 return [
                     this.FIRST_SEMESTER,
-                    this.SECOND_SEMESTERFIRST_SEMESTER,
-                    this.THIRD_SEMESTERFIRST_SEMESTER,
-                    this.FOURTH_SEMESTERFIRST_SEMESTER,
-                    this.FIFTH_SEMESTERFIRST_SEMESTER,
-                    this.SIXTH_SEMESTERFIRST_SEMESTER,
-                    this.SEVENTH_SEMESTERFIRST_SEMESTER,
-                    this.EIGHTH_SEMESTERFIRST_SEMESTER,
-                    this.NINTH_SEMESTERFIRST_SEMESTER,
-                    this.TENTH_SEMESTERFIRST_SEMESTER
+                    this.SECOND_SEMESTER,
+                    this.THIRD_SEMESTER,
+                    this.FOURTH_SEMESTER,
+                    this.FIFTH_SEMESTER,
+                    this.SIXTH_SEMESTER,
+                    this.SEVENTH_SEMESTER,
+                    this.EIGHTH_SEMESTER,
+                    this.NINTH_SEMESTER,
+                    this.TENTH_SEMESTER
                 ];
 
             default:

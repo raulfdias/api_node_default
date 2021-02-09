@@ -1,9 +1,11 @@
 'use strict';
 
-const TeacherRepository = require('../../repositories/TeacherRepository');
+const APIException = require('../../exceptions/APIException');
 const { validationResult } = require('express-validator');
-const TeacherEnum = require('../../enums/TeacherEnum');
 const { Op } = require('sequelize');
+
+const TeacherRepository = require('../../repositories/TeacherRepository');
+const TeacherEnum = require('../../enums/TeacherEnum');
 
 class TeacherAPIController {
     /**
@@ -21,6 +23,39 @@ class TeacherAPIController {
 
         try {
             teachers = await TeacherRepository.listAll({});
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            teachers = [];
+        }
+
+        return res.status(httpStatus).json({ teachers, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a listagem dos coordenadores
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async search(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let teachers = [];
+        let message = null;
+
+        try {
+            const { body } = req;
+            const where = {};
+
+            if (body.status !== undefined) where.tea_en_status = TeacherEnum.normalizeStatus(body.status);
+            if (body.email !== undefined) where.tea_ds_email = { [Op.like]: `%${body.email}%` };
+            if (body.name !== undefined) where.tea_ds_name = { [Op.like]: `%${body.name}%` };
+
+            teachers = await TeacherRepository.listAll({ where });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
@@ -51,7 +86,8 @@ class TeacherAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
                     'tea_en_status': TeacherEnum.normalizeStatus(req.body.status),
@@ -59,6 +95,37 @@ class TeacherAPIController {
                     'tea_ds_name': req.body.name
                 };
                 teacher = await TeacherRepository.store(data);
+            }
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            teacher = null;
+        }
+
+        return res.status(httpStatus).json({ teacher, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a exibição do professor
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async show(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let teacher = null;
+        let message = null;
+
+        try {
+            const { id } = req.params;
+            teacher = await TeacherRepository.findById(id);
+
+            if (teacher === null) {
+                httpStatus = 404;
             }
         } catch (err) {
             console.error(err);
@@ -90,7 +157,8 @@ class TeacherAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const { data } = req.body;
                 const { id } = req.params;
@@ -139,70 +207,6 @@ class TeacherAPIController {
         }
 
         return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
-    }
-
-    /**
-     * Função responsável por efetuar a listagem dos coordenadores
-     *
-     * @param {*} req
-     * @param {*} res
-     * @returns JSON
-     */
-    async search(req, res) {
-        let httpStatus = 200;
-        const bagError = {};
-        let teachers = [];
-        let message = null;
-
-        try {
-            const { body } = req;
-            const where = {};
-
-            if (body.status !== undefined) where.tea_en_status = TeacherEnum.normalizeStatus(body.status);
-            if (body.email !== undefined) where.tea_ds_email = { [Op.like]: `%${body.email}%` };
-            if (body.name !== undefined) where.tea_ds_name = { [Op.like]: `%${body.name}%` };
-
-            teachers = await TeacherRepository.listAll({ where });
-        } catch (err) {
-            console.error(err);
-            httpStatus = err.status ?? 500;
-            message = err.message;
-
-            teachers = [];
-        }
-
-        return res.status(httpStatus).json({ teachers, httpStatus, message, bagError });
-    }
-
-    /**
-     * Função responsável por efetuar a exibição do professor
-     *
-     * @param {*} req
-     * @param {*} res
-     * @returns JSON
-     */
-    async show(req, res) {
-        let httpStatus = 200;
-        const bagError = {};
-        let teacher = null;
-        let message = null;
-
-        try {
-            const { id } = req.params;
-            teacher = await TeacherRepository.findById(id);
-
-            if (teacher === null) {
-                httpStatus = 404;
-            }
-        } catch (err) {
-            console.error(err);
-            httpStatus = err.status ?? 500;
-            message = err.message;
-
-            teacher = null;
-        }
-
-        return res.status(httpStatus).json({ teacher, httpStatus, message, bagError });
     }
 }
 

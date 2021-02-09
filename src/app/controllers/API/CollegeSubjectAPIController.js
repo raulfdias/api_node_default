@@ -1,9 +1,11 @@
 'use strict';
 
-const CollegeSubjectRepository = require('../../repositories/CollegeSubjectRepository');
+const APIException = require('../../exceptions/APIException');
 const { validationResult } = require('express-validator');
-const CollegeSubjectEnum = require('../../enums/CollegeSubjectEnum');
 const { Op } = require('sequelize');
+
+const CollegeSubjectRepository = require('../../repositories/CollegeSubjectRepository');
+const CollegeSubjectEnum = require('../../enums/CollegeSubjectEnum');
 
 class CollegeSubjectAPIController {
     /**
@@ -84,7 +86,8 @@ class CollegeSubjectAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
                     'cos_en_status': CollegeSubjectEnum.normalizeStatus(req.body.status),
@@ -154,7 +157,8 @@ class CollegeSubjectAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const { data } = req.body;
                 const { id } = req.params;

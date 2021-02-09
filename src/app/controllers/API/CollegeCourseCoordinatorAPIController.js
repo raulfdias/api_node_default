@@ -1,9 +1,11 @@
 'use strict';
 
-const CollegeCourseCoordinatorRepository = require('../../repositories/CollegeCourseCoordinatorRepository');
+const APIException = require('../../exceptions/APIException');
 const { validationResult } = require('express-validator');
-const CollegeCourseCoordinatorEnum = require('../../enums/CollegeCourseCoordinatorEnum');
 const { Op } = require('sequelize');
+
+const CollegeCourseCoordinatorRepository = require('../../repositories/CollegeCourseCoordinatorRepository');
+const CollegeCourseCoordinatorEnum = require('../../enums/CollegeCourseCoordinatorEnum');
 
 class CollegeCourseCoordinatorAPIController {
     /**
@@ -21,6 +23,39 @@ class CollegeCourseCoordinatorAPIController {
 
         try {
             collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({});
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            collegeCourseCoordinators = [];
+        }
+
+        return res.status(httpStatus).json({ collegeCourseCoordinators, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a busca de coordenadores
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async search(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let collegeCourseCoordinators = [];
+        let message = null;
+
+        try {
+            const { body } = req;
+            const where = {};
+
+            if (body.status !== undefined) where.ccc_en_status = CollegeCourseCoordinatorEnum.normalizeStatus(body.status);
+            if (body.email !== undefined) where.ccc_ds_email = { [Op.like]: `%${body.email}%` };
+            if (body.name !== undefined) where.ccc_ds_name = { [Op.like]: `%${body.name}%` };
+
+            collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({ where });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
@@ -51,7 +86,8 @@ class CollegeCourseCoordinatorAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
                     'ccc_en_status': CollegeCourseCoordinatorEnum.normalizeStatus(req.body.status),
@@ -59,6 +95,37 @@ class CollegeCourseCoordinatorAPIController {
                     'ccc_ds_name': req.body.name
                 };
                 collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.store(data);
+            }
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            collegeCourseCoordinator = null;
+        }
+
+        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a exibição do coordenador
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async show(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let collegeCourseCoordinator = null;
+        let message = null;
+
+        try {
+            const { id } = req.params;
+            collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(id);
+
+            if (collegeCourseCoordinator === null) {
+                httpStatus = 404;
             }
         } catch (err) {
             console.error(err);
@@ -90,7 +157,8 @@ class CollegeCourseCoordinatorAPIController {
                 errors.forEach((value, index, array) => {
                     bagError[value.param] = value.msg;
                 });
-                httpStatus = 400;
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const { data } = req.body;
                 const { id } = req.params;
@@ -139,70 +207,6 @@ class CollegeCourseCoordinatorAPIController {
         }
 
         return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
-    }
-
-    /**
-     * Função responsável por efetuar a busca de coordenadores
-     *
-     * @param {*} req
-     * @param {*} res
-     * @returns JSON
-     */
-    async search(req, res) {
-        let httpStatus = 200;
-        const bagError = {};
-        let collegeCourseCoordinators = [];
-        let message = null;
-
-        try {
-            const { body } = req;
-            const where = {};
-
-            if (body.status !== undefined) where.ccc_en_status = CollegeCourseCoordinatorEnum.normalizeStatus(body.status);
-            if (body.email !== undefined) where.ccc_ds_email = { [Op.like]: `%${body.email}%` };
-            if (body.name !== undefined) where.ccc_ds_name = { [Op.like]: `%${body.name}%` };
-
-            collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({ where });
-        } catch (err) {
-            console.error(err);
-            httpStatus = err.status ?? 500;
-            message = err.message;
-
-            collegeCourseCoordinators = [];
-        }
-
-        return res.status(httpStatus).json({ collegeCourseCoordinators, httpStatus, message, bagError });
-    }
-
-    /**
-     * Função responsável por efetuar a exibição do coordenador
-     *
-     * @param {*} req
-     * @param {*} res
-     * @returns JSON
-     */
-    async show(req, res) {
-        let httpStatus = 200;
-        const bagError = {};
-        let collegeCourseCoordinator = null;
-        let message = null;
-
-        try {
-            const { id } = req.params;
-            collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(id);
-
-            if (collegeCourseCoordinator === null) {
-                httpStatus = 404;
-            }
-        } catch (err) {
-            console.error(err);
-            httpStatus = err.status ?? 500;
-            message = err.message;
-
-            collegeCourseCoordinator = null;
-        }
-
-        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
     }
 }
 

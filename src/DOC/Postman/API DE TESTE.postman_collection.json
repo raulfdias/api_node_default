@@ -43,7 +43,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Aluno de Teste 01\",\r\n    \"college_semester\": \"7\",\r\n    \"status\": \"1\",\r\n    \"email\": \"aluno01@teste.com\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Aluno de Teste 0\",\r\n    \"college_semester\": \"1\",\r\n    \"status\": \"1\",\r\n    \"email\": \"@teste.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -77,7 +77,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Aluno de Teste 01\",\r\n    \"college_semester\": \"7\",\r\n    \"status\": \"1\",\r\n    \"email\": \"aluno01@teste.com\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Aluno de Teste 01\",\r\n    \"college_semester\": \"1\",\r\n    \"status\": \"1\",\r\n    \"email\": \"aluno01@teste.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -111,7 +111,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Aluno de Teste 01\",\r\n        \"college_semester\": \"7\",\r\n        \"status\": \"1\",\r\n        \"email\": \"aluno01@teste.com\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Aluno de Teste 001\",\r\n        \"college_semester\": \"1\",\r\n        \"status\": \"1\",\r\n        \"email\": \"aluno001@teste.com\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,7 +325,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Professor de Teste 001\",\r\n        \"status\": \"1\",\r\n        \"email\": \"professor01@teste.com\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Professor de Teste 001\",\r\n        \"status\": \"1\",\r\n        \"email\": \"professor001@teste.com\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -359,7 +359,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:4000/api/v1/teacher/1/delete",
+							"raw": "http://127.0.0.1:4000/api/v1/teacher/2/delete",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -372,7 +372,7 @@
 								"api",
 								"v1",
 								"teacher",
-								"1",
+								"2",
 								"delete"
 							]
 						}
@@ -419,7 +419,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Coordenador de Teste 01\",\r\n    \"status\": \"1\",\r\n    \"email\": \"coordenador@teste.com\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Coordenador de Teste 01\",\r\n    \"status\": \"1\",\r\n    \"email\": \"coordenador01@teste.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -513,7 +513,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Coordenador de Teste 001\",\r\n        \"status\": \"1\",\r\n        \"email\": \"coordenador01@teste.com\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Coordenador de Teste 001\",\r\n        \"status\": \"1\",\r\n        \"email\": \"coordenador001@teste.com\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -521,7 +521,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:4000/api/v1/college-course-coordinator/2/update",
+							"raw": "http://127.0.0.1:4000/api/v1/college-course-coordinator/1/update",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -534,7 +534,7 @@
 								"api",
 								"v1",
 								"college-course-coordinator",
-								"2",
+								"1",
 								"update"
 							]
 						}
@@ -560,6 +560,194 @@
 								"api",
 								"v1",
 								"college-course-coordinator",
+								"1",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COLLEGE SUBJECT",
+			"item": [
+				{
+					"name": "LIST",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-subject/list",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-subject",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEARCH",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Matéria de Teste 01\",\r\n    \"status\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-subject/search",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-subject",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SHOW",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-subject/1/show",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-subject",
+								"1",
+								"show"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Matéria de Teste 01\",\r\n    \"status\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-subject/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-subject",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Matéria de Teste 001\",\r\n        \"status\": \"1\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-subject/1/update",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-subject",
+								"1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-subject/1/delete",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-subject",
 								"1",
 								"delete"
 							]
