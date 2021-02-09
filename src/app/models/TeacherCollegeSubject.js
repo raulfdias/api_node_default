@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'TeacherCollegeSubject',
         tableName: 'TEACHER_COLLEGE_SUBJECT',
         paranoid: false,
-        createdAt: 'tcs_ds_created_at',
-        updatedAt: 'tcs_ds_updated_at'
+        createdAt: 'tcs_dt_created_at',
+        updatedAt: 'tcs_dt_updated_at'
     });
 
     return TeacherCollegeSubject;

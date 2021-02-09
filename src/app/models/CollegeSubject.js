@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         cos_ds_name: {
             type: DataTypes.STRING
         },
-        cos_ds_status: {
+        cos_en_status: {
             type: DataTypes.STRING
         }
     }, {
@@ -31,9 +31,9 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'CollegeSubject',
         tableName: 'COLLEGE_SUBJECT',
         paranoid: true,
-        createdAt: 'cos_ds_created_at',
-        updatedAt: 'cos_ds_updated_at',
-        deletedAt: 'cos_ds_deleted_at'
+        createdAt: 'cos_dt_created_at',
+        updatedAt: 'cos_dt_updated_at',
+        deletedAt: 'cos_dt_deleted_at'
     });
 
     return CollegeSubject;

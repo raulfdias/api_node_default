@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         tea_ds_email: {
             type: DataTypes.STRING
         },
-        tea_ds_status: {
+        tea_en_status: {
             type: DataTypes.STRING
         }
     }, {
@@ -33,9 +33,9 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'Teacher',
         tableName: 'TEACHER',
         paranoid: true,
-        createdAt: 'tea_ds_created_at',
-        updatedAt: 'tea_ds_updated_at',
-        deletedAt: 'tea_ds_deleted_at'
+        createdAt: 'tea_dt_created_at',
+        updatedAt: 'tea_dt_updated_at',
+        deletedAt: 'tea_dt_deleted_at'
     });
 
     return Teacher;

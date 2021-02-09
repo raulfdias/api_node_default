@@ -54,7 +54,7 @@ class TeacherAPIController {
                 httpStatus = 400;
             } else {
                 const data = {
-                    'tea_ds_status': TeacherEnum.normalizeStatus(req.body.status),
+                    'tea_en_status': TeacherEnum.normalizeStatus(req.body.status),
                     'tea_ds_email': req.body.email,
                     'tea_ds_name': req.body.name
                 };
@@ -96,7 +96,7 @@ class TeacherAPIController {
                 const { id } = req.params;
                 const teacherData = {};
 
-                if (data.status !== undefined) teacherData.tea_ds_status = TeacherEnum.normalizeStatus(data.status);
+                if (data.status !== undefined) teacherData.tea_en_status = TeacherEnum.normalizeStatus(data.status);
                 if (data.email !== undefined) teacherData.tea_ds_email = data.email;
                 if (data.name !== undefined) teacherData.tea_ds_name = data.name;
 
@@ -158,7 +158,7 @@ class TeacherAPIController {
             const { body } = req;
             const where = {};
 
-            if (body.status !== undefined) where.tea_ds_status = TeacherEnum.normalizeStatus(body.status);
+            if (body.status !== undefined) where.tea_en_status = TeacherEnum.normalizeStatus(body.status);
             if (body.email !== undefined) where.tea_ds_email = { [Op.like]: `%${body.email}%` };
             if (body.name !== undefined) where.tea_ds_name = { [Op.like]: `%${body.name}%` };
 

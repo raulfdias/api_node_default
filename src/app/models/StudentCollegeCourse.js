@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         scc_fk_college_course: {
             type: DataTypes.INTEGER
         },
-        scc_ds_course_period: {
+        scc_en_course_period: {
             type: DataTypes.STRING
         }
     }, {
@@ -30,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'StudentCollegeCourse',
         tableName: 'STUDENT_COLLEGE_COURSE',
         paranoid: false,
-        createdAt: 'scc_ds_created_at',
-        updatedAt: 'scc_ds_updated_at'
+        createdAt: 'scc_dt_created_at',
+        updatedAt: 'scc_dt_updated_at'
     });
 
     return StudentCollegeCourse;

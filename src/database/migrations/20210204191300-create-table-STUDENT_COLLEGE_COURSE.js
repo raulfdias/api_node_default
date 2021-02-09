@@ -23,19 +23,19 @@ module.exports = {
                     onUpdate: 'CASCADE'
                 }
             },
-            scc_ds_course_period: {
+            scc_en_course_period: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['1', '2', '3'],
                 defaultValue: '1',
                 comment: '1 - MATUTINO || 2 - VESPERTINO || 3 - NOTURNO'
             },
-            scc_ds_created_at: {
+            scc_dt_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            scc_ds_updated_at: {
+            scc_dt_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()

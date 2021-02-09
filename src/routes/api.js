@@ -5,11 +5,13 @@ const express = require('express'),
 const StudentAPIController = require('../app/controllers/API/StudentAPIController');
 const TeacherAPIController = require('../app/controllers/API/TeacherAPIController');
 const CollegeCourseCoordinatorAPIController = require('../app/controllers/API/CollegeCourseCoordinatorAPIController');
+const CollegeSubjectAPIController = require('../app/controllers/API/CollegeSubjectAPIController');
 
 // Middleware
 const StudentValidator = require('../app/middleware/RequestValidation/Student');
 const TeacherValidator = require('../app/middleware/RequestValidation/Teacher');
 const CollegeCourseCoordinator = require('../app/middleware/RequestValidation/CollegeCourseCoordinator');
+const CollegeSubject = require('../app/middleware/RequestValidation/CollegeSubject');
 
 // Routes
 routes.get('/api/v1/student/list', StudentAPIController.list);
@@ -32,5 +34,12 @@ routes.put('/api/v1/college-course-coordinator/:id/update', CollegeCourseCoordin
 routes.delete('/api/v1/college-course-coordinator/:id/delete', CollegeCourseCoordinatorAPIController.delete);
 routes.get('/api/v1/college-course-coordinator/search', CollegeCourseCoordinatorAPIController.search);
 routes.get('/api/v1/college-course-coordinator/:id/show', CollegeCourseCoordinatorAPIController.show);
+
+routes.get('/api/v1/college-subject/list', CollegeSubjectAPIController.list);
+routes.post('/api/v1/college-subject/create', CollegeSubject.validate('OnCreate'), CollegeSubjectAPIController.store);
+routes.put('/api/v1/college-subject/:id/update', CollegeSubject.validate('OnUpdate'), CollegeSubjectAPIController.update);
+routes.delete('/api/v1/college-subject/:id/delete', CollegeSubjectAPIController.delete);
+routes.get('/api/v1/college-subject/search', CollegeSubjectAPIController.search);
+routes.get('/api/v1/college-subject/:id/show', CollegeSubjectAPIController.show);
 
 module.exports = routes;

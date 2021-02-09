@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         usu_ds_password: {
             type: DataTypes.STRING
         },
-        usu_ds_status: {
+        usu_en_status: {
             type: DataTypes.STRING
         }
     }, {
@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'User',
         tableName: 'TEACHER',
         paranoid: true,
-        createdAt: 'usu_ds_created_at',
-        updatedAt: 'usu_ds_updated_at',
-        deletedAt: 'usu_ds_deleted_at'
+        createdAt: 'usu_dt_created_at',
+        updatedAt: 'usu_dt_updated_at',
+        deletedAt: 'usu_dt_deleted_at'
     });
 
     return User;

@@ -23,24 +23,24 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING(255)
             },
-            usu_ds_status: {
+            usu_en_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1',
                 comment: '0 - INATIVO || 1 - ATIVO'
             },
-            usu_ds_created_at: {
+            usu_dt_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            usu_ds_updated_at: {
+            usu_dt_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            usu_ds_deleted_at: {
+            usu_dt_deleted_at: {
                 allowNull: true,
                 type: Sequelize.DATE
             }

@@ -19,24 +19,24 @@ module.exports = {
                 type: Sequelize.STRING(200),
                 unique: true
             },
-            ccc_ds_status: {
+            ccc_en_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1',
                 comment: '0 - INATIVO || 1 - ATIVO'
             },
-            ccc_ds_created_at: {
+            ccc_dt_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            ccc_ds_updated_at: {
+            ccc_dt_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            ccc_ds_deleted_at: {
+            ccc_dt_deleted_at: {
                 allowNull: true,
                 type: Sequelize.DATE
             }

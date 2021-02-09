@@ -23,12 +23,12 @@ module.exports = {
                     onUpdate: 'CASCADE'
                 }
             },
-            tcs_ds_created_at: {
+            tcs_dt_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            tcs_ds_updated_at: {
+            tcs_dt_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()

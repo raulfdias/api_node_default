@@ -54,7 +54,7 @@ class CollegeCourseCoordinatorAPIController {
                 httpStatus = 400;
             } else {
                 const data = {
-                    'ccc_ds_status': CollegeCourseCoordinatorEnum.normalizeStatus(req.body.status),
+                    'ccc_en_status': CollegeCourseCoordinatorEnum.normalizeStatus(req.body.status),
                     'ccc_ds_email': req.body.email,
                     'ccc_ds_name': req.body.name
                 };
@@ -96,7 +96,7 @@ class CollegeCourseCoordinatorAPIController {
                 const { id } = req.params;
                 const collegeCourseCoordinatorData = {};
 
-                if (data.status !== undefined) collegeCourseCoordinatorData.ccc_ds_status = CollegeCourseCoordinatorEnum.normalizeStatus(data.status);
+                if (data.status !== undefined) collegeCourseCoordinatorData.ccc_en_status = CollegeCourseCoordinatorEnum.normalizeStatus(data.status);
                 if (data.email !== undefined) collegeCourseCoordinatorData.ccc_ds_email = data.email;
                 if (data.name !== undefined) collegeCourseCoordinatorData.ccc_ds_name = data.name;
 
@@ -158,7 +158,7 @@ class CollegeCourseCoordinatorAPIController {
             const { body } = req;
             const where = {};
 
-            if (body.status !== undefined) where.ccc_ds_status = CollegeCourseCoordinatorEnum.normalizeStatus(body.status);
+            if (body.status !== undefined) where.ccc_en_status = CollegeCourseCoordinatorEnum.normalizeStatus(body.status);
             if (body.email !== undefined) where.ccc_ds_email = { [Op.like]: `%${body.email}%` };
             if (body.name !== undefined) where.ccc_ds_name = { [Op.like]: `%${body.name}%` };
 

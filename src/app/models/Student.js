@@ -25,10 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         stu_ds_email: {
             type: DataTypes.STRING
         },
-        stu_ds_college_semester: {
+        stu_en_college_semester: {
             type: DataTypes.STRING
         },
-        stu_ds_status: {
+        stu_en_status: {
             type: DataTypes.STRING
         }
     }, {
@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'Student',
         tableName: 'STUDENT',
         paranoid: true,
-        createdAt: 'stu_ds_created_at',
-        updatedAt: 'stu_ds_updated_at',
-        deletedAt: 'stu_ds_deleted_at'
+        createdAt: 'stu_dt_created_at',
+        updatedAt: 'stu_dt_updated_at',
+        deletedAt: 'stu_dt_deleted_at'
     });
 
     return Student;

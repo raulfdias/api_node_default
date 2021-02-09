@@ -54,8 +54,8 @@ class StudentAPIController {
                 httpStatus = 400;
             } else {
                 const data = {
-                    'stu_ds_college_semester': StudentEnum.normalizeCollegeSemester(req.body.college_semester),
-                    'stu_ds_status': StudentEnum.normalizeStatus(req.body.status),
+                    'stu_en_college_semester': StudentEnum.normalizeCollegeSemester(req.body.college_semester),
+                    'stu_en_status': StudentEnum.normalizeStatus(req.body.status),
                     'stu_ds_email': req.body.email,
                     'stu_ds_name': req.body.name
                 };
@@ -97,8 +97,8 @@ class StudentAPIController {
                 const { id } = req.params;
                 const studentData = {};
 
-                if (data.college_semester !== undefined) studentData.stu_ds_college_semester = StudentEnum.normalizeCollegeSemester(data.college_semester);
-                if (data.status !== undefined) studentData.stu_ds_status = StudentEnum.normalizeStatus(data.status);
+                if (data.college_semester !== undefined) studentData.stu_en_college_semester = StudentEnum.normalizeCollegeSemester(data.college_semester);
+                if (data.status !== undefined) studentData.stu_en_status = StudentEnum.normalizeStatus(data.status);
                 if (data.email !== undefined) studentData.stu_ds_email = data.email;
                 if (data.name !== undefined) studentData.stu_ds_name = data.name;
 
@@ -160,8 +160,8 @@ class StudentAPIController {
             const { body } = req;
             const where = {};
 
-            if (body.college_semester !== undefined) where.stu_ds_college_semester = StudentEnum.normalizeCollegeSemester(body.college_semester);
-            if (body.status !== undefined) where.stu_ds_status = StudentEnum.normalizeStatus(body.status);
+            if (body.college_semester !== undefined) where.stu_en_college_semester = StudentEnum.normalizeCollegeSemester(body.college_semester);
+            if (body.status !== undefined) where.stu_en_status = StudentEnum.normalizeStatus(body.status);
             if (body.email !== undefined) where.stu_ds_email = { [Op.like]: `%${body.email}%` };
             if (body.name !== undefined) where.stu_ds_name = { [Op.like]: `%${body.name}%` };
 

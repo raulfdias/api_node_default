@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         coc_ds_name: {
             type: DataTypes.STRING
         },
-        coc_ds_status: {
+        coc_en_status: {
             type: DataTypes.STRING
         }
     }, {
@@ -35,9 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'CollegeCourse',
         tableName: 'COLLEGE_COURSE',
         paranoid: true,
-        createdAt: 'coc_ds_created_at',
-        updatedAt: 'coc_ds_updated_at',
-        deletedAt: 'coc_ds_deleted_at'
+        createdAt: 'coc_dt_created_at',
+        updatedAt: 'coc_dt_updated_at',
+        deletedAt: 'coc_dt_deleted_at'
     });
 
     return CollegeCourse;

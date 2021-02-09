@@ -14,24 +14,24 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING(200)
             },
-            cos_ds_status: {
+            cos_en_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1',
                 comment: '0 - INATIVO || 1 - ATIVO'
             },
-            cos_created_at: {
+            cos_dt_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            cos_updated_at: {
+            cos_dt_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            cos_deleted_at: {
+            cos_dt_deleted_at: {
                 allowNull: true,
                 type: Sequelize.DATE
             }

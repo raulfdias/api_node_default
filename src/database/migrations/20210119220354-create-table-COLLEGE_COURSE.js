@@ -14,24 +14,24 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING(200)
             },
-            coc_ds_status: {
+            coc_en_status: {
                 allowNull: false,
                 type: Sequelize.ENUM,
                 values: ['0', '1'],
                 defaultValue: '1',
                 comment: '0 - INATIVO || 1 - ATIVO'
             },
-            coc_ds_created_at: {
+            coc_dt_created_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            coc_ds_updated_at: {
+            coc_dt_updated_at: {
                 allowNull: true,
                 type: Sequelize.DATE,
                 defaultValue: new Date()
             },
-            coc_ds_deleted_at: {
+            coc_dt_deleted_at: {
                 allowNull: true,
                 type: Sequelize.DATE
             }
