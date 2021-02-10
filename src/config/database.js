@@ -11,8 +11,10 @@ const connections = {
         "username": process.env.DB_USERNAME || 'root',
         "password": process.env.DB_PASSWORD || '',
         "operatorAliases": false,
-        "timezone": "-03:00",
+        "timezone": '-03:00',
         "define": {
+            "charset": 'utf8',
+            "collate": 'utf8_general_ci',
             "timestamps": true,
             "underscored": true,
             "underscoredAll": true
@@ -26,8 +28,10 @@ const connections = {
         "username": process.env.DB_USERNAME || 'root',
         "password": process.env.DB_PASSWORD || '',
         "operatorAliases": false,
-        "timezone": "-03:00",
+        "timezone": '-03:00',
         "define": {
+            "charset": 'utf8',
+            "collate": 'utf8_general_ci',
             "timestamps": true,
             "underscored": true,
             "underscoredAll": true
@@ -41,8 +45,10 @@ const connections = {
         "username": process.env.DB_USERNAME || 'root',
         "password": process.env.DB_PASSWORD || '',
         "operatorAliases": false,
-        "timezone": "-03:00",
+        "timezone": '-03:00',
         "define": {
+            "charset": 'utf8',
+            "collate": 'utf8_general_ci',
             "timestamps": true,
             "underscored": true,
             "underscoredAll": true

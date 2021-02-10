@@ -1,9 +1,9 @@
 'use strict';
 
 const { body } = require('express-validator');
-const StudentEnum = require('../../enums/StudentEnum');
 const { Op } = require('sequelize');
 
+const StudentEnum = require('../../enums/StudentEnum');
 const { Student } = require('../../models');
 
 exports.validate = (method) => {
@@ -21,15 +21,15 @@ exports.validate = (method) => {
                     return true;
                 }),
                 body('college_semester', 'Campo obrigatório.').notEmpty(),
-                body('email').custom(email => {
-                    return Student.findAll({ where: { stu_ds_email: email } }).then(students => {
-                        if (students.length > 0) {
-                            return Promise.reject(new Error('E-mail ja está em uso.'));
-                        }
-                    });
-                }),
-                body('email', 'Precisa ser um email válido.').isEmail(),
-                body('email', 'Campo obrigatório.').notEmpty(),
+                body('email', 'Campo obrigatório.').notEmpty()
+                    .bail().isEmail().withMessage('Precisa ser um email válido.')
+                    .bail().custom(email => {
+                        return Student.findAll({ where: { stu_ds_email: email } }).then(students => {
+                            if (students.length > 0) {
+                                return Promise.reject(new Error('E-mail ja está em uso.'));
+                            }
+                        });
+                    }),
                 body('status').custom(status => {
                     const statusList = StudentEnum.listEnumarators('STATUS');
 
@@ -45,26 +45,27 @@ exports.validate = (method) => {
         case 'OnUpdate': {
             return [
                 body('data', 'Campo obrigatório.').notEmpty(),
-                body('data.email', 'Precisa ser um email válido.').optional().isEmail().bail().custom((email, { req }) => {
-                    if (email) {
-                        const options = {
-                            where: {
-                                stu_ds_email: email,
-                                stu_id_student: {
-                                    [Op.ne]: req.body.id
+                body('data.email').optional().isEmail().withMessage('Precisa ser um email válido.')
+                    .bail().custom((email, { req }) => {
+                        if (email) {
+                            const options = {
+                                where: {
+                                    stu_ds_email: email,
+                                    stu_id_student: {
+                                        [Op.ne]: req.body.id
+                                    }
                                 }
-                            }
-                        };
+                            };
 
-                        return Student.findAll(options).then(students => {
-                            if (students.length > 0) {
-                                return Promise.reject(new Error('E-mail ja está em uso.'));
-                            }
-                        });
-                    } else {
-                        return true;
-                    }
-                }),
+                            return Student.findAll(options).then(students => {
+                                if (students.length > 0) {
+                                    return Promise.reject(new Error('E-mail ja está em uso.'));
+                                }
+                            });
+                        } else {
+                            return true;
+                        }
+                    }),
                 body('college_semester').custom(semester => {
                     const semestersList = StudentEnum.listEnumarators('COLLEGE_SEMESTER');
 

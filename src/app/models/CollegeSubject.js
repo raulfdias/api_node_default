@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     CollegeSubject.init({
         cos_id_college_subject: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         cos_ds_name: {
             type: DataTypes.STRING

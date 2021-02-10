@@ -5,7 +5,6 @@ const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');
 
 const CollegeCourseRepository = require('../../repositories/CollegeCourseRepository');
-const CollegeCourseCoordinatorRepository = require('../../repositories/CollegeCourseCoordinatorRepository');
 const CollegeCourseEnum = require('../../enums/CollegeCourseEnum');
 
 class CollegeCourseAPIController {
@@ -23,7 +22,7 @@ class CollegeCourseAPIController {
         let message = null;
 
         try {
-            collegeCourses = await CollegeCourseRepository.listAll({});
+            collegeCourses = await CollegeCourseRepository.listAll({ include: ['college_course_coordinator'] });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
@@ -56,7 +55,7 @@ class CollegeCourseAPIController {
             if (body.email !== undefined) where.coc_ds_email = { [Op.like]: `%${body.email}%` };
             if (body.name !== undefined) where.coc_ds_name = { [Op.like]: `%${body.name}%` };
 
-            collegeCourses = await CollegeCourseRepository.listAll({ where });
+            collegeCourses = await CollegeCourseRepository.listAll({ where, include: ['college_course_coordinator'] });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
@@ -90,18 +89,16 @@ class CollegeCourseAPIController {
 
                 throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
-                const collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(req.body.college_course_coordinator);
-                if (collegeCourseCoordinator === null) {
-                    throw new APIException('Coordenador não existe', 400);
-                }
-
                 const data = {
                     'coc_fk_college_course_coordinator': req.body.college_course_coordinator,
                     'coc_en_status': CollegeCourseEnum.normalizeStatus(req.body.status),
                     'coc_ds_email': req.body.email,
                     'coc_ds_name': req.body.name
                 };
-                collegeCourse = await CollegeCourseRepository.store(data);
+
+                collegeCourse = await CollegeCourseRepository.store(data).then((collegeCourse) => {
+                    return CollegeCourseRepository.findById(collegeCourse.coc_id_college_course, ['college_course_coordinator']);
+                });
             }
         } catch (err) {
             console.error(err);
@@ -129,10 +126,10 @@ class CollegeCourseAPIController {
 
         try {
             const { id } = req.params;
-            collegeCourse = await CollegeCourseRepository.findById(id);
+            collegeCourse = await CollegeCourseRepository.findById(id, ['college_course_coordinator']);
 
             if (collegeCourse === null) {
-                throw new APIException('Não encontrado', 404);
+                throw new APIException('Curso não encontrado', 404);
             }
         } catch (err) {
             console.error(err);
@@ -169,13 +166,15 @@ class CollegeCourseAPIController {
             } else {
                 const { data } = req.body;
                 const { id } = req.params;
-                const teacherData = {};
+                const collegeCourseData = {};
 
-                if (data.status !== undefined) teacherData.coc_en_status = CollegeCourseEnum.normalizeStatus(data.status);
-                if (data.email !== undefined) teacherData.coc_ds_email = data.email;
-                if (data.name !== undefined) teacherData.coc_ds_name = data.name;
+                if (data.college_course_coordinator !== undefined) collegeCourseData.coc_fk_college_course_coordinator = data.college_course_coordinator;
+                if (data.status !== undefined) collegeCourseData.coc_en_status = CollegeCourseEnum.normalizeStatus(data.status);
+                if (data.name !== undefined) collegeCourseData.coc_ds_name = data.name;
 
-                collegeCourse = await CollegeCourseRepository.update(id, teacherData);
+                collegeCourse = await CollegeCourseRepository.update(id, collegeCourseData).then((collegeCourse) => {
+                    return CollegeCourseRepository.findById(collegeCourse.coc_id_college_course, ['college_course_coordinator']);
+                });
             }
         } catch (err) {
             console.error(err);

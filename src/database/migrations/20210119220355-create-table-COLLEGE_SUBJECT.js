@@ -12,7 +12,8 @@ module.exports = {
             },
             cos_ds_name: {
                 allowNull: false,
-                type: Sequelize.STRING(200)
+                type: Sequelize.STRING(200),
+                unique: true
             },
             cos_en_status: {
                 allowNull: false,

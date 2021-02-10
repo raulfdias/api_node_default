@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     CollegeCourse.init({
         coc_id_college_course: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         coc_fk_college_course_coordinator: {
             type: DataTypes.INTEGER

@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     Teacher.init({
         tea_id_teacher: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         tea_ds_name: {
             type: DataTypes.STRING
