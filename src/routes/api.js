@@ -23,7 +23,8 @@ routes.delete('/api/v1/student/:id/delete', StudentAPIController.delete);
 routes.get('/api/v1/student/search', StudentAPIController.search);
 routes.get('/api/v1/student/:id/show', StudentAPIController.show);
 routes.post('/api/v1/student/:id/college-course/connect', StudentAPIController.associateCollegeCurses);
-routes.get('/api/v1/student/:id/college-course', StudentAPIController.getAllCollegeSubject);
+routes.put('/api/v1/student/:id/college-course/disconnect', StudentAPIController.disassociateCollegeCurses);
+routes.get('/api/v1/student/:id/college-course', StudentAPIController.getAllCollegeCourse);
 
 routes.get('/api/v1/teacher/list', TeacherAPIController.list);
 routes.post('/api/v1/teacher/create', [TeacherValidator.validate('OnCreate')], TeacherAPIController.store);
