@@ -17,7 +17,7 @@
             {
                 "SwitchCase": 1
             }
-        ], // Identação definida para 2 espaços.
+        ], // Identação definida para 4 espaços.
         "semi": [
             "error",
             "always"
@@ -30,12 +30,13 @@
                 "avoidEscape": true
             }
         ],
-        "quote-props": [
-            "warn",
-            "consistent"
-        ],
         "one-var": "off",
         "space-before-function-paren": "off",
+        "quote-props": [
+            "warn",
+            "consistent",
+            { "keywords": true }
+        ],
         "camelcase": [
             "warn",
             {
