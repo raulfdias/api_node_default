@@ -1,6 +1,8 @@
 'use strict';
 
-class HomeController {
+const Controller = require('./Controller');
+
+class HomeController extends Controller {
     /**
      * Função responsável por carregar a index
      *

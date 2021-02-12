@@ -1,13 +1,17 @@
 'use strict';
 
-const APIException = require('../../exceptions/APIException');
-const { validationResult } = require('express-validator');
-const { Op } = require('sequelize');
+const APIException = require('../../exceptions/APIException'),
+    { validationResult } = require('express-validator'),
+    { Op } = require('sequelize');
 
-const CollegeCourseCoordinatorRepository = require('../../repositories/CollegeCourseCoordinatorRepository');
+const Controller = require('../Controller');
+
+const CollegeCourseRepository = require('../../repositories/CollegeCourseRepository'),
+    CollegeCourseCoordinatorRepository = require('../../repositories/CollegeCourseCoordinatorRepository');
+
 const CollegeCourseCoordinatorEnum = require('../../enums/CollegeCourseCoordinatorEnum');
 
-class CollegeCourseCoordinatorAPIController {
+class CollegeCourseCoordinatorAPIController extends Controller {
     /**
      * Função responsável por efetuar a listagem dos coordenadores
      *
@@ -18,8 +22,9 @@ class CollegeCourseCoordinatorAPIController {
     async list(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourseCoordinators = [];
         let message = null;
+
+        let collegeCourseCoordinators = [];
 
         try {
             collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({});
@@ -44,8 +49,9 @@ class CollegeCourseCoordinatorAPIController {
     async search(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourseCoordinators = [];
         let message = null;
+
+        let collegeCourseCoordinators = [];
 
         try {
             const { body } = req;
@@ -78,8 +84,9 @@ class CollegeCourseCoordinatorAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourseCoordinator = null;
         let message = null;
+
+        let collegeCourseCoordinator = null;
 
         try {
             if (errors.length > 0) {
@@ -117,8 +124,9 @@ class CollegeCourseCoordinatorAPIController {
     async show(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourseCoordinator = null;
         let message = null;
+
+        let collegeCourseCoordinator = null;
 
         try {
             const { id } = req.params;
@@ -149,8 +157,9 @@ class CollegeCourseCoordinatorAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourseCoordinator = null;
         let message = null;
+
+        let collegeCourseCoordinator = null;
 
         try {
             if (errors.length > 0) {
@@ -191,8 +200,9 @@ class CollegeCourseCoordinatorAPIController {
     async delete(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let deleted = false;
         let message = null;
+
+        let deleted = false;
 
         try {
             const { id } = req.params;
@@ -207,6 +217,34 @@ class CollegeCourseCoordinatorAPIController {
         }
 
         return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a listagem do cursos atrelados ao coordenador
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async getCollegeCourseFromCoordinator(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let collegeCourse = {};
+
+        try {
+            const { id } = req.params;
+            collegeCourse = await CollegeCourseRepository.listAll({ where: { coc_fk_college_course_coordinator: id } });
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            collegeCourse = {};
+        }
+
+        return res.status(httpStatus).json({ collegeCourse, httpStatus, message, bagError });
     }
 }
 

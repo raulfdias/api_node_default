@@ -1,13 +1,18 @@
 'use strict';
 
-const APIException = require('../../exceptions/APIException');
-const { validationResult } = require('express-validator');
-const { Op } = require('sequelize');
+const APIException = require('../../exceptions/APIException'),
+    { validationResult } = require('express-validator'),
+    { Op } = require('sequelize');
 
-const StudentRepository = require('../../repositories/StudentRepository');
-const StudentEnum = require('../../enums/StudentEnum');
+const Controller = require('../Controller');
 
-class StudentAPIController {
+const StudentRepository = require('../../repositories/StudentRepository'),
+    CollegeCourseRepository = require('../../repositories/CollegeCourseRepository');
+
+const StudentEnum = require('../../enums/StudentEnum'),
+    StudentCollegeCourseEnum = require('../../enums/StudentCollegeCourseEnum');
+
+class StudentAPIController extends Controller {
     /**
      * Função responsável por efetuar a listagem dos estudantes
      *
@@ -18,8 +23,9 @@ class StudentAPIController {
     async list(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let students = [];
         let message = null;
+
+        let students = [];
 
         try {
             students = await StudentRepository.listAll({});
@@ -44,8 +50,9 @@ class StudentAPIController {
     async search(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let students = [];
         let message = null;
+
+        let students = [];
 
         try {
             const { body } = req;
@@ -79,8 +86,9 @@ class StudentAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let student = null;
         let message = null;
+
+        let student = null;
 
         try {
             if (errors.length > 0) {
@@ -119,8 +127,9 @@ class StudentAPIController {
     async show(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let student = null;
         let message = null;
+
+        let student = null;
 
         try {
             const { id } = req.params;
@@ -151,8 +160,9 @@ class StudentAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let student = null;
         let message = null;
+
+        let student = null;
 
         try {
             if (errors.length > 0) {
@@ -194,8 +204,9 @@ class StudentAPIController {
     async delete(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let deleted = false;
         let message = null;
+
+        let deleted = false;
 
         try {
             const { id } = req.params;
@@ -210,6 +221,171 @@ class StudentAPIController {
         }
 
         return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a associação das matérias ao aluno
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async associateCollegeCurses(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let student = null;
+
+        try {
+            const { id } = req.params;
+            const courses = req.body;
+
+            student = await StudentRepository.findById(id);
+            if (student === null) {
+                throw new APIException('Aluno não encontrado', 404);
+            }
+
+            for (let index = 0; index < courses.length; index++) {
+                let { course, period } = courses[index];
+                let enrolledPeriod = null;
+
+                period = StudentCollegeCourseEnum.normalizePeriod(period);
+
+                const collegeCourse = await CollegeCourseRepository.findById(course);
+                if (collegeCourse === null) {
+                    throw new APIException('Não foi possivel efetuar a associação, verifique os cursos informados.', 400);
+                }
+
+                const condition = {
+                    where: {
+                        stu_id_student: student.stu_id_student
+                    },
+                    include: [{
+                        association: 'college_courses',
+                        through: {
+                            where: {
+                                [Op.or]: [
+                                    { scc_en_course_period: period },
+                                    { scc_fk_college_course: collegeCourse.coc_id_college_course }
+                                ]
+                            }
+                        }
+                    }]
+                };
+
+                const { college_courses: studentCollegeCourses } = await StudentRepository.findFirst(condition);
+
+                if (studentCollegeCourses.length > 0) {
+                    enrolledPeriod = this.checkAlreadyStudyingPeriod(studentCollegeCourses, period);
+                    if (enrolledPeriod !== undefined) {
+                        period = StudentCollegeCourseEnum.normalizePeriod(period, 'txt');
+                        throw new APIException(`O aluno ja se encontra matriculado em um curso no periodo: ${period}`, 400);
+                    }
+                    continue;
+                }
+
+                await student.addCollege_courses(collegeCourse, { through: { scc_en_course_period: period } });
+
+                course = period = enrolledPeriod = null;
+            }
+
+            student = await StudentRepository.findById(id, ['college_courses']);
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            student = null;
+        }
+
+        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+    }
+
+    checkAlreadyStudyingPeriod(studentCollegeCourses, checkEnrollmentPeriod) {
+        const check = studentCollegeCourses.find((value) => value.StudentCollegeCourse.scc_en_course_period === checkEnrollmentPeriod);
+
+        const { StudentCollegeCourse: { scc_en_course_period: periodInCourse } } = check;
+
+        return periodInCourse;
+    }
+
+    /**
+     * Função responsável por efetuar a desassociação das matérias ao aluno
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async disassociateCollegeCurses(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let student = null;
+
+        try {
+            const { id } = req.params;
+            const courses = req.body;
+
+            student = await StudentRepository.findById(id);
+            if (student === null) {
+                throw new APIException('Aluno não encontrado', 404);
+            }
+
+            for (let index = 0; index < courses.length; index++) {
+                const collegeCourse = await CollegeCourseRepository.findById(courses[index]);
+                if (collegeCourse === null) {
+                    throw new APIException('Não foi possivel efetuar a desassociação, verifique os cursos informados.', 400);
+                }
+
+                await student.removeCollege_courses(collegeCourse);
+            }
+
+            student = await StudentRepository.findById(id, ['college_courses']);
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            student = null;
+        }
+
+        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a busca os cursos do aluno
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async getAllCollegeSubject(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let collegeCourses = [];
+
+        try {
+            const { id } = req.params;
+
+            const student = await StudentRepository.findById(id);
+            if (student === null) {
+                throw new APIException('Estudante não encontrado', 404);
+            }
+
+            collegeCourses = await StudentRepository.getAllCollegeCourseFromStudent(student.stu_id_student);
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            collegeCourses = [];
+        }
+
+        return res.status(httpStatus).json({ collegeCourses, httpStatus, message, bagError });
     }
 }
 

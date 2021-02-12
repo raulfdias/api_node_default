@@ -35,6 +35,13 @@
             "consistent"
         ],
         "one-var": "off",
-        "space-before-function-paren": "off"
+        "space-before-function-paren": "off",
+        "camelcase": [
+            "warn",
+            {
+                "properties": "never",
+                "ignoreDestructuring": true
+            }
+        ]
     }
 }

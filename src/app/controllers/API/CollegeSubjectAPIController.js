@@ -1,13 +1,16 @@
 'use strict';
 
-const APIException = require('../../exceptions/APIException');
-const { validationResult } = require('express-validator');
-const { Op } = require('sequelize');
+const APIException = require('../../exceptions/APIException'),
+    { validationResult } = require('express-validator'),
+    { Op } = require('sequelize');
+
+const Controller = require('../Controller');
 
 const CollegeSubjectRepository = require('../../repositories/CollegeSubjectRepository');
+
 const CollegeSubjectEnum = require('../../enums/CollegeSubjectEnum');
 
-class CollegeSubjectAPIController {
+class CollegeSubjectAPIController extends Controller {
     /**
      * Função responsável por efetuar a listagem das máterias
      *
@@ -18,8 +21,9 @@ class CollegeSubjectAPIController {
     async list(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeSubjects = [];
         let message = null;
+
+        let collegeSubjects = [];
 
         try {
             collegeSubjects = await CollegeSubjectRepository.listAll({});
@@ -44,8 +48,9 @@ class CollegeSubjectAPIController {
     async search(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeSubjects = [];
         let message = null;
+
+        let collegeSubjects = [];
 
         try {
             const { body } = req;
@@ -78,8 +83,9 @@ class CollegeSubjectAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let collegeSubject = null;
         let message = null;
+
+        let collegeSubject = null;
 
         try {
             if (errors.length > 0) {
@@ -117,8 +123,9 @@ class CollegeSubjectAPIController {
     async show(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeSubject = null;
         let message = null;
+
+        let collegeSubject = null;
 
         try {
             const { id } = req.params;
@@ -149,8 +156,9 @@ class CollegeSubjectAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let collegeSubject = null;
         let message = null;
+
+        let collegeSubject = null;
 
         try {
             if (errors.length > 0) {
@@ -191,8 +199,9 @@ class CollegeSubjectAPIController {
     async delete(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let deleted = false;
         let message = null;
+
+        let deleted = false;
 
         try {
             const { id } = req.params;
@@ -207,6 +216,40 @@ class CollegeSubjectAPIController {
         }
 
         return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a busca dos professores da matéria
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async getAllCollegeSubject(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let teachers = [];
+
+        try {
+            const { id } = req.params;
+
+            const collegeSubject = await CollegeSubjectRepository.findById(id);
+            if (collegeSubject === null) {
+                throw new APIException('Matéria não encontrada', 404);
+            }
+
+            teachers = await CollegeSubjectRepository.getAllTeachersFromCollegeSubjects(collegeSubject.cos_id_college_subject);
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            teachers = [];
+        }
+
+        return res.status(httpStatus).json({ teachers, httpStatus, message, bagError });
     }
 }
 

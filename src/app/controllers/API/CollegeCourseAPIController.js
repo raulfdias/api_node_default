@@ -1,13 +1,17 @@
 'use strict';
 
-const APIException = require('../../exceptions/APIException');
-const { validationResult } = require('express-validator');
-const { Op } = require('sequelize');
+const APIException = require('../../exceptions/APIException'),
+    { validationResult } = require('express-validator'),
+    { Op } = require('sequelize');
 
-const CollegeCourseRepository = require('../../repositories/CollegeCourseRepository');
+const Controller = require('../Controller');
+
+const CollegeCourseRepository = require('../../repositories/CollegeCourseRepository'),
+    CollegeCourseCoordinatorRepository = require('../../repositories/CollegeCourseCoordinatorRepository');
+
 const CollegeCourseEnum = require('../../enums/CollegeCourseEnum');
 
-class CollegeCourseAPIController {
+class CollegeCourseAPIController extends Controller {
     /**
      * Função responsável por efetuar a listagem dos cursos
      *
@@ -18,8 +22,9 @@ class CollegeCourseAPIController {
     async list(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourses = [];
         let message = null;
+
+        let collegeCourses = [];
 
         try {
             collegeCourses = await CollegeCourseRepository.listAll({ include: ['college_course_coordinator'] });
@@ -44,8 +49,9 @@ class CollegeCourseAPIController {
     async search(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourses = [];
         let message = null;
+
+        let collegeCourses = [];
 
         try {
             const { body } = req;
@@ -78,8 +84,9 @@ class CollegeCourseAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourse = null;
         let message = null;
+
+        let collegeCourse = null;
 
         try {
             if (errors.length > 0) {
@@ -89,6 +96,11 @@ class CollegeCourseAPIController {
 
                 throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
+                const collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(req.body.college_course_coordinator);
+
+                if (collegeCourseCoordinator === null) {
+                    throw new APIException('Coordenador não existe', 400);
+                }
                 const data = {
                     'coc_fk_college_course_coordinator': req.body.college_course_coordinator,
                     'coc_en_status': CollegeCourseEnum.normalizeStatus(req.body.status),
@@ -121,8 +133,9 @@ class CollegeCourseAPIController {
     async show(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourse = null;
         let message = null;
+
+        let collegeCourse = null;
 
         try {
             const { id } = req.params;
@@ -153,8 +166,9 @@ class CollegeCourseAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let collegeCourse = null;
         let message = null;
+
+        let collegeCourse = null;
 
         try {
             if (errors.length > 0) {
@@ -167,6 +181,12 @@ class CollegeCourseAPIController {
                 const { data } = req.body;
                 const { id } = req.params;
                 const collegeCourseData = {};
+
+                const collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(data.college_course_coordinator);
+
+                if (collegeCourseCoordinator === null) {
+                    throw new APIException('Coordenador não existe', 400);
+                }
 
                 if (data.college_course_coordinator !== undefined) collegeCourseData.coc_fk_college_course_coordinator = data.college_course_coordinator;
                 if (data.status !== undefined) collegeCourseData.coc_en_status = CollegeCourseEnum.normalizeStatus(data.status);
@@ -197,8 +217,9 @@ class CollegeCourseAPIController {
     async delete(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let deleted = false;
         let message = null;
+
+        let deleted = false;
 
         try {
             const { id } = req.params;

@@ -1,13 +1,17 @@
 'use strict';
 
-const APIException = require('../../exceptions/APIException');
-const { validationResult } = require('express-validator');
-const { Op } = require('sequelize');
+const APIException = require('../../exceptions/APIException'),
+    { validationResult } = require('express-validator'),
+    { Op } = require('sequelize');
 
-const TeacherRepository = require('../../repositories/TeacherRepository');
+const Controller = require('../Controller');
+
+const TeacherRepository = require('../../repositories/TeacherRepository'),
+    CollegeSubjectRepository = require('../../repositories/CollegeSubjectRepository');
+
 const TeacherEnum = require('../../enums/TeacherEnum');
 
-class TeacherAPIController {
+class TeacherAPIController extends Controller {
     /**
      * Função responsável por efetuar a listagem dos professores
      *
@@ -18,8 +22,9 @@ class TeacherAPIController {
     async list(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let teachers = [];
         let message = null;
+
+        let teachers = [];
 
         try {
             teachers = await TeacherRepository.listAll({});
@@ -44,8 +49,9 @@ class TeacherAPIController {
     async search(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let teachers = [];
         let message = null;
+
+        let teachers = [];
 
         try {
             const { body } = req;
@@ -78,8 +84,9 @@ class TeacherAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let teacher = null;
         let message = null;
+
+        let teacher = null;
 
         try {
             if (errors.length > 0) {
@@ -117,8 +124,9 @@ class TeacherAPIController {
     async show(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let teacher = null;
         let message = null;
+
+        let teacher = null;
 
         try {
             const { id } = req.params;
@@ -149,8 +157,9 @@ class TeacherAPIController {
         const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
-        let teacher = null;
         let message = null;
+
+        let teacher = null;
 
         try {
             if (errors.length > 0) {
@@ -191,8 +200,9 @@ class TeacherAPIController {
     async delete(req, res) {
         let httpStatus = 200;
         const bagError = {};
-        let deleted = false;
         let message = null;
+
+        let deleted = false;
 
         try {
             const { id } = req.params;
@@ -207,6 +217,89 @@ class TeacherAPIController {
         }
 
         return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a associação das matérias ao professor
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async associateCollegeSubject(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let teacher = null;
+
+        try {
+            const { id } = req.params;
+            const { subjects } = req.body;
+
+            teacher = await TeacherRepository.findById(id);
+            if (teacher === null) {
+                throw new APIException('Professor não encontrado', 404);
+            }
+
+            for (let index = 0; index < subjects.length; index++) {
+                const subject = await CollegeSubjectRepository.findById(subjects[index]);
+                if (subject === null) {
+                    throw new APIException('Não foi possivel efetuar a associação, verifique as matérias informadas.', 400);
+                }
+
+                const teacherSubject = await CollegeSubjectRepository.alreadyAssociationTeacherCollegeSubject(teacher.tea_id_teacher, subject.cos_id_college_subject);
+                if (teacherSubject.length > 0) {
+                    continue;
+                }
+
+                await teacher.addCollege_subjects(subject);
+            }
+
+            teacher = await TeacherRepository.findById(id, ['college_subjects']);
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            teacher = null;
+        }
+
+        return res.status(httpStatus).json({ teacher, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a busca das matérias do professor
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async getAllCollegeSubject(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let collegeSubjects = [];
+
+        try {
+            const { id } = req.params;
+
+            const teacher = await TeacherRepository.findById(id);
+            if (teacher === null) {
+                throw new APIException('Professor não encontrado', 404);
+            }
+
+            collegeSubjects = await TeacherRepository.getAllCollegeSubjectsFromTeacher(teacher.tea_id_teacher);
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            collegeSubjects = [];
+        }
+
+        return res.status(httpStatus).json({ collegeSubjects, httpStatus, message, bagError });
     }
 }
 
