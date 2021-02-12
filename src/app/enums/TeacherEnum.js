@@ -2,9 +2,15 @@
 
 class TeacherEnum {
     constructor() {
-        // Status
-        this.ACTIVE = '1';
-        this.INACTIVE = '0';
+        // STATUS
+        this.ACTIVE = {
+            'val': '1',
+            'txt': 'ACTIVE'
+        };
+        this.INACTIVE = {
+            'val': '0',
+            'txt': 'INACTIVE'
+        };
     }
 
     /**
@@ -13,12 +19,12 @@ class TeacherEnum {
      * @param {*} type
      * @returns array
      */
-    listEnumarators(type) {
+    listEnumerators(type) {
         switch (type) {
             case 'STATUS':
                 return [
-                    this.ACTIVE,
-                    this.INACTIVE
+                    this.ACTIVE.val,
+                    this.INACTIVE.val
                 ];
 
             default:
@@ -30,18 +36,19 @@ class TeacherEnum {
      * Função responsável por normalizar os status do usuário
      *
      * @param {*} value
+     * @param {*} flag
      * @returns string
      */
-    normalizeStatus(value) {
+    normalizeStatus(value, flag = 'val') {
         switch (value) {
-            case this.ACTIVE:
-                return this.ACTIVE;
+            case this.ACTIVE.val:
+                return this.ACTIVE[flag];
 
-            case this.INACTIVE:
-                return this.INACTIVE;
+            case this.INACTIVE.val:
+                return this.INACTIVE[flag];
 
             default:
-                return this.INACTIVE;
+                return this.INACTIVE[flag];
         }
     }
 }
