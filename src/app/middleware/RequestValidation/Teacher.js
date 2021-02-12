@@ -1,10 +1,11 @@
 'use strict';
 
-const { body } = require('express-validator');
-const TeacherEnum = require('../../enums/TeacherEnum');
-const { Op } = require('sequelize');
+const { body } = require('express-validator'),
+    { Op } = require('sequelize');
 
 const { Teacher } = require('../../models');
+
+const TeacherEnum = require('../../enums/TeacherEnum');
 
 exports.validate = (method) => {
     switch (method) {
@@ -21,7 +22,7 @@ exports.validate = (method) => {
                 body('email', 'Precisa ser um email válido.').isEmail(),
                 body('email', 'Campo obrigatório.').notEmpty(),
                 body('status').custom(status => {
-                    const statusList = TeacherEnum.listEnumarators('STATUS');
+                    const statusList = TeacherEnum.listEnumerators('STATUS');
 
                     if (!(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));
@@ -56,7 +57,7 @@ exports.validate = (method) => {
                     }
                 }),
                 body('data.status').custom(status => {
-                    const statusList = TeacherEnum.listEnumarators('STATUS');
+                    const statusList = TeacherEnum.listEnumerators('STATUS');
 
                     if (status && !(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));

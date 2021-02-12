@@ -1,10 +1,11 @@
 'use strict';
 
-const { body } = require('express-validator');
-const { Op } = require('sequelize');
+const { body } = require('express-validator'),
+    { Op } = require('sequelize');
+
+const { Student } = require('../../models');
 
 const StudentEnum = require('../../enums/StudentEnum');
-const { Student } = require('../../models');
 
 exports.validate = (method) => {
     switch (method) {
@@ -12,7 +13,7 @@ exports.validate = (method) => {
             return [
                 body('name', 'Campo obrigatório.').notEmpty(),
                 body('college_semester').custom(semester => {
-                    const semestersList = StudentEnum.listEnumarators('COLLEGE_SEMESTER');
+                    const semestersList = StudentEnum.listEnumerators('COLLEGE_SEMESTER');
 
                     if (!(semestersList.includes(semester))) {
                         return Promise.reject(new Error('Valor inválido.'));
@@ -31,7 +32,7 @@ exports.validate = (method) => {
                         });
                     }),
                 body('status').custom(status => {
-                    const statusList = StudentEnum.listEnumarators('STATUS');
+                    const statusList = StudentEnum.listEnumerators('STATUS');
 
                     if (!(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));
@@ -67,7 +68,7 @@ exports.validate = (method) => {
                         }
                     }),
                 body('college_semester').custom(semester => {
-                    const semestersList = StudentEnum.listEnumarators('COLLEGE_SEMESTER');
+                    const semestersList = StudentEnum.listEnumerators('COLLEGE_SEMESTER');
 
                     if (semester && !(semestersList.includes(semester))) {
                         return Promise.reject(new Error('Valor inválido.'));
@@ -76,7 +77,7 @@ exports.validate = (method) => {
                     return true;
                 }),
                 body('status').custom(status => {
-                    const statusList = StudentEnum.listEnumarators('STATUS');
+                    const statusList = StudentEnum.listEnumerators('STATUS');
 
                     if (status && !(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));

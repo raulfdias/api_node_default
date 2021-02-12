@@ -1,10 +1,11 @@
 'use strict';
 
-const { body } = require('express-validator');
-const { Op } = require('sequelize');
+const { body } = require('express-validator'),
+    { Op } = require('sequelize');
+
+const { CollegeSubject } = require('../../models');
 
 const CollegeSubjectEnum = require('../../enums/CollegeSubjectEnum');
-const { CollegeSubject } = require('../../models');
 
 exports.validate = (method) => {
     switch (method) {
@@ -19,7 +20,7 @@ exports.validate = (method) => {
                         });
                     }),
                 body('status').custom(status => {
-                    const statusList = CollegeSubjectEnum.listEnumarators('STATUS');
+                    const statusList = CollegeSubjectEnum.listEnumerators('STATUS');
 
                     if (!(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));
@@ -55,7 +56,7 @@ exports.validate = (method) => {
                         }
                     }),
                 body('data.status').optional().custom(status => {
-                    const statusList = CollegeSubjectEnum.listEnumarators('STATUS');
+                    const statusList = CollegeSubjectEnum.listEnumerators('STATUS');
 
                     if (status && !(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));

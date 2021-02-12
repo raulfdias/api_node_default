@@ -3,8 +3,9 @@
 const { body } = require('express-validator');
 const { Op } = require('sequelize');
 
-const CollegeCourseEnum = require('../../enums/CollegeCourseEnum');
 const { CollegeCourse } = require('../../models');
+
+const CollegeCourseEnum = require('../../enums/CollegeCourseEnum');
 
 exports.validate = (method) => {
     switch (method) {
@@ -21,7 +22,7 @@ exports.validate = (method) => {
                 body('college_course_coordinator', 'Campo obrigatório.').notEmpty()
                     .bail().isNumeric().withMessage('Valor inválido'),
                 body('status').custom(status => {
-                    const statusList = CollegeCourseEnum.listEnumarators('STATUS');
+                    const statusList = CollegeCourseEnum.listEnumerators('STATUS');
 
                     if (!(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));
@@ -58,7 +59,7 @@ exports.validate = (method) => {
                         }
                     }),
                 body('data.status').optional().custom(status => {
-                    const statusList = CollegeCourseEnum.listEnumarators('STATUS');
+                    const statusList = CollegeCourseEnum.listEnumerators('STATUS');
 
                     if (status && !(statusList.includes(status))) {
                         return Promise.reject(new Error('Valor inválido.'));
