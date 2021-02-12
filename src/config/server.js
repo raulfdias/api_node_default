@@ -2,14 +2,16 @@
 
 const express = require('express'),
     nunjucks = require('nunjucks'),
-    path = require('path');
+    path = require('path'),
+    morgan = require('morgan'),
+    helmet = require('helmet');
 
 require('dotenv').config({ path: path.resolve('src', '.env') });
 
 class Server {
     constructor() {
-        this.express = express();
         this.isDev = process.env.APP_ENVIROMENT !== 'production';
+        this.express = express();
 
         this.middlewares();
         this.views();
@@ -18,7 +20,9 @@ class Server {
 
     middlewares() {
         this.express.use(express.json());
-        this.express.use(express.urlencoded({ extended: false }));
+        this.express.use(express.urlencoded({ extended: true }));
+        this.express.use(morgan('dev'));
+        this.express.use(helmet());
     }
 
     views() {
