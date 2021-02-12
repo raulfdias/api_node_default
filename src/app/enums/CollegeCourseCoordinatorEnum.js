@@ -39,6 +39,8 @@ class CollegeCourseCoordinatorEnum {
      * @returns string
      */
     normalizeStatus(value, flag = 'val') {
+        value = String(value);
+
         switch (value) {
             case this.ACTIVE.val:
                 return this.ACTIVE[flag];

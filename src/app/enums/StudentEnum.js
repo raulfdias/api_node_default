@@ -96,6 +96,8 @@ class StudentEnum {
      * @returns string
      */
     normalizeStatus(value, flag = 'val') {
+        value = String(value);
+
         switch (value) {
             case this.ACTIVE.val:
                 return this.ACTIVE[flag];
@@ -116,6 +118,8 @@ class StudentEnum {
      * @returns string
      */
     normalizeCollegeSemester(value, flag = 'val') {
+        value = String(value);
+
         switch (value) {
             case this.FIRST_SEMESTER.val:
                 return this.FIRST_SEMESTER[flag];

@@ -45,6 +45,8 @@ class StudentCollegeCourseEnum {
      * @returns string
      */
     normalizePeriod(value, flag = 'val') {
+        value = String(value);
+
         switch (value) {
             case this.MORNING.val:
                 return this.MORNING[flag];
