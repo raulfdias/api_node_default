@@ -1,17 +1,29 @@
 'use strict';
 
 const { Teacher } = require('../models');
+
 const APIException = require('../exceptions/APIException');
 
 class TeacherRepository {
-    async findById(id) {
-        return await Teacher.findByPk((parseInt(id)));
+    async findById(id, include = []) {
+        return await Teacher.findByPk((parseInt(id)), { include });
     }
 
-    async listAll({ attributes = [], where = {}, order = [] }) {
+    async findFirst({ attributes = [], where = {}, order = [], include = [] }) {
         const options = {};
         if (attributes.length > 0) options.attributes = attributes;
         if (Object.keys(where).length > 0) options.where = where;
+        if (include.length > 0) options.include = include;
+        if (order.length > 0) options.order = order;
+
+        return await Teacher.findOne(options);
+    }
+
+    async listAll({ attributes = [], where = {}, order = [], include = [] }) {
+        const options = {};
+        if (attributes.length > 0) options.attributes = attributes;
+        if (Object.keys(where).length > 0) options.where = where;
+        if (include.length > 0) options.include = include;
         if (order.length > 0) options.order = order;
 
         return await Teacher.findAll(options);
@@ -39,6 +51,12 @@ class TeacherRepository {
         }
 
         return await teacher.destroy();
+    }
+
+    async getAllCollegeSubjectsFromTeacher(id) {
+        const teacher = await this.findById(id, ['college_subjects']);
+
+        return teacher.college_subjects;
     }
 }
 

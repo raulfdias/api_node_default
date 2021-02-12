@@ -1,17 +1,29 @@
 'use strict';
 
 const { CollegeCourseCoordinator } = require('../models');
+
 const APIException = require('../exceptions/APIException');
 
 class CollegeCourseCoordinatorRepository {
-    async findById(id) {
-        return await CollegeCourseCoordinator.findByPk((parseInt(id)));
+    async findById(id, include = []) {
+        return await CollegeCourseCoordinator.findByPk((parseInt(id)), { include });
     }
 
-    async listAll({ attributes = [], where = {}, order = [] }) {
+    async findFirst({ attributes = [], where = {}, order = [], include = [] }) {
         const options = {};
         if (attributes.length > 0) options.attributes = attributes;
         if (Object.keys(where).length > 0) options.where = where;
+        if (include.length > 0) options.include = include;
+        if (order.length > 0) options.order = order;
+
+        return await CollegeCourseCoordinator.findOne(options);
+    }
+
+    async listAll({ attributes = [], where = {}, order = [], include = [] }) {
+        const options = {};
+        if (attributes.length > 0) options.attributes = attributes;
+        if (Object.keys(where).length > 0) options.where = where;
+        if (include.length > 0) options.include = include;
         if (order.length > 0) options.order = order;
 
         return await CollegeCourseCoordinator.findAll(options);
