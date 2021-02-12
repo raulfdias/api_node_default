@@ -2,7 +2,8 @@
 
 const APIException = require('../../exceptions/APIException'),
     { validationResult } = require('express-validator'),
-    { Op } = require('sequelize');
+    { Op } = require('sequelize'),
+    { sequelize } = require('../../models');
 
 const Controller = require('../Controller');
 
@@ -235,6 +236,8 @@ class StudentAPIController extends Controller {
         const bagError = {};
         let message = null;
 
+        const t = await sequelize.transaction();
+
         let student = null;
 
         try {
@@ -248,7 +251,6 @@ class StudentAPIController extends Controller {
 
             for (let index = 0; index < courses.length; index++) {
                 let { course, period } = courses[index];
-                let enrolledPeriod = null;
 
                 period = StudentCollegeCourseEnum.normalizePeriod(period);
 
@@ -257,42 +259,28 @@ class StudentAPIController extends Controller {
                     throw new APIException('Não foi possivel efetuar a associação, verifique os cursos informados.', 400);
                 }
 
-                const condition = {
-                    where: {
-                        stu_id_student: student.stu_id_student
-                    },
-                    include: [{
-                        association: 'college_courses',
-                        through: {
-                            where: {
-                                [Op.or]: [
-                                    { scc_en_course_period: period },
-                                    { scc_fk_college_course: collegeCourse.coc_id_college_course }
-                                ]
-                            }
-                        }
-                    }]
-                };
-
-                const { college_courses: studentCollegeCourses } = await StudentRepository.findFirst(condition);
-
+                const studentCollegeCourses = await StudentRepository.getAllCollegeCourseFromStudent(student.stu_id_student, { transaction: t });
                 if (studentCollegeCourses.length > 0) {
-                    enrolledPeriod = this.checkAlreadyStudyingPeriod(studentCollegeCourses, period);
-                    if (enrolledPeriod !== undefined) {
+                    const checkMatriculationEnrollmentPeriod = (this.checkMatriculationEnrollmentPeriod(studentCollegeCourses, period, collegeCourse.coc_id_college_course));
+                    if ((checkMatriculationEnrollmentPeriod.enrollmentPeriod !== undefined) && (checkMatriculationEnrollmentPeriod.enrollmentCourse === undefined)) {
                         period = StudentCollegeCourseEnum.normalizePeriod(period, 'txt');
                         throw new APIException(`O aluno ja se encontra matriculado em um curso no periodo: ${period}`, 400);
+                    } else if (checkMatriculationEnrollmentPeriod.enrollmentCourse !== undefined) {
+                        continue;
                     }
-                    continue;
                 }
 
-                await student.addCollege_courses(collegeCourse, { through: { scc_en_course_period: period } });
+                await student.addCollege_courses(collegeCourse, { through: { scc_en_course_period: period }, transaction: t });
 
-                course = period = enrolledPeriod = null;
+                course = period = null;
             }
 
-            student = await StudentRepository.findById(id, ['college_courses']);
+            await t.commit();
+
+            student = await StudentRepository.findById(id, { include: ['college_courses'] });
         } catch (err) {
             console.error(err);
+            await t.rollback();
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -300,14 +288,6 @@ class StudentAPIController extends Controller {
         }
 
         return res.status(httpStatus).json({ student, httpStatus, message, bagError });
-    }
-
-    checkAlreadyStudyingPeriod(studentCollegeCourses, checkEnrollmentPeriod) {
-        const check = studentCollegeCourses.find((value) => value.StudentCollegeCourse.scc_en_course_period === checkEnrollmentPeriod);
-
-        const { StudentCollegeCourse: { scc_en_course_period: periodInCourse } } = check;
-
-        return periodInCourse;
     }
 
     /**
@@ -322,11 +302,13 @@ class StudentAPIController extends Controller {
         const bagError = {};
         let message = null;
 
+        const t = await sequelize.transaction();
+
         let student = null;
 
         try {
             const { id } = req.params;
-            const courses = req.body;
+            const { courses } = req.body;
 
             student = await StudentRepository.findById(id);
             if (student === null) {
@@ -339,12 +321,15 @@ class StudentAPIController extends Controller {
                     throw new APIException('Não foi possivel efetuar a desassociação, verifique os cursos informados.', 400);
                 }
 
-                await student.removeCollege_courses(collegeCourse);
+                await student.removeCollege_courses(collegeCourse, { transaction: t });
             }
 
-            student = await StudentRepository.findById(id, ['college_courses']);
+            await t.commit();
+
+            student = await StudentRepository.findById(id, { include: ['college_courses'] });
         } catch (err) {
             console.error(err);
+            await t.rollback();
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -361,7 +346,7 @@ class StudentAPIController extends Controller {
      * @param {*} res
      * @returns JSON
      */
-    async getAllCollegeSubject(req, res) {
+    async getAllCollegeCourse(req, res) {
         let httpStatus = 200;
         const bagError = {};
         let message = null;
@@ -376,7 +361,7 @@ class StudentAPIController extends Controller {
                 throw new APIException('Estudante não encontrado', 404);
             }
 
-            collegeCourses = await StudentRepository.getAllCollegeCourseFromStudent(student.stu_id_student);
+            collegeCourses = await StudentRepository.getAllCollegeCourseFromStudent(student.stu_id_student, { include: ['college_courses'] });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
@@ -386,6 +371,21 @@ class StudentAPIController extends Controller {
         }
 
         return res.status(httpStatus).json({ collegeCourses, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por validar se o aluno ja está matriculado no curso ou turno informado
+     *
+     * @param {*} studentCollegeCourses
+     * @param {*} checkEnrollmentPeriod
+     * @param {*} checkCollegeCourse
+     * @returns JSON
+     */
+    checkMatriculationEnrollmentPeriod(studentCollegeCourses, checkEnrollmentPeriod, checkCollegeCourse) {
+        const enrollmentPeriod = studentCollegeCourses.find((value) => value.StudentCollegeCourse.scc_en_course_period === checkEnrollmentPeriod);
+        const enrollmentCourse = studentCollegeCourses.find((value) => value.StudentCollegeCourse.scc_fk_college_course === checkCollegeCourse);
+
+        return { enrollmentPeriod, enrollmentCourse };
     }
 }
 
