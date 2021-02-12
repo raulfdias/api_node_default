@@ -1,16 +1,21 @@
 'use strict';
 
-const { CollegeCourse, StudentCollegeCourse } = require('../models');
+const { CollegeCourse } = require('../models');
 
 const APIException = require('../exceptions/APIException');
 
 class CollegeCourseRepository {
-    async findById(id, include = []) {
-        return await CollegeCourse.findByPk((parseInt(id)), { include });
+    async findById(id, { include = [], transaction = {} } = {}) {
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+        if (include.length > 0) options.include = include;
+
+        return await CollegeCourse.findByPk((parseInt(id)), options);
     }
 
-    async findFirst({ attributes = [], where = {}, order = [], include = [] }) {
+    async findFirst({ attributes = [], where = {}, order = [], include = [], transaction = {} } = {}) {
         const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
         if (attributes.length > 0) options.attributes = attributes;
         if (Object.keys(where).length > 0) options.where = where;
         if (include.length > 0) options.include = include;
@@ -19,8 +24,9 @@ class CollegeCourseRepository {
         return await CollegeCourse.findOne(options);
     }
 
-    async listAll({ attributes = [], where = {}, order = [], include = [] }) {
+    async listAll({ attributes = [], where = {}, order = [], include = [], transaction = {} } = {}) {
         const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
         if (attributes.length > 0) options.attributes = attributes;
         if (Object.keys(where).length > 0) options.where = where;
         if (include.length > 0) options.include = include;
@@ -29,46 +35,32 @@ class CollegeCourseRepository {
         return await CollegeCourse.findAll(options);
     }
 
-    async store(data) {
-        return await CollegeCourse.create(data);
+    async store(data, transaction = {}) {
+        return await CollegeCourse.create(data, { transaction });
     }
 
-    async update(id, data) {
+    async update(id, data, transaction = {}) {
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+
         const collegeCourse = await this.findById((parseInt(id)));
-
         if (!collegeCourse) {
-            throw new APIException('Não foi possivel encontrar o professor', 404);
+            throw new APIException('Não foi possivel encontrar o cruso', 404);
         }
 
-        return await collegeCourse.update(data);
+        return await collegeCourse.update(data, options);
     }
 
-    async delete(id) {
-        const collegeCourse = await this.findById(id);
+    async delete(id, transaction = {}) {
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
 
+        const collegeCourse = await this.findById(id, options);
         if (!collegeCourse) {
-            throw new APIException('Não foi possivel encontrar o professor', 404);
+            throw new APIException('Não foi possivel encontrar o curso', 404);
         }
 
-        return await collegeCourse.destroy();
-    }
-
-    async alreadyAssociationStudentCollegeCourse(sutudentId, courseId, period) {
-        const condition = {
-            where: {
-                coc_id_college_course: courseId
-            },
-            include: [{
-                association: 'students',
-                where: { stu_id_student: sutudentId },
-                through: {
-                    model: StudentCollegeCourse,
-                    where: { scc_en_course_period: period }
-                }
-            }]
-        };
-
-        return await this.listAll(condition);
+        return await collegeCourse.destroy({ transaction });
     }
 }
 
