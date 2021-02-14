@@ -17,7 +17,8 @@ const StudentAPIController = require('../app/controllers/API/StudentAPIControlle
 
 // =============================================== ROUTES ===============================================
 
-// ROTAS DE ESTUDANTE
+// =========ROTAS DE ESTUDANTE =========
+
 routes.get('/api/v1/student/list', StudentAPIController.list);
 routes.post('/api/v1/student/create', [
     StudentValidator.validate('OnCreate')
@@ -36,7 +37,10 @@ routes.put('/api/v1/student/:id/college-course/disconnect', [
 ], StudentAPIController.disassociateCollegeCurses);
 routes.get('/api/v1/student/:id/college-course', StudentAPIController.getAllCollegeCourse);
 
-// ROTAS DE PROFESSOR
+// =========FIM ROTAS DE ESTUDANTE =========
+
+// =========ROTAS DE PROFESSOR =========
+
 routes.get('/api/v1/teacher/list', TeacherAPIController.list);
 routes.post('/api/v1/teacher/create', [
     TeacherValidator.validate('OnCreate')
@@ -55,7 +59,10 @@ routes.put('/api/v1/teacher/:id/college-subjects/disconnect', [
 ], TeacherAPIController.disassociateCollegeSubject);
 routes.get('/api/v1/teacher/:id/college-subjects', TeacherAPIController.getAllCollegeSubject);
 
-// ROTAS DE COORDENADOR DE CURSO
+// =========FIM ROTAS DE PROFESSOR =========
+
+// =========ROTAS DE COORDENADOR DE CURSO =========
+
 routes.get('/api/v1/college-course-coordinator/list', CollegeCourseCoordinatorAPIController.list);
 routes.post('/api/v1/college-course-coordinator/create', [
     CollegeCourseCoordinator.validate('OnCreate')
@@ -68,7 +75,9 @@ routes.get('/api/v1/college-course-coordinator/search', CollegeCourseCoordinator
 routes.get('/api/v1/college-course-coordinator/:id/show', CollegeCourseCoordinatorAPIController.show);
 routes.get('/api/v1/college-course-coordinator/:id/college-courses', CollegeCourseCoordinatorAPIController.getCollegeCourseFromCoordinator);
 
-// ROTAS DE MATÉRIAS DE CURSO
+// =========FIM ROTAS DE COORDENADOR DE CURSO =========
+
+// =========ROTAS DE MATÉRIAS DE CURSO =========
 routes.get('/api/v1/college-subject/list', CollegeSubjectAPIController.list);
 routes.post('/api/v1/college-subject/create', [
     CollegeSubject.validate('OnCreate')
@@ -81,7 +90,9 @@ routes.get('/api/v1/college-subject/search', CollegeSubjectAPIController.search)
 routes.get('/api/v1/college-subject/:id/show', CollegeSubjectAPIController.show);
 routes.get('/api/v1/college-subject/:id/teachers', CollegeSubjectAPIController.getAllTeacher);
 
-// ROTAS DE CRUSOS
+// =========FIM ROTAS DE MATÉRIAS DE CURSO =========
+
+// =========ROTAS DE CRUSOS =========
 routes.get('/api/v1/college-course/list', CollegeCourseAPIController.list);
 routes.post('/api/v1/college-course/create', [
     CollegeCourse.validate('OnCreate')
@@ -98,5 +109,7 @@ routes.post('/api/v1/college-course/:id/college-subject/connect', [
 routes.put('/api/v1/college-course/:id/college-subject/disconnect', [
     CollegeCourse.validate('OnDisAssociateSubject')
 ], CollegeCourseAPIController.disassociateCollegeSubject);
+
+// =========FIM ROTAS DE CRUSOS =========
 
 module.exports = routes;
