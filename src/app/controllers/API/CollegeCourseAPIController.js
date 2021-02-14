@@ -98,20 +98,23 @@ class CollegeCourseAPIController extends Controller {
 
                 throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
-                const collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(req.body.college_course_coordinator);
-
+                const collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(req.body.college_course_coordinator, { include: ['college_course'] });
                 if (collegeCourseCoordinator === null) {
                     throw new APIException('Coordenador não existe', 400);
                 }
+
+                if (collegeCourseCoordinator.college_course.length > 0) {
+                    throw new APIException('Coordenador já está administrando outros cursos', 400);
+                }
+
                 const data = {
                     'coc_fk_college_course_coordinator': req.body.college_course_coordinator,
                     'coc_en_status': CollegeCourseEnum.normalizeStatus(req.body.status),
                     'coc_ds_email': req.body.email,
                     'coc_ds_name': req.body.name
                 };
-
                 collegeCourse = await CollegeCourseRepository.store(data).then((collegeCourse) => {
-                    return CollegeCourseRepository.findById(collegeCourse.coc_id_college_course, ['college_course_coordinator']);
+                    return CollegeCourseRepository.findById(collegeCourse.coc_id_college_course, { include: ['college_course_coordinator'] });
                 });
             }
         } catch (err) {
@@ -184,10 +187,14 @@ class CollegeCourseAPIController extends Controller {
                 const { id } = req.params;
                 const collegeCourseData = {};
 
-                const collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(data.college_course_coordinator);
-
+                const collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.findById(data.college_course_coordinator, { include: ['college_course'] });
                 if (collegeCourseCoordinator === null) {
                     throw new APIException('Coordenador não existe', 400);
+                }
+
+                const { college_course: coordinatorCollegeCourse } = collegeCourseCoordinator;
+                if ((collegeCourseCoordinator.college_course.length > 0) && (coordinatorCollegeCourse.coc_fk_college_course_coordinator !== id)) {
+                    throw new APIException('Coordenador já está administrando outros cursos', 400);
                 }
 
                 if (data.college_course_coordinator !== undefined) collegeCourseData.coc_fk_college_course_coordinator = data.college_course_coordinator;
@@ -195,7 +202,7 @@ class CollegeCourseAPIController extends Controller {
                 if (data.name !== undefined) collegeCourseData.coc_ds_name = data.name;
 
                 collegeCourse = await CollegeCourseRepository.update(id, collegeCourseData).then((collegeCourse) => {
-                    return CollegeCourseRepository.findById(collegeCourse.coc_id_college_course, ['college_course_coordinator']);
+                    return CollegeCourseRepository.findById(collegeCourse.coc_id_college_course, { include: ['college_course_coordinator'] });
                 });
             }
         } catch (err) {

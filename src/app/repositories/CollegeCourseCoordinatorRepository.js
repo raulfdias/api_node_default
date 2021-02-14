@@ -65,6 +65,19 @@ class CollegeCourseCoordinatorRepository {
 
         return await collegeCourseCoordinator.destroy({ transaction });
     }
+
+    async getAllCollegeCourseFromCoordinator(id, { transaction = {} } = {}) {
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+        options.include = ['college_course'];
+
+        const collegeCourseCoordinator = await this.findById(id, options);
+        if (!collegeCourseCoordinator) {
+            throw new APIException('Não foi possivel encontrar o coordenador', 404);
+        }
+
+        return collegeCourseCoordinator.college_course;
+    }
 }
 
 module.exports = new CollegeCourseCoordinatorRepository();
