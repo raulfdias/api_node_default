@@ -225,13 +225,14 @@ class StudentAPIController extends Controller {
     }
 
     /**
-     * Função responsável por efetuar a associação das matérias ao aluno
+     * Função responsável por efetuar a associação dos cursos ao aluno
      *
      * @param {*} req
      * @param {*} res
      * @returns JSON
      */
     async associateCollegeCurses(req, res) {
+        const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
         let message = null;
@@ -241,43 +242,51 @@ class StudentAPIController extends Controller {
         let student = null;
 
         try {
-            const { id } = req.params;
-            const courses = req.body;
+            if (errors.length > 0) {
+                errors.forEach((value, index, array) => {
+                    bagError[value.param] = value.msg;
+                });
 
-            student = await StudentRepository.findById(id);
-            if (student === null) {
-                throw new APIException('Aluno não encontrado', 404);
-            }
+                throw new APIException('Verifique os campos obrigatórios', 400);
+            } else {
+                const { id } = req.params;
+                const { courses } = req.body;
 
-            for (let index = 0; index < courses.length; index++) {
-                let { course, period } = courses[index];
-
-                period = StudentCollegeCourseEnum.normalizePeriod(period);
-
-                const collegeCourse = await CollegeCourseRepository.findById(course);
-                if (collegeCourse === null) {
-                    throw new APIException('Não foi possivel efetuar a associação, verifique os cursos informados.', 400);
+                student = await StudentRepository.findById(id);
+                if (student === null) {
+                    throw new APIException('Aluno não encontrado', 404);
                 }
 
-                const studentCollegeCourses = await StudentRepository.getAllCollegeCourseFromStudent(student.stu_id_student, { transaction: t });
-                if (studentCollegeCourses.length > 0) {
-                    const checkMatriculationEnrollmentPeriod = (this.checkMatriculationEnrollmentPeriod(studentCollegeCourses, period, collegeCourse.coc_id_college_course));
-                    if ((checkMatriculationEnrollmentPeriod.enrollmentPeriod !== undefined) && (checkMatriculationEnrollmentPeriod.enrollmentCourse === undefined)) {
-                        period = StudentCollegeCourseEnum.normalizePeriod(period, 'txt');
-                        throw new APIException(`O aluno ja se encontra matriculado em um curso no periodo: ${period}`, 400);
-                    } else if (checkMatriculationEnrollmentPeriod.enrollmentCourse !== undefined) {
-                        continue;
+                for (let index = 0; index < courses.length; index++) {
+                    let { course, period } = courses[index];
+
+                    period = StudentCollegeCourseEnum.normalizePeriod(period);
+
+                    const collegeCourse = await CollegeCourseRepository.findById(course);
+                    if (collegeCourse === null) {
+                        throw new APIException('Não foi possivel efetuar a associação, verifique os cursos informados.', 400);
                     }
+
+                    const studentCollegeCourses = await StudentRepository.getAllCollegeCourseFromStudent(student.stu_id_student, { transaction: t });
+                    if (studentCollegeCourses.length > 0) {
+                        const checkMatriculationEnrollmentPeriod = (this.checkMatriculationEnrollmentPeriod(studentCollegeCourses, period, collegeCourse.coc_id_college_course));
+                        if ((checkMatriculationEnrollmentPeriod.enrollmentPeriod !== undefined) && (checkMatriculationEnrollmentPeriod.enrollmentCourse === undefined)) {
+                            period = StudentCollegeCourseEnum.normalizePeriod(period, 'txt');
+                            throw new APIException(`O aluno ja se encontra matriculado em um curso no periodo: ${period}`, 400);
+                        } else if (checkMatriculationEnrollmentPeriod.enrollmentCourse !== undefined) {
+                            continue;
+                        }
+                    }
+
+                    await student.addCollege_courses(collegeCourse, { through: { scc_en_course_period: period }, transaction: t });
+
+                    course = period = null;
                 }
 
-                await student.addCollege_courses(collegeCourse, { through: { scc_en_course_period: period }, transaction: t });
+                await t.commit();
 
-                course = period = null;
+                student = await StudentRepository.findById(id, { include: ['college_courses'] });
             }
-
-            await t.commit();
-
-            student = await StudentRepository.findById(id, { include: ['college_courses'] });
         } catch (err) {
             console.error(err);
             await t.rollback();
@@ -291,7 +300,7 @@ class StudentAPIController extends Controller {
     }
 
     /**
-     * Função responsável por efetuar a desassociação das matérias ao aluno
+     * Função responsável por efetuar a desassociação dos cursos ao aluno
      *
      * @param {*} req
      * @param {*} res

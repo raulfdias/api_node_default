@@ -2,7 +2,8 @@
 
 const APIException = require('../../exceptions/APIException'),
     { validationResult } = require('express-validator'),
-    { Op } = require('sequelize');
+    { Op } = require('sequelize'),
+    { sequelize } = require('../../models');
 
 const Controller = require('../Controller');
 
@@ -227,38 +228,120 @@ class TeacherAPIController extends Controller {
      * @returns JSON
      */
     async associateCollegeSubject(req, res) {
+        const { errors } = validationResult(req);
         let httpStatus = 200;
         const bagError = {};
         let message = null;
 
+        const t = await sequelize.transaction();
+
         let teacher = null;
 
         try {
-            const { id } = req.params;
-            const { subjects } = req.body;
+            if (errors.length > 0) {
+                errors.forEach((value, index, array) => {
+                    bagError[value.param] = value.msg;
+                });
 
-            teacher = await TeacherRepository.findById(id);
-            if (teacher === null) {
-                throw new APIException('Professor não encontrado', 404);
-            }
+                throw new APIException('Verifique os campos obrigatórios', 400);
+            } else {
+                const { id } = req.params;
+                const { subjects } = req.body;
 
-            for (let index = 0; index < subjects.length; index++) {
-                const subject = await CollegeSubjectRepository.findById(subjects[index]);
-                if (subject === null) {
-                    throw new APIException('Não foi possivel efetuar a associação, verifique as matérias informadas.', 400);
+                teacher = await TeacherRepository.findById(id);
+                if (teacher === null) {
+                    throw new APIException('Professor não encontrado', 404);
                 }
 
-                const teacherSubject = await CollegeSubjectRepository.alreadyAssociationTeacherCollegeSubject(teacher.tea_id_teacher, subject.cos_id_college_subject);
-                if (teacherSubject.length > 0) {
-                    continue;
+                for (let index = 0; index < subjects.length; index++) {
+                    const subject = await CollegeSubjectRepository.findById(subjects[index]);
+                    if (subject === null) {
+                        throw new APIException('Não foi possivel efetuar a associação, verifique as matérias informadas.', 400);
+                    }
+
+                    const condition = {
+                        where: {
+                            tea_id_teacher: teacher.tea_id_teacher
+                        },
+                        include: [{
+                            association: 'college_subjects',
+                            where: { cos_id_college_subject: subject.cos_id_college_subject }
+                        }],
+                        transaction: t
+                    };
+                    const teacherSubject = await TeacherRepository.listAll(condition);
+                    if (teacherSubject.length > 0) {
+                        continue;
+                    }
+
+                    await teacher.addCollege_subjects(subject, { transaction: t });
                 }
 
-                await teacher.addCollege_subjects(subject);
-            }
+                await t.commit();
 
-            teacher = await TeacherRepository.findById(id, ['college_subjects']);
+                teacher = await TeacherRepository.findById(id, { include: ['college_subjects'] });
+            }
         } catch (err) {
             console.error(err);
+            await t.rollback();
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            teacher = null;
+        }
+
+        return res.status(httpStatus).json({ teacher, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a desassociação das matéras ao professor
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async disassociateCollegeSubject(req, res) {
+        const { errors } = validationResult(req);
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        const t = await sequelize.transaction();
+
+        let teacher = null;
+
+        try {
+            if (errors.length > 0) {
+                errors.forEach((value, index, array) => {
+                    bagError[value.param] = value.msg;
+                });
+
+                throw new APIException('Verifique os campos obrigatórios', 400);
+            } else {
+                const { id } = req.params;
+                const { subjects } = req.body;
+
+                teacher = await TeacherRepository.findById(id);
+                if (teacher === null) {
+                    throw new APIException('Professor não encontrado', 404);
+                }
+
+                for (let index = 0; index < subjects.length; index++) {
+                    const subject = await CollegeSubjectRepository.findById(subjects[index]);
+                    if (subject === null) {
+                        throw new APIException('Não foi possivel efetuar a desassociação, verifique as matérias informadas.', 400);
+                    }
+
+                    await teacher.removeCollege_subjects(subject, { transaction: t });
+                }
+
+                await t.commit();
+
+                teacher = await TeacherRepository.findById(id, { include: ['college_courses'] });
+            }
+        } catch (err) {
+            console.error(err);
+            await t.rollback();
             httpStatus = err.status ?? 500;
             message = err.message;
 

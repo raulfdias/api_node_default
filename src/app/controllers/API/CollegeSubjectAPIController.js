@@ -225,7 +225,7 @@ class CollegeSubjectAPIController extends Controller {
      * @param {*} res
      * @returns JSON
      */
-    async getAllCollegeSubject(req, res) {
+    async getAllTeacher(req, res) {
         let httpStatus = 200;
         const bagError = {};
         let message = null;
