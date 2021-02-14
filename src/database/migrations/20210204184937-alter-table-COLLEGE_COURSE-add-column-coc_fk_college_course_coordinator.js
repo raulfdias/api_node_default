@@ -7,6 +7,7 @@ module.exports = {
                 queryInterface.addColumn('COLLEGE_COURSE', 'coc_fk_college_course_coordinator', {
                     allowNull: false,
                     type: Sequelize.BIGINT,
+                    unique: true,
                     references: {
                         model: 'COLLEGE_COURSE_COORDINATOR',
                         key: 'ccc_id_college_course_coordinator',
