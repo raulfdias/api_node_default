@@ -36,7 +36,10 @@ class CollegeSubjectRepository {
     }
 
     async store(data, transaction = {}) {
-        return await CollegeSubject.create(data, { transaction });
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+
+        return await CollegeSubject.create(data, options);
     }
 
     async update(id, data, transaction = {}) {
@@ -77,10 +80,10 @@ class CollegeSubjectRepository {
         return await this.listAll(condition);
     }
 
-    async getAllTeachersFromCollegeSubjects(id, { include = ['teachers'], transaction = {} } = {}) {
+    async getAllTeachersFromCollegeSubjects(id, { transaction = {} } = {}) {
         const options = {};
         if (Object.keys(transaction).length > 0) options.transaction = transaction;
-        if (include.length > 0) options.include = include;
+        options.include = ['teachers'];
 
         const collegeSubject = await this.findById(id, options);
 

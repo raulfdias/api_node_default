@@ -36,7 +36,10 @@ class StudentRepository {
     }
 
     async store(data, transaction = {}) {
-        return await Student.create(data, { transaction });
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+
+        return await Student.create(data, options);
     }
 
     async update(id, data, transaction = {}) {
@@ -63,10 +66,10 @@ class StudentRepository {
         return await student.destroy({ transaction });
     }
 
-    async getAllCollegeCourseFromStudent(id, { include = ['college_courses'], transaction = {} } = {}) {
+    async getAllCollegeCourseFromStudent(id, { transaction = {} } = {}) {
         const options = {};
         if (Object.keys(transaction).length > 0) options.transaction = transaction;
-        if (include.length > 0) options.include = include;
+        options.include = ['college_courses'];
 
         const sutdent = await this.findById(id, options);
 

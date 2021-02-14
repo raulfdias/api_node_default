@@ -36,7 +36,10 @@ class CollegeCourseCoordinatorRepository {
     }
 
     async store(data, transaction = {}) {
-        return await CollegeCourseCoordinator.create(data, { transaction });
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+
+        return await CollegeCourseCoordinator.create(data, options);
     }
 
     async update(id, data, transaction = {}) {
