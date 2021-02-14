@@ -345,6 +345,78 @@
 					"response": []
 				},
 				{
+					"name": "CONNECT SUBJECTS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subjects\": [\r\n        1,\r\n        2,\r\n        3\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-course/1/college-subject/connect",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-course",
+								"1",
+								"college-subject",
+								"connect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DISCONNECT SUBJECTS",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subjects\": [\r\n        1,\r\n        2,\r\n        3\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-course/1/college-subject/disconnect",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-course",
+								"1",
+								"college-subject",
+								"disconnect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "UPDATE",
 					"request": {
 						"method": "PUT",
@@ -513,7 +585,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"course\": 1,\r\n        \"period\": 1\r\n    },\r\n    {\r\n        \"course\": 2,\r\n        \"period\": 2\r\n    }\r\n]",
+							"raw": "{\r\n    \"courses\": [\r\n        {\r\n            \"course\": 1,\r\n            \"period\": 1\r\n        },\r\n        {\r\n            \"course\": 2,\r\n            \"period\": 2\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -849,6 +921,42 @@
 								"1",
 								"college-subjects",
 								"connect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DISCONNECT SUBJECTS",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subjects\": [\r\n        1,\r\n        2\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/teacher/1/college-subjects/disconnect",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"teacher",
+								"1",
+								"college-subjects",
+								"disconnect"
 							]
 						}
 					},
