@@ -87,5 +87,10 @@ exports.validate = (method) => {
                 })
             ];
         }
+        case 'OnDisAssociateCourse': {
+            return [
+                body('courses', 'Campo obrigatório.').notEmpty().isArray({ options: { min: 1 } })
+            ];
+        }
     }
 };

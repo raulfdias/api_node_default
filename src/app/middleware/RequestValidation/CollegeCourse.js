@@ -69,5 +69,10 @@ exports.validate = (method) => {
                 })
             ];
         }
+        case 'OnDisAssociateSubject': {
+            return [
+                body('subjects', 'Campo obrigatório.').notEmpty().isArray({ options: { min: 1 } })
+            ];
+        }
     }
 };
