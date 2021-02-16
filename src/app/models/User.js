@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'User',
-        tableName: 'TEACHER',
+        tableName: 'USER',
         paranoid: true,
         createdAt: 'usu_dt_created_at',
         updatedAt: 'usu_dt_updated_at',
