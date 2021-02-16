@@ -1,5 +1,9 @@
-const APIException = require('../exceptions/APIException'),
-    jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'),
+    path = require('path');
+
+const { security } = require(path.resolve('src', 'config', 'app'));
+
+const APIException = require('../exceptions/APIException');
 
 module.exports = (req, res, next) => {
     let httpStatus = 401;
@@ -12,11 +16,12 @@ module.exports = (req, res, next) => {
         }
 
         const [, token] = authorization.split(' ');
-
         const decoded = tokenValidate(token);
         if ((Object.keys(decoded).length === 0)) {
             throw new APIException('Token de acesso inválido', httpStatus);
         }
+
+        httpStatus = 200;
 
         return next();
     } catch (err) {
@@ -32,7 +37,7 @@ function tokenValidate(token) {
     let decoded = {};
 
     try {
-        decoded = jwt.verify(token, 'guiu237gukYGT76tkGF65Gyg976i89TGv87oG697ftgfkJJHyuf44');
+        decoded = jwt.verify(token, security.key, { algorithms: security.algorithms });
     } catch (err) {
         console.error(err);
         decoded = {};

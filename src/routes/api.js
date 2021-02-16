@@ -29,28 +29,40 @@ routes.get('/api/v1/student/list', [
 ], StudentAPIController.list);
 
 routes.post('/api/v1/student/create', [
+    AuthToken,
     StudentValidator.validate('OnCreate')
 ], StudentAPIController.store);
 
 routes.put('/api/v1/student/:id/update', [
+    AuthToken,
     StudentValidator.validate('OnUpdate')
 ], StudentAPIController.update);
 
-routes.delete('/api/v1/student/:id/delete', StudentAPIController.delete);
+routes.delete('/api/v1/student/:id/delete', [
+    AuthToken
+], StudentAPIController.delete);
 
-routes.get('/api/v1/student/search', StudentAPIController.search);
+routes.get('/api/v1/student/search', [
+    AuthToken
+], StudentAPIController.search);
 
-routes.get('/api/v1/student/:id/show', StudentAPIController.show);
+routes.get('/api/v1/student/:id/show', [
+    AuthToken
+], StudentAPIController.show);
 
 routes.post('/api/v1/student/:id/college-course/connect', [
+    AuthToken,
     StudentValidator.validate('OnDisAssociateCourse')
 ], StudentAPIController.associateCollegeCurses);
 
 routes.put('/api/v1/student/:id/college-course/disconnect', [
+    AuthToken,
     StudentValidator.validate('OnDisAssociateCourse')
 ], StudentAPIController.disassociateCollegeCurses);
 
-routes.get('/api/v1/student/:id/college-course', StudentAPIController.getAllCollegeCourse);
+routes.get('/api/v1/student/:id/college-course', [
+    AuthToken
+], StudentAPIController.getAllCollegeCourse);
 // =========FIM ROTAS DE ESTUDANTE =========
 
 // =========ROTAS DE PROFESSOR =========

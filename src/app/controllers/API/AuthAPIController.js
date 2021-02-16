@@ -1,7 +1,11 @@
 'use strict';
 
-const APIException = require('../../exceptions/APIException'),
-    jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'),
+    path = require('path');
+
+const { security } = require(path.resolve('src', 'config', 'app'));
+
+const APIException = require('../../exceptions/APIException');
 
 const Controller = require('../Controller');
 
@@ -20,6 +24,7 @@ class AuthAPIController extends Controller {
         let message = null;
 
         let token = null;
+        const { expiration } = security;
 
         try {
             const [, hash] = req.headers.authorization.split(' ');
@@ -34,7 +39,8 @@ class AuthAPIController extends Controller {
                 throw new APIException('Credenciais inválidas', 401);
             }
 
-            token = jwt.sign({ user: user.usu_id_user }, 'guiu237gukYGT76tkGF65Gyg976i89TGv87oG697ftgfkJJHyuf', { expiresIn: 86400 });
+            const payload = { user: user.usu_id_user, email: user.usu_ds_email };
+            token = jwt.sign(payload, security.key, { algorithm: security.algorithm, expiresIn: security.expiration });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;
@@ -43,7 +49,7 @@ class AuthAPIController extends Controller {
             token = null;
         }
 
-        return res.status(httpStatus).json({ token, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ token, expiration, httpStatus, message, bagError });
     }
 }
 
