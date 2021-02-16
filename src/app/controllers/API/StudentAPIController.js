@@ -1,9 +1,10 @@
 'use strict';
 
-const APIException = require('../../exceptions/APIException'),
-    { validationResult } = require('express-validator'),
+const { validationResult } = require('express-validator'),
     { Op } = require('sequelize'),
     { sequelize } = require('../../models');
+
+const APIException = require('../../exceptions/APIException');
 
 const Controller = require('../Controller');
 

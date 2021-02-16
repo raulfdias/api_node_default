@@ -27,7 +27,8 @@ class Server {
         this.express.use(cors({
             'origin': ['http://localhost'],
             'methods': ['GET', 'PUT', 'POST', 'DELETE'],
-            'optionsSuccessStatus': 204
+            'allowHeaders': ['Content-Type', 'Authorization'],
+            'optionsSuccessStatus': 200
         }));
     }
 
