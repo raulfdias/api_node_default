@@ -4,6 +4,7 @@ require('dotenv').config({ path: path.resolve('src', '.env') });
 
 module.exports = {
     app: {
+        server_port: process.env.APP_SERVER_PORT || 4000,
         name: process.env.APP_NAME || 'API Node Default',
         env: process.env.APP_ENVIROMENT !== 'production',
         url: process.env.APP_URL !== 'http://localhost:4000',

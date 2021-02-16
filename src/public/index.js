@@ -1,9 +1,10 @@
-const server = require('../config/server'),
-    path = require('path');
+const path = require('path');
 
-require('dotenv').config({ path: path.resolve('src', '.env') });
+const { app } = require(path.resolve('src', 'config', 'app'));
 
-const port = process.env.APP_SERVER_PORT || 3000;
+const server = require('../config/server');
+
+const port = app.server_port || 3000;
 
 server.listen(port, () => {
     console.log(`Server ON: ${port}...`);

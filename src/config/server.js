@@ -7,11 +7,11 @@ const express = require('express'),
     helmet = require('helmet'),
     cors = require('cors');
 
-require('dotenv').config({ path: path.resolve('src', '.env') });
+const { app } = require(path.resolve('src', 'config', 'app'));
 
 class Server {
     constructor() {
-        this.isDev = process.env.APP_ENVIROMENT !== 'production';
+        this.isDev = app.env !== 'production';
         this.express = express();
 
         this.middlewares();
@@ -25,7 +25,7 @@ class Server {
         this.express.use(morgan('dev'));
         this.express.use(helmet());
         this.express.use(cors({
-            'origin': ['http://localhost'],
+            'origin': [app.url],
             'methods': ['GET', 'PUT', 'POST', 'DELETE'],
             'allowHeaders': ['Content-Type', 'Authorization'],
             'optionsSuccessStatus': 200
