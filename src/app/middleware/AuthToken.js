@@ -37,7 +37,7 @@ function tokenValidate(token) {
     let decoded = {};
 
     try {
-        decoded = jwt.verify(token, security.key, { algorithms: security.algorithms });
+        decoded = jwt.verify(token, security.token, { algorithms: security.algorithms });
     } catch (err) {
         console.error(err);
         decoded = {};
