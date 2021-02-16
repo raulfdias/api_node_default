@@ -4,7 +4,8 @@ const express = require('express'),
     nunjucks = require('nunjucks'),
     path = require('path'),
     morgan = require('morgan'),
-    helmet = require('helmet');
+    helmet = require('helmet'),
+    cors = require('cors');
 
 require('dotenv').config({ path: path.resolve('src', '.env') });
 
@@ -23,6 +24,11 @@ class Server {
         this.express.use(express.urlencoded({ extended: true }));
         this.express.use(morgan('dev'));
         this.express.use(helmet());
+        this.express.use(cors({
+            'origin': ['http://localhost'],
+            'methods': ['GET', 'PUT', 'POST', 'DELETE'],
+            'optionsSuccessStatus': 204
+        }));
     }
 
     views() {
