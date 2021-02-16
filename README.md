@@ -48,7 +48,7 @@
 
 ### Modelo da API
 
-    Implementação efetuada via Modelo Restful com o express
+    Implementação efetuada via modelo RESTFul com o express
 
 ### Forma de Autenticação e comunicação
 
