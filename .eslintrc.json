@@ -2,7 +2,8 @@
     "env": {
         "commonjs": true,
         "es2021": true,
-        "node": true
+        "node": true,
+        "jest/globals": true
     },
     "extends": [
         "standard"
@@ -35,7 +36,9 @@
         "quote-props": [
             "warn",
             "consistent",
-            { "keywords": true }
+            {
+                "keywords": true
+            }
         ],
         "camelcase": [
             "warn",
