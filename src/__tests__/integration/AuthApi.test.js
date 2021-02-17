@@ -12,7 +12,7 @@ describe('Auth API', () => {
         await truncate();
     });
 
-    it('must return the JWT token from valid credentials', async () => {
+    test('must return the JWT token from valid credentials', async () => {
         const pass = '1234567890';
         const hash = await bcrypt.hash(pass, 10);
         const data = {
