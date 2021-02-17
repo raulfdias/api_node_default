@@ -1,0 +1,8 @@
+.vscode
+node_modules
+.editorconfig
+.eslintrc.json
+.gitignore
+.sequelizerc
+jest.config.js
+yarn-error.log
