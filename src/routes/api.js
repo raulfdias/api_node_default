@@ -20,7 +20,7 @@ const AuthAPIController = require('../app/controllers/API/AuthAPIController'),
 // =============================================== ROUTES ===============================================
 
 // =========ROTAS DE TOKEN =========
-routes.get('/api/v1/token', AuthAPIController.generateToken);
+routes.post('/api/v1/token', AuthAPIController.generateToken);
 // =========FIM ROTAS DE TOKEN =========
 
 // =========ROTAS DE ESTUDANTE =========

@@ -24,6 +24,13 @@ class UserRepository {
         return await User.findOne(options);
     }
 
+    async store(data, transaction = {}) {
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+
+        return await User.create(data, options);
+    }
+
     async checkPassword(password, userPassword) {
         return bcrypt.compare(password, userPassword);
     }

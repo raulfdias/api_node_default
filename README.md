@@ -3,7 +3,8 @@
 
 ### Rodar comando para instalação da dependencias do package.json
 
-    yarn ou npm i
+    yarn     ou     npm i
+    Em produção: yarn install --production=false     ou     npm i --production
 
 ### Crie o .env para o seu ambiente
 
