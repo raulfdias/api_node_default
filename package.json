@@ -8,21 +8,19 @@
     "private": false,
     "scripts": {
         "dev": "nodemon src/public/index.js",
-        "prod": "node src/public/index.js --ignore __tests__",
-        "pretest": "NODE_ENV=test sequelize db:create sequelize db:migrate",
-        "test": "NODE_ENV=test jest --force-exit",
-        "posttest": "NODE_ENV=test sequelize db:migrate:undo:all",
-
-        "pretest_win": "SET NODE_ENV=test&&sequelize db:create&&sequelize db:migrate",
-        "test_win": "SET NODE_ENV=test&&jest --force-exit",
-        "posttest_win": "SET NODE_ENV=test&&sequelize db:drop"
+        "prod": "node src/public/index.js --ignore src/__tests__",
+        "pretest": "cross-env NODE_ENV=test",
+        "test": "cross-env NODE_ENV=test jest --force-exit",
+        "posttest": "cross-env NODE_ENV=test"
     },
     "dependencies": {
         "axios": "^0.21.1",
         "bcryptjs": "^2.4.3",
         "cookie-parser": "^1.4.5",
         "cors": "^2.8.5",
+        "cross-env": "^7.0.3",
         "csurf": "^1.11.0",
+        "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-group-routes": "^1.1.0",
         "express-session": "^1.17.1",
@@ -37,7 +35,6 @@
         "session-file-store": "^1.5.0"
     },
     "devDependencies": {
-        "dotenv": "^8.2.0",
         "eslint": "^7.18.0",
         "eslint-config-standard": "^16.0.2",
         "eslint-plugin-import": "^2.22.1",

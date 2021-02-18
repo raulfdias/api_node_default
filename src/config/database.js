@@ -1,20 +1,35 @@
 const path = require('path');
-
-require('dotenv').config({
-    path: (process.env.NODE_ENV === 'test') ? path.resolve('src', '.env.test') : path.resolve('src', '.env')
-});
+require('dotenv').config({ path: path.resolve('src', '.env') });
 
 const connections = {
     dev: {
         dialect: 'mysql',
         host: process.env.DB_HOST || '127.0.0.1',
         port: process.env.DB_PORT || 3306,
-        database: process.env.DB_DATABASE || 'db_app_node',
+        database: process.env.DB_DATABASE || 'db_app_node_dev',
         username: process.env.DB_USERNAME || 'root',
-        password: process.env.DB_PASSWORD || '',
+        password: process.env.DB_PASSWORD || '123456',
         operatorAliases: false,
         timezone: '-03:00',
-        logging: console.log,
+        logging: ((process.env.DB_LOG == 'true') ? console.log : false),
+        define: {
+            charset: 'utf8',
+            collate: 'utf8_general_ci',
+            timestamps: true,
+            underscored: true,
+            underscoredAll: true
+        }
+    },
+    tst: {
+        dialect: 'mysql',
+        host: process.env.DB_HOST || '127.0.0.1',
+        port: process.env.DB_PORT || 3306,
+        database: process.env.DB_DATABASE || 'db_app_node_test',
+        username: process.env.DB_USERNAME || 'root',
+        password: process.env.DB_PASSWORD || '123456',
+        operatorAliases: false,
+        timezone: '-03:00',
+        logging: ((process.env.DB_LOG == 'true') ? console.log : false),
         define: {
             charset: 'utf8',
             collate: 'utf8_general_ci',
@@ -27,12 +42,12 @@ const connections = {
         dialect: 'mysql',
         host: process.env.DB_HOST || '127.0.0.1',
         port: process.env.DB_PORT || 3306,
-        database: process.env.DB_DATABASE || 'db_app_node',
+        database: process.env.DB_DATABASE || 'db_app_node_hml',
         username: process.env.DB_USERNAME || 'root',
-        password: process.env.DB_PASSWORD || '',
-        operatorAliases: console.log,
+        password: process.env.DB_PASSWORD || '123456',
+        operatorAliases: false,
         timezone: '-03:00',
-        logging: true,
+        logging: ((process.env.DB_LOG == 'true') ? console.log : false),
         define: {
             charset: 'utf8',
             collate: 'utf8_general_ci',
@@ -47,10 +62,10 @@ const connections = {
         port: process.env.DB_PORT || 3306,
         database: process.env.DB_DATABASE || 'db_app_node',
         username: process.env.DB_USERNAME || 'root',
-        password: process.env.DB_PASSWORD || '',
+        password: process.env.DB_PASSWORD || '123456',
         operatorAliases: false,
         timezone: '-03:00',
-        logging: false,
+        logging: ((process.env.DB_LOG == 'true') ? console.log : false),
         define: {
             charset: 'utf8',
             collate: 'utf8_general_ci',
