@@ -1,5 +1,5 @@
 const AuthApiTest = require('./AuthApi'),
-    StudentApiTest = require('./StudentApi');
+    StudentApiTest = require('./controllers/StudentApi');
 
 
 AuthApiTest();
