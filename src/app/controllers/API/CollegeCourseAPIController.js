@@ -32,7 +32,7 @@ class CollegeCourseAPIController extends Controller {
         try {
             collegeCourses = await CollegeCourseRepository.listAll({ include: ['college_course_coordinator'] });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -66,7 +66,7 @@ class CollegeCourseAPIController extends Controller {
 
             collegeCourses = await CollegeCourseRepository.listAll({ where, include: ['college_course_coordinator'] });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -119,7 +119,7 @@ class CollegeCourseAPIController extends Controller {
                 });
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -151,7 +151,7 @@ class CollegeCourseAPIController extends Controller {
                 throw new APIException('Curso não encontrado', 404);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -207,7 +207,7 @@ class CollegeCourseAPIController extends Controller {
                 });
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -236,7 +236,7 @@ class CollegeCourseAPIController extends Controller {
             deleted = await CollegeCourseRepository.delete(id);
             deleted = true;
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -308,7 +308,7 @@ class CollegeCourseAPIController extends Controller {
                 collegeCourse = await CollegeCourseRepository.findById(id, { include: ['college_subjects'] });
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             await t.rollback();
             httpStatus = err.status ?? 500;
             message = err.message;
@@ -366,7 +366,7 @@ class CollegeCourseAPIController extends Controller {
                 collegeCourse = await CollegeCourseRepository.findById(id, { include: ['college_subjects'] });
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             await t.rollback();
             httpStatus = err.status ?? 500;
             message = err.message;
@@ -401,7 +401,7 @@ class CollegeCourseAPIController extends Controller {
 
             collegeSubjects = await CollegeCourseRepository.getAllCollegeSubjectsFromCourse(collegeCourse.coc_id_college_course);
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 

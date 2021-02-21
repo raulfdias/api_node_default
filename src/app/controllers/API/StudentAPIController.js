@@ -32,7 +32,7 @@ class StudentAPIController extends Controller {
         try {
             students = await StudentRepository.listAll({});
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -67,7 +67,7 @@ class StudentAPIController extends Controller {
 
             students = await StudentRepository.listAll({ where });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -109,7 +109,7 @@ class StudentAPIController extends Controller {
                 student = await StudentRepository.store(data);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -141,7 +141,7 @@ class StudentAPIController extends Controller {
                 throw new APIException('Não encontrado', 404);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -186,7 +186,7 @@ class StudentAPIController extends Controller {
                 student = await StudentRepository.update(id, studentData);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -215,7 +215,7 @@ class StudentAPIController extends Controller {
             deleted = await StudentRepository.delete(id);
             deleted = true;
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -289,7 +289,7 @@ class StudentAPIController extends Controller {
                 student = await StudentRepository.findById(id, { include: ['college_courses'] });
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             await t.rollback();
             httpStatus = err.status ?? 500;
             message = err.message;
@@ -338,7 +338,7 @@ class StudentAPIController extends Controller {
 
             student = await StudentRepository.findById(id, { include: ['college_courses'] });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             await t.rollback();
             httpStatus = err.status ?? 500;
             message = err.message;
@@ -373,7 +373,7 @@ class StudentAPIController extends Controller {
 
             collegeCourses = await StudentRepository.getAllCollegeCourseFromStudent(student.stu_id_student, { include: ['college_courses'] });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 

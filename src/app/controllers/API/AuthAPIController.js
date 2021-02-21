@@ -42,7 +42,7 @@ class AuthAPIController extends Controller {
             const payload = { user: user.usu_id_user, email: user.usu_ds_email };
             token = jwt.sign(payload, security.token, { algorithm: security.algorithm, expiresIn: expiration });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 

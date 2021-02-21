@@ -1,14 +1,14 @@
 const request = require('supertest'),
     bcrypt = require('bcryptjs');
 
-const server = require('../../config/server');
+const server = require('../../../config/server');
 
-const truncate = require('../utils/ClearTables');
+const truncate = require('../../utils/ClearTables');
 
-const UserRepository = require('../../app/repositories/UserRepository');
+const UserRepository = require('../../../app/repositories/UserRepository');
 
 module.exports = () => {
-    describe('Auth API Controller 02', () => {
+    describe('Student API Controller', () => {
         beforeAll(async () => {
             await truncate();
         });

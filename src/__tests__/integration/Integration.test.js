@@ -1,4 +1,4 @@
-const AuthApiTest = require('./AuthApi'),
+const AuthApiTest = require('./controllers/AuthApi'),
     StudentApiTest = require('./controllers/StudentApi');
 
 

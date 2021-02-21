@@ -29,7 +29,7 @@ class CollegeSubjectAPIController extends Controller {
         try {
             collegeSubjects = await CollegeSubjectRepository.listAll({});
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -63,7 +63,7 @@ class CollegeSubjectAPIController extends Controller {
 
             collegeSubjects = await CollegeSubjectRepository.listAll({ where });
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -104,7 +104,7 @@ class CollegeSubjectAPIController extends Controller {
                 collegeSubject = await CollegeSubjectRepository.store(data);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -136,7 +136,7 @@ class CollegeSubjectAPIController extends Controller {
                 throw new APIException('Não encontrado', 404);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -180,7 +180,7 @@ class CollegeSubjectAPIController extends Controller {
                 collegeSubject = await CollegeSubjectRepository.update(id, teacherData);
             }
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -209,7 +209,7 @@ class CollegeSubjectAPIController extends Controller {
             deleted = await CollegeSubjectRepository.delete(id);
             deleted = true;
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -243,7 +243,7 @@ class CollegeSubjectAPIController extends Controller {
 
             teachers = await CollegeSubjectRepository.getAllTeachersFromCollegeSubjects(collegeSubject.cos_id_college_subject);
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
