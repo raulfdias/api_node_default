@@ -1,10 +1,22 @@
 <h1 align="center"> API NODE DEFAULT </h1>
 
 
+## Dependências
+
+#### Ambiente
+
+    * NodeJS – v14.15.4
+    * NPM - v6.14.10
+    * Yarn - v1.22
+    * MySQL - v5.7
+
+
+## Init
+
 ### Rodar comando para instalação da dependencias do package.json
 
     yarn     ou     npm i
-    Em produção: yarn install --production=false     ou     npm i --production
+    Em produção: yarn install --production=true     ou     npm i --production
 
 ### Crie o .env para o seu ambiente
 
@@ -17,6 +29,7 @@
 
     * Subir o schema: yarn sequelize db:create
     * Subir as tabelas: yarn sequelize db:migrate
+    * Subir os registros: yarn sequelize db:seed:all
 
 ### Rodar a aplicação
 
@@ -45,6 +58,7 @@
 
     * MySQL
 
+
 ## API
 
 ### Modelo da API
@@ -62,3 +76,19 @@
 ### Rotas de comunicação
 
     Todas as rotas de comunicação estão em DOC/Postman. Basicamente basta importar o .json no Postman.
+
+
+## TESTES
+
+### Modelo da API
+
+    TDD
+
+### Ferramnta de Testes
+
+    Jest
+
+### Arquivo principal de teste
+
+    src/__tests__/integrations/Integration.test.js
+    src/__tests__/unit/Unit.test.js
