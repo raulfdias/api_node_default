@@ -33,7 +33,7 @@ class AuthAPIController extends Controller {
 
             const user = await UserRepository.findFirst({ where: { usu_ds_email: email } });
             if (user === null) {
-                throw new APIException('Usuário não existe', 404);
+                throw new APIException('Usuário não existe', 400);
             }
 
             if (!(await UserRepository.checkPassword(password, user.usu_ds_password))) {

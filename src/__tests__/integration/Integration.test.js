@@ -3,5 +3,5 @@ const AuthApiTest = require('./controllers/AuthApi'),
 
 describe('Integration Tests', () => {
     AuthApiTest();
-    // StudentApiTest();
+    StudentApiTest();
 });

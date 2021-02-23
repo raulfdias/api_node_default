@@ -751,42 +751,6 @@
 					"response": []
 				},
 				{
-					"name": "COLLEGE COURSES",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJlbWFpbCI6InJhdWwuZmVybmFuZGVzQHRlc3RlLmNvbSIsImlhdCI6MTYxMzUwNTAwMywiZXhwIjoxNjEzNTA1MzAzfQ.WRXIfhOYa2_IYZhfyvgRa-VeskGOWeNP2odidH6CSGQ",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:4000/api/v1/student/1/college-course",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"v1",
-								"student",
-								"1",
-								"college-course"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "CREATE",
 					"request": {
 						"auth": {
@@ -825,6 +789,87 @@
 								"v1",
 								"student",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJlbWFpbCI6InJhdWwuZmVybmFuZGVzQHRlc3RlLmNvbSIsImlhdCI6MTYxMzUwNTAwMywiZXhwIjoxNjEzNTA1MzAzfQ.WRXIfhOYa2_IYZhfyvgRa-VeskGOWeNP2odidH6CSGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Aluno de Teste 001\",\r\n        \"college_semester\": \"1\",\r\n        \"status\": \"1\",\r\n        \"email\": \"aluno001@teste.com\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/student/1/update",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"student",
+								"1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "COLLEGE COURSES",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJlbWFpbCI6InJhdWwuZmVybmFuZGVzQHRlc3RlLmNvbSIsImlhdCI6MTYxMzUwNTAwMywiZXhwIjoxNjEzNTA1MzAzfQ.WRXIfhOYa2_IYZhfyvgRa-VeskGOWeNP2odidH6CSGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/student/1/college-course",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"student",
+								"1",
+								"college-course"
 							]
 						}
 					},
@@ -917,51 +962,6 @@
 								"1",
 								"college-course",
 								"disconnect"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "UPDATE",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJlbWFpbCI6InJhdWwuZmVybmFuZGVzQHRlc3RlLmNvbSIsImlhdCI6MTYxMzUwNTAwMywiZXhwIjoxNjEzNTA1MzAzfQ.WRXIfhOYa2_IYZhfyvgRa-VeskGOWeNP2odidH6CSGQ",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"data\": {\r\n        \"name\": \"Aluno de Teste 001\",\r\n        \"college_semester\": \"1\",\r\n        \"status\": \"1\",\r\n        \"email\": \"aluno001@teste.com\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:4000/api/v1/student/1/update",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"v1",
-								"student",
-								"1",
-								"update"
 							]
 						}
 					},
@@ -1686,7 +1686,7 @@
 								}
 							]
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"url": {
 							"raw": "http://127.0.0.1:4000/api/v1/token",
