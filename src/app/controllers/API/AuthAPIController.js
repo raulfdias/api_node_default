@@ -24,7 +24,8 @@ class AuthAPIController extends Controller {
         let message = null;
 
         let token = null;
-        const { token_expiration: expiration } = security;
+        let { token_expiration: expiration } = security;
+        expiration = parseInt(expiration);
 
         try {
             const [, hash] = req.headers.authorization.split(' ');
@@ -42,7 +43,7 @@ class AuthAPIController extends Controller {
             const payload = { user: user.usu_id_user, email: user.usu_ds_email };
             token = jwt.sign(payload, security.token, { algorithm: security.algorithm, expiresIn: expiration });
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 

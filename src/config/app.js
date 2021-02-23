@@ -12,7 +12,7 @@ module.exports = {
     },
     security: {
         token: process.env.SECURITY_TOKEN || 'guiu237gukYGT76tmbHT87zsLIO65Gysdf8uysiuadhf78sdfbtu89elaou6g976i89TGv87oG697ftgfkJJHyuf&deE',
-        token_expiration: process.env.SECURITY_TOKEN_EXPIRATION || 300,
+        token_expiration: process.env.SECURITY_TOKEN_EXPIRATION || 600,
         algorithm: 'HS256'
     }
 };

@@ -8,7 +8,7 @@ const truncate = require('../../utils/ClearTables');
 const UserRepository = require('../../../app/repositories/UserRepository');
 
 module.exports = () => {
-    describe('Auth API Controller 01', () => {
+    describe('Student API Controller', () => {
         beforeAll(async () => {
             await truncate();
         });
@@ -24,17 +24,12 @@ module.exports = () => {
             };
             const user = await UserRepository.store(data);
 
-            const response = await request(server).post('/api/v1/token').auth(user.usu_ds_email, pass);
+            const response = await request(server).post('/api/v1/token').auth(data.usu_ds_email, pass);
             const { body } = response;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect(body).toHaveProperty('message');
-            expect(body).toHaveProperty('bagError');
             expect(body).toHaveProperty('token');
-            expect((body.token !== null)).toBe(true);
             expect(body).toHaveProperty('expiration');
-            expect((body.expiration !== null)).toBe(true);
         });
 
         test('must return error from unknown email', async () => {
@@ -45,10 +40,6 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(404);
-            expect(body).toHaveProperty('httpStatus');
-            expect(body).toHaveProperty('message');
-            expect(body).toHaveProperty('bagError');
-            expect(body).toHaveProperty('expiration');
             expect(body).toHaveProperty('token');
             expect(body.token).toBe(null);
         });
@@ -60,12 +51,8 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(401);
-            expect(body).toHaveProperty('httpStatus');
-            expect(body).toHaveProperty('message');
-            expect(body).toHaveProperty('bagError');
-            expect(body).toHaveProperty('expiration');
             expect(body).toHaveProperty('token');
             expect(body.token).toBe(null);
         });
     });
-};
+}

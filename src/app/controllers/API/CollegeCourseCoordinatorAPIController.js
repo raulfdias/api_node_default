@@ -30,7 +30,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
         try {
             collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({});
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -64,7 +64,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
 
             collegeCourseCoordinators = await CollegeCourseCoordinatorRepository.listAll({ where });
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -105,7 +105,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
                 collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.store(data);
             }
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -137,7 +137,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
                 throw new APIException('Não encontrado', 404);
             }
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -181,7 +181,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
                 collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.update(id, collegeCourseCoordinatorData);
             }
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -210,7 +210,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             deleted = await CollegeCourseCoordinatorRepository.delete(id);
             deleted = true;
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
@@ -238,7 +238,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             const { id } = req.params;
             collegeCourse = await CollegeCourseRepository.listAll({ where: { coc_fk_college_course_coordinator: id } });
         } catch (err) {
-            // console.error(err);
+            console.error(err);
             httpStatus = err.status ?? 500;
             message = err.message;
 
