@@ -19,8 +19,7 @@ exports.validate = (method) => {
                             }
                         });
                     }),
-                body('college_course_coordinator', 'Campo obrigatório.').notEmpty()
-                    .bail().isNumeric().withMessage('Valor inválido'),
+                body('college_course_coordinator').optional().isNumeric().withMessage('Valor inválido'),
                 body('status').custom(status => {
                     const statusList = CollegeCourseEnum.listEnumerators('STATUS');
 

@@ -3,20 +3,21 @@ const request = require('supertest');
 const server = require('../../../config/server');
 
 const truncate = require('../../utils/ClearTables'),
-    createStatement = require('../../utils/CreateStatement');
+    testMass = require('../../utils/TestMass');
+
+let mass = {};
 
 module.exports = () => {
     describe('Auth API Controller 01', () => {
         beforeAll(async () => {
             await truncate();
-            await createStatement.createUser();
+            mass = await testMass.createTestMass('AuthApi');
         });
 
         test('must return the JWT token from valid credentials', async () => {
-            const pass = '1234567890';
-            const email = 'raul.fernandes@teste.com';
+            const { user, userPassword } = mass;
 
-            const response = await request(server).post('/api/v1/token').auth(email, pass);
+            const response = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
             const { body } = response;
 
             expect(response.status).toBe(200);
@@ -34,10 +35,10 @@ module.exports = () => {
         });
 
         test('must return error from unknown email', async () => {
-            const pass = '1234567890';
+            const { userPassword } = mass;
             const email = 'raul.fernandesss@teste.com';
 
-            const response = await request(server).post('/api/v1/token').auth(email, pass);
+            const response = await request(server).post('/api/v1/token').auth(email, userPassword);
             const { body } = response;
 
             expect(response.status).toBe(400);
@@ -54,10 +55,10 @@ module.exports = () => {
         });
 
         test('must return error from invalid password', async () => {
+            const { user } = mass;
             const pass = '123';
-            const email = 'raul.fernandes@teste.com';
 
-            const response = await request(server).post('/api/v1/token').auth(email, pass);
+            const response = await request(server).post('/api/v1/token').auth(user.usu_ds_email, pass);
             const { body } = response;
 
             expect(response.status).toBe(401);

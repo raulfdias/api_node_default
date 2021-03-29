@@ -92,3 +92,5 @@
 
     src/__tests__/integrations/Integration.test.js
     src/__tests__/unit/Unit.test.js
+
+### Comandos de teste

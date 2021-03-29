@@ -109,9 +109,8 @@ class CollegeCourseAPIController extends Controller {
                 }
 
                 const data = {
-                    'coc_fk_college_course_coordinator': req.body.college_course_coordinator,
+                    'coc_fk_college_course_coordinator': req.body.college_course_coordinator ?? null,
                     'coc_en_status': CollegeCourseEnum.normalizeStatus(req.body.status),
-                    'coc_ds_email': req.body.email,
                     'coc_ds_name': req.body.name
                 };
                 collegeCourse = await CollegeCourseRepository.store(data).then((collegeCourse) => {

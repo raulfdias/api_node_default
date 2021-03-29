@@ -58,7 +58,6 @@ class CollegeSubjectAPIController extends Controller {
             const where = {};
 
             if (body.status !== undefined) where.cos_en_status = CollegeSubjectEnum.normalizeStatus(body.status);
-            if (body.email !== undefined) where.cos_ds_email = { [Op.like]: `%${body.email}%` };
             if (body.name !== undefined) where.cos_ds_name = { [Op.like]: `%${body.name}%` };
 
             collegeSubjects = await CollegeSubjectRepository.listAll({ where });
@@ -98,7 +97,6 @@ class CollegeSubjectAPIController extends Controller {
             } else {
                 const data = {
                     'cos_en_status': CollegeSubjectEnum.normalizeStatus(req.body.status),
-                    'cos_ds_email': req.body.email,
                     'cos_ds_name': req.body.name
                 };
                 collegeSubject = await CollegeSubjectRepository.store(data);
@@ -174,7 +172,6 @@ class CollegeSubjectAPIController extends Controller {
                 const teacherData = {};
 
                 if (data.status !== undefined) teacherData.cos_en_status = CollegeSubjectEnum.normalizeStatus(data.status);
-                if (data.email !== undefined) teacherData.cos_ds_email = data.email;
                 if (data.name !== undefined) teacherData.cos_ds_name = data.name;
 
                 collegeSubject = await CollegeSubjectRepository.update(id, teacherData);
