@@ -63,7 +63,7 @@ class CollegeCourseRepository {
             throw new APIException('Não foi possivel encontrar o curso', 404);
         }
 
-        return await collegeCourse.destroy({ transaction });
+        return await collegeCourse.destroy(options);
     }
 
     async getAllCollegeSubjectsFromCourse(id, { transaction = {} } = {}) {

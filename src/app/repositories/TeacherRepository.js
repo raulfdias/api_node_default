@@ -63,7 +63,7 @@ class TeacherRepository {
             throw new APIException('Não foi possivel encontrar o professor', 404);
         }
 
-        return await teacher.destroy({ transaction });
+        return await teacher.destroy(options);
     }
 
     async getAllCollegeSubjectsFromTeacher(id, { transaction = {} } = {}) {

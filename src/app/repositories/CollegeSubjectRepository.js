@@ -63,7 +63,7 @@ class CollegeSubjectRepository {
             throw new APIException('Não foi possivel encontrar a matéria', 404);
         }
 
-        return await collegeSubject.destroy({ transaction });
+        return await collegeSubject.destroy(options);
     }
 
     async alreadyAssociationTeacherCollegeSubject(teacherId, subjectId) {

@@ -63,7 +63,7 @@ class StudentRepository {
             throw new APIException('Não foi possivel encontrar o aluno', 404);
         }
 
-        return await student.destroy({ transaction });
+        return await student.destroy(options);
     }
 
     async getAllCollegeCourseFromStudent(id, { transaction = {} } = {}) {

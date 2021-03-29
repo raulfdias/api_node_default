@@ -63,7 +63,7 @@ class CollegeCourseCoordinatorRepository {
             throw new APIException('Não foi possivel encontrar o coordenador', 404);
         }
 
-        return await collegeCourseCoordinator.destroy({ transaction });
+        return await collegeCourseCoordinator.destroy(options);
     }
 
     async getAllCollegeCourseFromCoordinator(id, { transaction = {} } = {}) {

@@ -427,7 +427,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Curso de Teste 02\",\r\n    \"college_course_coordinator\": \"1\",\r\n    \"status\": \"1\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Curso de Teste 01\",\r\n    \"college_course_coordinator\": \"1\",\r\n    \"status\": \"1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
