@@ -338,7 +338,7 @@ class TeacherAPIController extends Controller {
 
                 await t.commit();
 
-                teacher = await TeacherRepository.findById(id, { include: ['college_courses'] });
+                teacher = await TeacherRepository.findById(id, { include: ['college_subjects'] });
             }
         } catch (err) {
             console.error(err);
