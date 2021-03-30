@@ -201,6 +201,10 @@ routes.get('/api/v1/college-course/:id/show', [
     AuthToken
 ], CollegeCourseAPIController.show);
 
+routes.get('/api/v1/college-course/:id/college-course-coordinator', [
+    AuthToken
+], CollegeCourseAPIController.getCollegeCourseCoordinator);
+
 routes.post('/api/v1/college-course/:id/college-subject/connect', [
     AuthToken,
     CollegeCourseValidator.validate('OnDisAssociateSubject')

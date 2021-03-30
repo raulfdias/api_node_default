@@ -98,9 +98,9 @@ class CollegeCourseCoordinatorAPIController extends Controller {
                 throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
-                    'ccc_en_status': CollegeCourseCoordinatorEnum.normalizeStatus(req.body.status),
-                    'ccc_ds_email': req.body.email,
-                    'ccc_ds_name': req.body.name
+                    ccc_en_status: CollegeCourseCoordinatorEnum.normalizeStatus(req.body.status),
+                    ccc_ds_email: req.body.email,
+                    ccc_ds_name: req.body.name
                 };
                 collegeCourseCoordinator = await CollegeCourseCoordinatorRepository.store(data);
             }

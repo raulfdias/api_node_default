@@ -123,6 +123,19 @@ exports.createTestMass = async (testName) => {
                 userPassword
             };
         }
+        case 'CollegeSubjectApi': {
+            return {
+                user: await createApiUser(userPassword),
+                userPassword
+            };
+        }
+        case 'CollegeCourseApi': {
+            return {
+                user: await createApiUser(userPassword),
+                collegeCourseCoordinators: await createCollegeCourseCoordinator(userPassword),
+                userPassword
+            };
+        }
         default: {
             return {};
         }

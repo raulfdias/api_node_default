@@ -96,8 +96,8 @@ class CollegeSubjectAPIController extends Controller {
                 throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
-                    'cos_en_status': CollegeSubjectEnum.normalizeStatus(req.body.status),
-                    'cos_ds_name': req.body.name
+                    cos_en_status: CollegeSubjectEnum.normalizeStatus(req.body.status),
+                    cos_ds_name: req.body.name
                 };
                 collegeSubject = await CollegeSubjectRepository.store(data);
             }

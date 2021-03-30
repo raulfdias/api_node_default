@@ -24,10 +24,10 @@ module.exports = () => {
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             const response = await request(server).post('/api/v1/student/create').send({
-                'name': 'Aluno de Teste 01',
-                'college_semester': '1',
-                'status': '1',
-                'email': 'aluno01@teste.com'
+                name: 'Aluno de Teste 01',
+                college_semester: '1',
+                status: '1',
+                email: 'aluno01@teste.com'
             }).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
             massDataTesting.student = body.student;
@@ -70,8 +70,8 @@ module.exports = () => {
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             const response = await request(server).get('/api/v1/student/search').send({
-                'name': student.stu_ds_name,
-                'college_semester': student.stu_en_college_semester
+                name: student.stu_ds_name,
+                college_semester: student.stu_en_college_semester
             }).set({ Authorization: `Bearer ${auth.body.token}` });
 
             const { body } = response;
@@ -92,10 +92,10 @@ module.exports = () => {
             const { user, userPassword, student } = massDataTesting;
             const id = student.stu_id_student;
             const data = {
-                'name': 'Aluno de Teste 001',
-                'college_semester': '1',
-                'status': '1',
-                'email': 'aluno001@teste.com'
+                name: 'Aluno de Teste 001',
+                college_semester: '1',
+                status: '1',
+                email: 'aluno001@teste.com'
             };
 
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);

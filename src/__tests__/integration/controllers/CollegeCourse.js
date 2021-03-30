@@ -8,25 +8,25 @@ const truncate = require('../../utils/ClearTables'),
 let massDataTesting = {};
 
 module.exports = () => {
-    describe('Teacher API Controller', () => {
+    describe('College Course API Controller', () => {
         beforeAll(async () => {
             await truncate();
-            massDataTesting = await testMass.createTestMass('TeacherApi');
+            massDataTesting = await testMass.createTestMass('CollegeCourseApi');
         });
 
-        test('must return the teacher created', async () => {
-            const { user, userPassword } = massDataTesting;
+        test('must return the college course created and associated with the college coordinator', async () => {
+            const { user, userPassword, collegeCourseCoordinators } = massDataTesting;
 
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
-            const response = await request(server).post('/api/v1/teacher/create').send({
-                name: 'Professor de Teste 01',
+            const response = await request(server).post('/api/v1/college-course/create').send({
+                name: 'Curso de Teste 01',
                 status: '1',
-                email: 'professor01@teste.com'
+                college_course_coordinator: collegeCourseCoordinators[0].ccc_id_college_course_coordinator
             }).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
 
-            massDataTesting.teacher = body.teacher;
+            massDataTesting.collegeCourse = body.collegeCourse;
 
             expect(response.status).toBe(200);
             expect(body).toHaveProperty('httpStatus');
@@ -36,16 +36,21 @@ module.exports = () => {
             expect(body).toHaveProperty('bagError');
             expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
 
-            expect(body).toHaveProperty('teacher');
-            expect((body.teacher !== null)).toBe(true);
+            expect(body).toHaveProperty('collegeCourse');
+            expect((body.collegeCourse !== null)).toBe(true);
+            expect(body.collegeCourse).toHaveProperty('college_course_coordinator');
+            expect((body.collegeCourse.college_course_coordinator !== null)).toBe(true);
         });
 
-        test('must return the list of teachers', async () => {
+        test('must return the college course created and without association to the college coordinator', async () => {
             const { user, userPassword } = massDataTesting;
 
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
-            const response = await request(server).get('/api/v1/teacher/list').set({ Authorization: `Bearer ${auth.body.token}` });
+            const response = await request(server).post('/api/v1/college-course/create').send({
+                name: 'Curso de Teste 02',
+                status: '1'
+            }).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
 
             expect(response.status).toBe(200);
@@ -56,18 +61,40 @@ module.exports = () => {
             expect(body).toHaveProperty('bagError');
             expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
 
-            expect(body).toHaveProperty('teachers');
-            expect((body.teachers.length > 0)).toBe(true);
+            expect(body).toHaveProperty('collegeCourse');
+            expect((body.collegeCourse !== null)).toBe(true);
+            expect(body.collegeCourse).toHaveProperty('college_course_coordinator');
+            expect((body.collegeCourse.college_course_coordinator === null)).toBe(true);
         });
 
-        test('must return the list of filtered teachers', async () => {
-            const { user, userPassword, teacher } = massDataTesting;
+        test('must return the list of college courses', async () => {
+            const { user, userPassword } = massDataTesting;
 
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
-            const response = await request(server).get('/api/v1/teacher/search').send({
-                name: teacher.tea_ds_name,
-                email: teacher.tea_ds_email
+            const response = await request(server).get('/api/v1/college-course/list').set({ Authorization: `Bearer ${auth.body.token}` });
+            const { body } = response;
+
+            expect(response.status).toBe(200);
+            expect(body).toHaveProperty('httpStatus');
+            expect((body.httpStatus !== null)).toBe(true);
+            expect(body).toHaveProperty('message');
+            expect((body.message === null)).toBe(true);
+            expect(body).toHaveProperty('bagError');
+            expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
+
+            expect(body).toHaveProperty('collegeCourses');
+            expect((body.collegeCourses.length > 0)).toBe(true);
+        });
+
+        test('must return the list of filtered college courses', async () => {
+            const { user, userPassword, collegeCourse } = massDataTesting;
+
+            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
+
+            const response = await request(server).get('/api/v1/college-course/search').send({
+                name: collegeCourse.coc_ds_name,
+                status: '1'
             }).set({ Authorization: `Bearer ${auth.body.token}` });
 
             const { body } = response;
@@ -80,25 +107,24 @@ module.exports = () => {
             expect(body).toHaveProperty('bagError');
             expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
 
-            expect(body).toHaveProperty('teachers');
-            expect((body.teachers.length > 0)).toBe(true);
+            expect(body).toHaveProperty('collegeCourses');
+            expect((body.collegeCourses.length > 0)).toBe(true);
         });
 
-        test('must return the updated teacher', async () => {
-            const { user, userPassword, teacher } = massDataTesting;
-            const id = teacher.tea_id_teacher;
+        test('must return the updated college course', async () => {
+            const { user, userPassword, collegeCourse } = massDataTesting;
+            const id = collegeCourse.coc_id_college_course;
             const data = {
-                name: 'Professor de Teste 001',
-                status: '1',
-                email: 'professor001@teste.com'
+                name: 'Curso de Teste 001',
+                status: '1'
             };
 
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
-            const response = await request(server).put(`/api/v1/teacher/${id}/update`).send({ data }).set({ Authorization: `Bearer ${auth.body.token}` });
+            const response = await request(server).put(`/api/v1/college-course/${id}/update`).send({ data }).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
 
-            massDataTesting.teacher = body.teacher;
+            massDataTesting.collegeCourse = body.collegeCourse;
 
             expect(response.status).toBe(200);
             expect(body).toHaveProperty('httpStatus');
@@ -108,18 +134,18 @@ module.exports = () => {
             expect(body).toHaveProperty('bagError');
             expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
 
-            expect(body).toHaveProperty('teacher');
-            expect((body.teacher !== null)).toBe(true);
-            expect((body.teacher.tea_ds_name === data.name)).toBe(true);
+            expect(body).toHaveProperty('collegeCourse');
+            expect((body.collegeCourse !== null)).toBe(true);
+            expect((body.collegeCourse.coc_ds_name === data.name)).toBe(true);
         });
 
-        test('must return the informed teacher', async () => {
-            const { user, userPassword, teacher } = massDataTesting;
-            const id = teacher.tea_id_teacher;
+        test('must return the informed college course', async () => {
+            const { user, userPassword, collegeCourse } = massDataTesting;
+            const id = collegeCourse.coc_id_college_course;
 
             const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
-            const response = await request(server).get(`/api/v1/teacher/${id}/show`).set({ Authorization: `Bearer ${auth.body.token}` });
+            const response = await request(server).get(`/api/v1/college-course/${id}/show`).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
 
             expect(response.status).toBe(200);
@@ -130,9 +156,9 @@ module.exports = () => {
             expect(body).toHaveProperty('bagError');
             expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
 
-            expect(body).toHaveProperty('teacher');
-            expect((body.teacher !== null)).toBe(true);
-            expect((body.teacher.tea_id_teacher === id)).toBe(true);
+            expect(body).toHaveProperty('collegeCourse');
+            expect((body.collegeCourse !== null)).toBe(true);
+            expect((body.collegeCourse.coc_id_college_course === id)).toBe(true);
         });
 
         test('must return the college subject that the teacher was enrolled in', async () => {

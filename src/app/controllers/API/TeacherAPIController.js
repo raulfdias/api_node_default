@@ -99,9 +99,9 @@ class TeacherAPIController extends Controller {
                 throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
-                    'tea_en_status': TeacherEnum.normalizeStatus(req.body.status),
-                    'tea_ds_email': req.body.email,
-                    'tea_ds_name': req.body.name
+                    tea_en_status: TeacherEnum.normalizeStatus(req.body.status),
+                    tea_ds_email: req.body.email,
+                    tea_ds_name: req.body.name
                 };
                 teacher = await TeacherRepository.store(data);
             }

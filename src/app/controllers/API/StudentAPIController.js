@@ -101,10 +101,10 @@ class StudentAPIController extends Controller {
                 throw new APIException('Verifique os campos obrigatórios', 400);
             } else {
                 const data = {
-                    'stu_en_college_semester': StudentEnum.normalizeCollegeSemester(req.body.college_semester),
-                    'stu_en_status': StudentEnum.normalizeStatus(req.body.status),
-                    'stu_ds_email': req.body.email,
-                    'stu_ds_name': req.body.name
+                    stu_en_college_semester: StudentEnum.normalizeCollegeSemester(req.body.college_semester),
+                    stu_en_status: StudentEnum.normalizeStatus(req.body.status),
+                    stu_ds_email: req.body.email,
+                    stu_ds_name: req.body.name
                 };
                 student = await StudentRepository.store(data);
             }
