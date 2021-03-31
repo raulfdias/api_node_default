@@ -9,6 +9,7 @@
     * NPM - v6.14.10
     * Yarn - v1.22
     * MySQL - v5.7
+    * JEST - v26.6.3
 
 
 ## Init
@@ -16,7 +17,8 @@
 ### Rodar comando para instalação da dependencias do package.json
 
     yarn     ou     npm i
-    Em produção: yarn install --production=true     ou     npm i --production
+
+    OBS: Em produção: yarn install --production=true     ou     npm i --production
 
 ### Crie o .env para o seu ambiente
 
@@ -95,14 +97,29 @@
     src/__tests__/integrations/Integration.test.js
     src/__tests__/unit/Unit.test.js
 
-### Comandos de teste
+### Init
 
+    * Subistituir o conteúdo do .env pelo .env.test;
+    * Rodar os comandos para criação do schema de teste:
+        - yarn sequelize db:create
+        - yarn sequelize db:migrate
+
+### Comandos de teste
+```
 * Teste com todos os arquivos de teste
 
-    * Teste apresentando os console.log:                          yarn run test
-    * Teste apresentando os console.log quando necessário:        yarn run test --silent
+    * Teste apresentando os console.log:
+        - yarn run test
 
+    * Teste apresentando os console.log quando necessário:
+        - yarn run test --silent
+```
+```
 * Teste com arquivo de teste especifico
 
-    * Teste apresentando os console.log:                          yarn run test Integration.test.js
-    * Teste apresentando os console.log quando necessário:        yarn run test Integration.test.js --silent
+    * Teste apresentando os console.log:
+        - yarn run test Integration.test.js
+
+    * Teste apresentando os console.log quando necessário:
+        - yarn run test Integration.test.js --silent
+```

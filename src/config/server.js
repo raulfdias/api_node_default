@@ -5,7 +5,9 @@ const express = require('express'),
     path = require('path'),
     morgan = require('morgan'),
     helmet = require('helmet'),
-    cors = require('cors');
+    cors = require('cors'),
+    swaggerUi = require('swagger-ui-express'),
+    swaggerFile = require('../../swagger_output.json');
 
 const { app } = require(path.resolve('src', 'config', 'app'));
 
@@ -44,6 +46,7 @@ class Server {
     }
 
     routes() {
+        this.express.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerFile));
         this.express.use(require('../routes/web'));
         this.express.use(require('../routes/api'));
     }

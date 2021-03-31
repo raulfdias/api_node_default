@@ -9,7 +9,8 @@
     "scripts": {
         "dev": "nodemon src/public/index.js",
         "prod": "node src/public/index.js --ignore src/__tests__",
-        "test": "cross-env NODE_ENV=test jest --no-cache --detectOpenHandles --force-exit"
+        "test": "cross-env NODE_ENV=test jest --no-cache --detectOpenHandles --force-exit",
+        "swagger-autogen": "node swagger.js"
     },
     "dependencies": {
         "axios": "^0.21.1",
@@ -42,6 +43,9 @@
         "nodemon": "^2.0.7",
         "sequelize-cli": "^6.2.0",
         "sqlite3": "^5.0.2",
-        "supertest": "^6.1.3"
+        "supertest": "^6.1.3",
+        "swagger-autogen": "^2.7.6",
+        "swagger-jsdoc": "^7.0.0-rc.6",
+        "swagger-ui-express": "^4.1.6"
     }
 }

@@ -411,6 +411,114 @@
 					"response": []
 				},
 				{
+					"name": "COORDINATOR",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJlbWFpbCI6InJhdWwuZmVybmFuZGVzQHRlc3RlLmNvbSIsImlhdCI6MTYxMzUwNTAwMywiZXhwIjoxNjEzNTA1MzAzfQ.WRXIfhOYa2_IYZhfyvgRa-VeskGOWeNP2odidH6CSGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-course/1/college-course-coordinator",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-course",
+								"1",
+								"college-course-coordinator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "STUDENTS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJlbWFpbCI6InJhdWwuZmVybmFuZGVzQHRlc3RlLmNvbSIsImlhdCI6MTYxMzUwNTAwMywiZXhwIjoxNjEzNTA1MzAzfQ.WRXIfhOYa2_IYZhfyvgRa-VeskGOWeNP2odidH6CSGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-course/1/students",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-course",
+								"1",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "COLLEGE SUBJECTS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJlbWFpbCI6InJhdWwuZmVybmFuZGVzQHRlc3RlLmNvbSIsImlhdCI6MTYxMzUwNTAwMywiZXhwIjoxNjEzNTA1MzAzfQ.WRXIfhOYa2_IYZhfyvgRa-VeskGOWeNP2odidH6CSGQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/api/v1/college-course/1/college-subjects",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"college-course",
+								"1",
+								"college-subjects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CREATE",
 					"request": {
 						"auth": {
