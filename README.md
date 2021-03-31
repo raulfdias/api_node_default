@@ -20,9 +20,11 @@
 
 ### Crie o .env para o seu ambiente
 
-    Desenvolvimento:    .env.exemple    -->   .env
+    * Produção:           .env.exemple      -->   .env
+    * Desenvolvimento:    .env.exemple      -->   .env
+    * Teste:              .env.test         -->   .env
 
-    OBS: Em produção o .env deve está o minimo preenchido . Todas as informações devem ser preenchidas nos
+    OBS: Em produção o .env deve está o minimo preenchido . Todas as informações, por segurança, devem ser preenchidas nos
     arquivos de configuração, para evitar problema na leitura do .env.
 
 ### Subir a versão do banco de dados
@@ -94,3 +96,13 @@
     src/__tests__/unit/Unit.test.js
 
 ### Comandos de teste
+
+* Teste com todos os arquivos de teste
+
+    * Teste apresentando os console.log:                          yarn run test
+    * Teste apresentando os console.log quando necessário:        yarn run test --silent
+
+* Teste com arquivo de teste especifico
+
+    * Teste apresentando os console.log:                          yarn run test Integration.test.js
+    * Teste apresentando os console.log quando necessário:        yarn run test Integration.test.js --silent
