@@ -5,8 +5,8 @@ const { User, Student, CollegeCourseCoordinator, CollegeCourse, CollegeSubject, 
 async function createApiUser(pass) {
     const hash = await bcrypt.hash(pass, 10);
     const data = {
-        usu_ds_name: '[DEV] Raul Fernandes',
-        usu_ds_email: 'raul.fernandes@teste.com',
+        usu_ds_name: '[DEV] Raul Fernandes [[Test Mass]]',
+        usu_ds_email: 'raul.fernandes@test.mass.com',
         usu_ds_password: hash,
         usu_en_status: '1'
     };
@@ -19,14 +19,14 @@ async function createStudent() {
         {
             stu_en_college_semester: '1',
             stu_en_status: '1',
-            stu_ds_email: 'aluno01@teste.com',
-            stu_ds_name: 'Aluno de Teste 01'
+            stu_ds_email: 'aluno01@test.mass.com',
+            stu_ds_name: 'Aluno de Teste 01 [[Test Mass]]'
         },
         {
             stu_en_college_semester: '1',
             stu_en_status: '1',
-            stu_ds_email: 'aluno02@teste.com',
-            stu_ds_name: 'Aluno de Teste 02'
+            stu_ds_email: 'aluno02@test.mass.com',
+            stu_ds_name: 'Aluno de Teste 02 [[Test Mass]]'
         }
     ];
 
@@ -37,13 +37,13 @@ async function createCollegeCourseCoordinator() {
     const data = [
         {
             ccc_en_status: '1',
-            ccc_ds_email: 'coordenador01@teste.com',
-            ccc_ds_name: 'Coordenador de Teste 01'
+            ccc_ds_email: 'coordenador01@test.mass.com',
+            ccc_ds_name: 'Coordenador de Teste 01 [[Test Mass]]'
         },
         {
             ccc_en_status: '1',
-            ccc_ds_email: 'coordenador02@teste.com',
-            ccc_ds_name: 'Coordenador de Teste 02'
+            ccc_ds_email: 'coordenador02@test.mass.com',
+            ccc_ds_name: 'Coordenador de Teste 02 [[Test Mass]]'
         }
     ];
 
@@ -55,12 +55,12 @@ async function createCollegeCourse() {
         {
             coc_fk_college_course_coordinator: null,
             coc_en_status: '1',
-            coc_ds_name: 'Curso de Teste 01'
+            coc_ds_name: 'Curso de Teste 01 [[Test Mass]]'
         },
         {
             coc_fk_college_course_coordinator: null,
             coc_en_status: '1',
-            coc_ds_name: 'Curso de Teste 02'
+            coc_ds_name: 'Curso de Teste 02 [[Test Mass]]'
         }
     ];
 
@@ -71,11 +71,11 @@ async function createCollegeSubject() {
     const data = [
         {
             cos_en_status: '1',
-            cos_ds_name: 'Matéria de Teste 01'
+            cos_ds_name: 'Matéria de Teste 01 [[Test Mass]]'
         },
         {
             cos_en_status: '1',
-            cos_ds_name: 'Matéria de Teste 02'
+            cos_ds_name: 'Matéria de Teste 02 [[Test Mass]]'
         }
     ];
 
@@ -86,12 +86,12 @@ async function createTeacher() {
     const data = [
         {
             tea_en_status: '1',
-            tea_ds_email: 'Professor de Teste 01',
+            tea_ds_email: 'Professor de Teste 01 [[Test Mass]]',
             tea_ds_name: 'professor01@teste.com'
         },
         {
             tea_en_status: '1',
-            tea_ds_email: 'Professor de Teste 02',
+            tea_ds_email: 'Professor de Teste 02 [[Test Mass]]',
             tea_ds_name: 'professor02@teste.com'
         }
     ];
@@ -126,6 +126,7 @@ exports.createTestMass = async (testName) => {
         case 'CollegeSubjectApi': {
             return {
                 user: await createApiUser(userPassword),
+                teachers: await createTeacher(),
                 userPassword
             };
         }
@@ -134,6 +135,14 @@ exports.createTestMass = async (testName) => {
                 user: await createApiUser(userPassword),
                 collegeCourseCoordinators: await createCollegeCourseCoordinator(),
                 collegeSubjects: await createCollegeSubject(),
+                students: await createStudent(),
+                userPassword
+            };
+        }
+        case 'CollegeCourseCoordinatorApi': {
+            return {
+                user: await createApiUser(userPassword),
+                collegeCourses: await createCollegeCourse(),
                 userPassword
             };
         }

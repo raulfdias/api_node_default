@@ -236,7 +236,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
 
         try {
             const { id } = req.params;
-            collegeCourse = await CollegeCourseRepository.listAll({ where: { coc_fk_college_course_coordinator: id } });
+            collegeCourse = await CollegeCourseRepository.findFirst({ where: { coc_fk_college_course_coordinator: id } });
         } catch (err) {
             console.error(err);
             httpStatus = err.status ?? 500;

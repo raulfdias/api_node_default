@@ -12,24 +12,21 @@ module.exports = () => {
         beforeAll(async () => {
             await truncate();
             massDataTesting = await testMass.createTestMass('StudentApi');
-        });
-
-        afterAll(async () => {
-            server.close();
+            massDataTesting.auth = await request(server).post('/api/v1/token').auth(massDataTesting.user.usu_ds_email, massDataTesting.userPassword);
         });
 
         test('must return the student created', async () => {
-            const { user, userPassword } = massDataTesting;
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
-
-            const response = await request(server).post('/api/v1/student/create').send({
+            const { auth } = massDataTesting;
+            const data = {
                 name: 'Aluno de Teste 01',
                 college_semester: '1',
                 status: '1',
                 email: 'aluno01@teste.com'
-            }).set({ Authorization: `Bearer ${auth.body.token}` });
+            };
+
+            const response = await request(server).post('/api/v1/student/create').send(data).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
+
             massDataTesting.student = body.student;
 
             expect(response.status).toBe(200);
@@ -45,9 +42,7 @@ module.exports = () => {
         });
 
         test('must return the list of students', async () => {
-            const { user, userPassword } = massDataTesting;
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
+            const { auth } = massDataTesting;
 
             const response = await request(server).get('/api/v1/student/list').set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
@@ -65,15 +60,13 @@ module.exports = () => {
         });
 
         test('must return the list of filtered students', async () => {
-            const { user, userPassword, student } = massDataTesting;
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
-
-            const response = await request(server).get('/api/v1/student/search').send({
+            const { auth, student } = massDataTesting;
+            const data = {
                 name: student.stu_ds_name,
                 college_semester: student.stu_en_college_semester
-            }).set({ Authorization: `Bearer ${auth.body.token}` });
+            };
 
+            const response = await request(server).get('/api/v1/student/search').send(data).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
 
             expect(response.status).toBe(200);
@@ -89,7 +82,7 @@ module.exports = () => {
         });
 
         test('must return the updated student', async () => {
-            const { user, userPassword, student } = massDataTesting;
+            const { auth, student } = massDataTesting;
             const id = student.stu_id_student;
             const data = {
                 name: 'Aluno de Teste 001',
@@ -97,8 +90,6 @@ module.exports = () => {
                 status: '1',
                 email: 'aluno001@teste.com'
             };
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             const response = await request(server).put(`/api/v1/student/${id}/update`).send({ data }).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
@@ -117,10 +108,8 @@ module.exports = () => {
         });
 
         test('must return the informed student', async () => {
-            const { user, userPassword, student } = massDataTesting;
+            const { auth, student } = massDataTesting;
             const id = student.stu_id_student;
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             const response = await request(server).get(`/api/v1/student/${id}/show`).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
@@ -139,12 +128,10 @@ module.exports = () => {
         });
 
         test('must return the college course that the student was enrolled in', async () => {
-            const { user, userPassword, collegeCourses, student } = massDataTesting;
+            const { auth, collegeCourses, student } = massDataTesting;
             const id = student.stu_id_student;
             const periods = ['1', '2', '3'];
             const studentCourses = [];
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             collegeCourses.map((collegeCourse, i) => {
                 return studentCourses.push({
@@ -173,10 +160,8 @@ module.exports = () => {
         });
 
         test('must return the college courses the student is enrolled in', async () => {
-            const { user, userPassword, student, studentCourses } = massDataTesting;
+            const { auth, student, studentCourses } = massDataTesting;
             const id = student.stu_id_student;
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             const response = await request(server).get(`/api/v1/student/${id}/college-course`).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
@@ -194,15 +179,13 @@ module.exports = () => {
         });
 
         test('must to test the removal of the student\'s enrollment from the college course', async () => {
-            const { user, userPassword, student, studentCourses } = massDataTesting;
+            const { auth, student, studentCourses } = massDataTesting;
             const id = student.stu_id_student;
             const totalEnrollment = studentCourses.length;
 
             const courses = [
                 studentCourses[0].course
             ];
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             const response = await request(server).put(`/api/v1/student/${id}/college-course/disconnect`).send({ courses }).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;
@@ -224,10 +207,8 @@ module.exports = () => {
         });
 
         test('must return the removed student', async () => {
-            const { user, userPassword, student } = massDataTesting;
+            const { auth, student } = massDataTesting;
             const id = student.stu_id_student;
-
-            const auth = await request(server).post('/api/v1/token').auth(user.usu_ds_email, userPassword);
 
             const response = await request(server).delete(`/api/v1/student/${id}/delete`).set({ Authorization: `Bearer ${auth.body.token}` });
             const { body } = response;

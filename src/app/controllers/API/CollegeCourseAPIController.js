@@ -201,7 +201,7 @@ class CollegeCourseAPIController extends Controller {
                     }
 
                     const { college_course: coordinatorCollegeCourse } = collegeCourseCoordinator;
-                    if ((collegeCourseCoordinator.college_course.length > 0) && (coordinatorCollegeCourse.coc_fk_college_course_coordinator !== id)) {
+                    if ((collegeCourseCoordinator.college_course) && (coordinatorCollegeCourse.coc_fk_college_course_coordinator !== id)) {
                         throw new APIException('Coordenador já está administrando outros cursos', 400);
                     }
                 }
@@ -417,6 +417,40 @@ class CollegeCourseAPIController extends Controller {
         }
 
         return res.status(httpStatus).json({ collegeSubjects, httpStatus, message, bagError });
+    }
+
+    /**
+     * Função responsável por efetuar a busca dos alunos do curso
+     *
+     * @param {*} req
+     * @param {*} res
+     * @returns JSON
+     */
+    async getAllStudents(req, res) {
+        let httpStatus = 200;
+        const bagError = {};
+        let message = null;
+
+        let students = [];
+
+        try {
+            const { id } = req.params;
+
+            const collegeCourse = await CollegeCourseRepository.findById(id);
+            if (collegeCourse === null) {
+                throw new APIException('Curso não encontrado', 404);
+            }
+
+            students = await CollegeCourseRepository.getAllStudentsFromCourse(collegeCourse.coc_id_college_course);
+        } catch (err) {
+            console.error(err);
+            httpStatus = err.status ?? 500;
+            message = err.message;
+
+            students = [];
+        }
+
+        return res.status(httpStatus).json({ students, httpStatus, message, bagError });
     }
 
     /**

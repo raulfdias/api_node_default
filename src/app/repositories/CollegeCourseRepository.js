@@ -78,6 +78,19 @@ class CollegeCourseRepository {
 
         return collegeCourse.college_subjects;
     }
+
+    async getAllStudentsFromCourse(id, { transaction = {} } = {}) {
+        const options = {};
+        if (Object.keys(transaction).length > 0) options.transaction = transaction;
+        options.include = ['students'];
+
+        const collegeCourse = await this.findById(id, options);
+        if (!collegeCourse) {
+            throw new APIException('Não foi possivel encontrar o curso', 404);
+        }
+
+        return collegeCourse.students;
+    }
 }
 
 module.exports = new CollegeCourseRepository();

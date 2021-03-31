@@ -9,7 +9,7 @@
     "scripts": {
         "dev": "nodemon src/public/index.js",
         "prod": "node src/public/index.js --ignore src/__tests__",
-        "test": "cross-env NODE_ENV=test jest --no-cache --detectOpenHandles"
+        "test": "cross-env NODE_ENV=test jest --no-cache --detectOpenHandles --force-exit"
     },
     "dependencies": {
         "axios": "^0.21.1",
