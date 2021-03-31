@@ -214,6 +214,10 @@ routes.put('/api/v1/college-course/:id/college-subject/disconnect', [
     AuthToken,
     CollegeCourseValidator.validate('OnDisAssociateSubject')
 ], CollegeCourseAPIController.disassociateCollegeSubject);
+
+routes.get('/api/v1/college-course/:id/college-subjects', [
+    AuthToken
+], CollegeCourseAPIController.getAllCollegeSubject);
 // =======================FIM ROTAS DE CRUSOS =======================
 
 module.exports = routes;

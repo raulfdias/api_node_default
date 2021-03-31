@@ -108,7 +108,7 @@ class CollegeCourseAPIController extends Controller {
                         throw new APIException('Coordenador não existe', 400);
                     }
 
-                    if (collegeCourseCoordinator.college_course.length > 0) {
+                    if (collegeCourseCoordinator.college_course) {
                         throw new APIException('Coordenador já está administrando outros cursos', 400);
                     }
 

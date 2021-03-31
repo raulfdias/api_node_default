@@ -132,7 +132,8 @@ exports.createTestMass = async (testName) => {
         case 'CollegeCourseApi': {
             return {
                 user: await createApiUser(userPassword),
-                collegeCourseCoordinators: await createCollegeCourseCoordinator(userPassword),
+                collegeCourseCoordinators: await createCollegeCourseCoordinator(),
+                collegeSubjects: await createCollegeSubject(),
                 userPassword
             };
         }

@@ -128,8 +128,8 @@ module.exports = () => {
             expect(body).toHaveProperty('bagError');
             expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
 
-            expect(body).toHaveProperty('teacher');
-            expect((body.teacher !== null)).toBe(true);
+            expect(body).toHaveProperty('collegeSubject');
+            expect((body.collegeSubject !== null)).toBe(true);
             expect((body.collegeSubject.cos_id_college_subject === id)).toBe(true);
         });
 
@@ -150,7 +150,7 @@ module.exports = () => {
             expect(body).toHaveProperty('bagError');
             expect(((Object.keys(body.bagError).length) === 0)).toBe(true);
 
-            expect(body).toHaveProperty('collegeSubjects');
+            expect(body).toHaveProperty('teachers');
             expect((body.teachers.length >= 0)).toBe(true);
         });
 
