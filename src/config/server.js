@@ -46,7 +46,9 @@ class Server {
     }
 
     routes() {
-        this.express.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+        if (this.isDev) {
+            this.express.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+        }
         this.express.use(require('../routes/web'));
         this.express.use(require('../routes/api'));
     }
