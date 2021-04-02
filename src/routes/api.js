@@ -22,6 +22,12 @@ const AuthAPIController = require('../app/controllers/API/AuthAPIController'),
 // =============================================== ROUTES ===============================================
 
 // =======================ROTAS DE TOKEN =======================
+/**
+ * @swagger
+ * tags:
+ *   name: Autenticação
+ *   description: Endpoint de autenticação
+ */
 routes.post('/api/v1/token', AuthAPIController.generateToken);
 // =======================FIM ROTAS DE TOKEN =======================
 

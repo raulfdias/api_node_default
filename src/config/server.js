@@ -6,10 +6,10 @@ const express = require('express'),
     morgan = require('morgan'),
     helmet = require('helmet'),
     cors = require('cors'),
-    swaggerUi = require('swagger-ui-express'),
-    swaggerFile = require('../../swagger_output.json');
+    swaggerUI = require('swagger-ui-express'),
+    swaggerJsDoc = require('swagger-jsdoc');
 
-const { app } = require(path.resolve('src', 'config', 'app'));
+const { app, swagger } = require(path.resolve('src', 'config', 'app'));
 
 class Server {
     constructor() {
@@ -47,8 +47,13 @@ class Server {
 
     routes() {
         if (this.isDev) {
-            this.express.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+            const specs = swaggerJsDoc(swagger);
+            console.log(swagger);
+            console.log(specs);
+
+            this.express.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
         }
+
         this.express.use(require('../routes/web'));
         this.express.use(require('../routes/api'));
     }
