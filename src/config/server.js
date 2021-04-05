@@ -48,8 +48,6 @@ class Server {
     routes() {
         if (this.isDev) {
             const specs = swaggerJsDoc(swagger);
-            console.log(swagger);
-            console.log(specs);
 
             this.express.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
         }
