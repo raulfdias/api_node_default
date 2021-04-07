@@ -30,7 +30,7 @@ module.exports = (req, res, next) => {
         message = err.message;
     }
 
-    return res.status(httpStatus).json({ httpStatus, message });
+    return res.status(httpStatus).json({ message });
 };
 
 function tokenValidate(token) {

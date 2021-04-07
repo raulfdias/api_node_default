@@ -36,7 +36,7 @@ class CollegeSubjectAPIController extends Controller {
             collegeSubjects = [];
         }
 
-        return res.status(httpStatus).json({ collegeSubjects, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeSubjects, message, bagError });
     }
 
     /**
@@ -69,7 +69,7 @@ class CollegeSubjectAPIController extends Controller {
             collegeSubjects = [];
         }
 
-        return res.status(httpStatus).json({ collegeSubjects, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeSubjects, message, bagError });
     }
 
     /**
@@ -109,7 +109,7 @@ class CollegeSubjectAPIController extends Controller {
             collegeSubject = null;
         }
 
-        return res.status(httpStatus).json({ collegeSubject, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeSubject, message, bagError });
     }
 
     /**
@@ -141,7 +141,7 @@ class CollegeSubjectAPIController extends Controller {
             collegeSubject = null;
         }
 
-        return res.status(httpStatus).json({ collegeSubject, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeSubject, message, bagError });
     }
 
     /**
@@ -184,7 +184,7 @@ class CollegeSubjectAPIController extends Controller {
             collegeSubject = null;
         }
 
-        return res.status(httpStatus).json({ collegeSubject, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeSubject, message, bagError });
     }
 
     /**
@@ -213,7 +213,7 @@ class CollegeSubjectAPIController extends Controller {
             deleted = false;
         }
 
-        return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ deleted, message, bagError });
     }
 
     /**
@@ -247,7 +247,7 @@ class CollegeSubjectAPIController extends Controller {
             teachers = [];
         }
 
-        return res.status(httpStatus).json({ teachers, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ teachers, message, bagError });
     }
 }
 

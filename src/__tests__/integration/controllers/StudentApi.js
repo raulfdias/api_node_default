@@ -30,8 +30,6 @@ module.exports = () => {
             massDataTesting.student = body.student;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -48,8 +46,6 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -70,8 +66,6 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -95,8 +89,6 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -115,8 +107,6 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -146,8 +136,6 @@ module.exports = () => {
             massDataTesting.studentCourses = studentCourses;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -167,8 +155,6 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -193,8 +179,6 @@ module.exports = () => {
             massDataTesting.studentCourses = studentCourses.shift();
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');
@@ -214,8 +198,6 @@ module.exports = () => {
             const { body } = response;
 
             expect(response.status).toBe(200);
-            expect(body).toHaveProperty('httpStatus');
-            expect((body.httpStatus !== null)).toBe(true);
             expect(body).toHaveProperty('message');
             expect((body.message === null)).toBe(true);
             expect(body).toHaveProperty('bagError');

@@ -50,7 +50,7 @@ class AuthAPIController extends Controller {
             token = null;
         }
 
-        return res.status(httpStatus).json({ token, expiration, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ token, expiration, message, bagError });
     }
 }
 

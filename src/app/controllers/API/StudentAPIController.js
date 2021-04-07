@@ -39,7 +39,7 @@ class StudentAPIController extends Controller {
             students = [];
         }
 
-        return res.status(httpStatus).json({ students, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ students, message, bagError });
     }
 
     /**
@@ -74,7 +74,7 @@ class StudentAPIController extends Controller {
             students = [];
         }
 
-        return res.status(httpStatus).json({ students, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ students, message, bagError });
     }
 
     /**
@@ -116,7 +116,7 @@ class StudentAPIController extends Controller {
             student = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ student, message, bagError });
     }
 
     /**
@@ -148,7 +148,7 @@ class StudentAPIController extends Controller {
             student = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ student, message, bagError });
     }
 
     /**
@@ -193,7 +193,7 @@ class StudentAPIController extends Controller {
             student = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ student, message, bagError });
     }
 
     /**
@@ -222,7 +222,7 @@ class StudentAPIController extends Controller {
             deleted = false;
         }
 
-        return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ deleted, message, bagError });
     }
 
     /**
@@ -297,7 +297,7 @@ class StudentAPIController extends Controller {
             student = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ student, message, bagError });
     }
 
     /**
@@ -346,7 +346,7 @@ class StudentAPIController extends Controller {
             student = null;
         }
 
-        return res.status(httpStatus).json({ student, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ student, message, bagError });
     }
 
     /**
@@ -380,7 +380,7 @@ class StudentAPIController extends Controller {
             collegeCourses = [];
         }
 
-        return res.status(httpStatus).json({ collegeCourses, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourses, message, bagError });
     }
 
     /**

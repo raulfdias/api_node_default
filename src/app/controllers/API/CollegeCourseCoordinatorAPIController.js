@@ -37,7 +37,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             collegeCourseCoordinators = [];
         }
 
-        return res.status(httpStatus).json({ collegeCourseCoordinators, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinators, message, bagError });
     }
 
     /**
@@ -71,7 +71,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             collegeCourseCoordinators = [];
         }
 
-        return res.status(httpStatus).json({ collegeCourseCoordinators, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinators, message, bagError });
     }
 
     /**
@@ -112,7 +112,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             collegeCourseCoordinator = null;
         }
 
-        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinator, message, bagError });
     }
 
     /**
@@ -144,7 +144,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             collegeCourseCoordinator = null;
         }
 
-        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinator, message, bagError });
     }
 
     /**
@@ -188,7 +188,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             collegeCourseCoordinator = null;
         }
 
-        return res.status(httpStatus).json({ collegeCourseCoordinator, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourseCoordinator, message, bagError });
     }
 
     /**
@@ -217,7 +217,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             deleted = false;
         }
 
-        return res.status(httpStatus).json({ deleted, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ deleted, message, bagError });
     }
 
     /**
@@ -245,7 +245,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             collegeCourse = {};
         }
 
-        return res.status(httpStatus).json({ collegeCourse, httpStatus, message, bagError });
+        return res.status(httpStatus).json({ collegeCourse, message, bagError });
     }
 }
 
