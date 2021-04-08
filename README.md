@@ -81,6 +81,10 @@
 
     Todas as rotas de comunicação estão em DOC/Postman. Basicamente basta importar o .json no Postman.
 
+### Documentação
+
+    Documentação efetuada via swagger.
+    Rota: http://127.0.0.1:PORT/api-docs
 
 ## TESTES
 
