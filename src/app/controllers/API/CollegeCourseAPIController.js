@@ -61,7 +61,6 @@ class CollegeCourseAPIController extends Controller {
             const where = {};
 
             if (body.status !== undefined) where.coc_en_status = CollegeCourseEnum.normalizeStatus(body.status);
-            if (body.email !== undefined) where.coc_ds_email = { [Op.like]: `%${body.email}%` };
             if (body.name !== undefined) where.coc_ds_name = { [Op.like]: `%${body.name}%` };
 
             collegeCourses = await CollegeCourseRepository.listAll({ where, include: ['college_course_coordinator'] });

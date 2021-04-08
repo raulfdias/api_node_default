@@ -232,7 +232,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
         const bagError = {};
         let message = null;
 
-        let collegeCourse = {};
+        let collegeCourse = null;
 
         try {
             const { id } = req.params;
@@ -242,7 +242,7 @@ class CollegeCourseCoordinatorAPIController extends Controller {
             httpStatus = err.status ?? 500;
             message = err.message;
 
-            collegeCourse = {};
+            collegeCourse = null;
         }
 
         return res.status(httpStatus).json({ collegeCourse, message, bagError });
