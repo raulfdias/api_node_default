@@ -1,7 +1,11 @@
-/node_modules
-/.idea
-/.vscode
-/.svn
-/.vagrant
+node_modules
+.idea
+.vscode
 yarn-error.log
 .env
+.editorconfig
+.eslintrc.json
+.gitignore
+.sequelizerc
+jest.config.js
+yarn-error.log

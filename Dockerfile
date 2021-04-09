@@ -8,10 +8,8 @@ RUN apt-get update
 
 WORKDIR /var/www/api_js_nodejs/
 
-COPY source dest
+COPY . /var/www/api_js_nodejs/
 
 RUN chmod -R 755 /var/www/api_js_nodejs/
-
-
 
 EXPOSE 3000
