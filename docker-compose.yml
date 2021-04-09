@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  db_mysql:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: db_api_js_nodejs
+      MYSQL_USER: user_api
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+      - ./conf:/etc/mysql/conf.d
+      - persistent:/var/lib/mysql
+    networks:
+      - default
+  api_js_nodejs:
+    depends_on:
+      - db_mysql
+    build: .
+    command: npm dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/var/www/api_js_nodejs/
+    links:
+      - db_mysql
+    networks:
+      - default
+volumes:
+  persistent:
