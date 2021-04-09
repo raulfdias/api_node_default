@@ -25,9 +25,14 @@ class Server {
         this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: true }));
         this.express.use(morgan('dev'));
-        this.express.use(helmet());
+        if (!(this.isDev)) {
+            this.express.use(helmet());
+        }
         this.express.use(cors({
-            'origin': [app.url],
+            'origin': [
+                app.url,
+                'http://toposnt28:4000'
+            ],
             'methods': ['GET', 'PUT', 'POST', 'DELETE'],
             'allowHeaders': ['Content-Type', 'Authorization'],
             'optionsSuccessStatus': 200

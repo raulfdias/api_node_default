@@ -1045,7 +1045,7 @@ routes.put('/api/v1/teacher/:id/college-subjects/disconnect', [
 
 /**
  * @swagger
- * /api/v1/teacher/:id/college-subjects:
+ * /api/v1/teacher/{id}/college-subjects:
  *     get:
  *         summary: Retorna as matérias que estão associadas ao professor
  *         tags: [Professor]
