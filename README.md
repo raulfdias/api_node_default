@@ -92,7 +92,7 @@
 
     TDD
 
-### Ferramnta de Testes
+### Estrutura de Testes
 
     Jest
 
